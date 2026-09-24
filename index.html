@@ -732,20 +732,24 @@ wardrobe([9,49,634,698],'x+',2,240,MAT.oak);                     // tall storage
 }
 
 /* ---------- Living ---------- */
-rbox(100,285,948,1098,0,1.2,MAT.rug1,1);
-// Straight 3-seater sofa facing the TV
-[[96,856],[284,856],[96,932],[284,932]].forEach(([x,z])=>cyl(x,z,0,14,1.8,1.2,MAT.walnut,10));
-rbox(90,290,852,938,14,40,MAT.sofaDark,3);
-rbox(90,290,850,868,36,86,MAT.sofa,6);
-rbox(90,106,852,938,36,62,MAT.sofa,5); rbox(274,290,852,938,36,62,MAT.sofa,5);
-for(let i=0;i<3;i++){
-  const a = 106+i*56;
-  rbox(a+0.6,a+55.4,866,937,40,52,MAT.sofa,6);
-  rbox(a+1,a+55,867,883,50,84,MAT.sofa,7).rotation.x = -0.12;
-}
-rbox(112,152,882,896,50,84,MAT.teal,6).rotation.x = -0.2;
-rbox(228,268,882,896,50,84,MAT.terracotta,6).rotation.x = -0.2;
-// Two accent armchairs, facing each other across the coffee table
+rbox(112,292,978,1142,0,1.2,MAT.rug1,1);
+// 3-seater sofa (178 cm) on the foyer-side wall, facing the TV on the kitchen wall
+function sofa3(x,z,rot,W){ grp(x,z,rot,()=>{
+  const h=W/2, A=14, sw=(W-2*A)/3;
+  [[-h+6,-39],[h-6,-39],[-h+6,37],[h-6,37]].forEach(([a,b])=>cyl(a,b,0,14,1.8,1.2,MAT.walnut,10));
+  rbox(-h,h,-43,43,14,40,MAT.sofaDark,3);
+  rbox(-h,h,-45,-27,36,86,MAT.sofa,6);
+  rbox(-h,-h+A,-43,43,36,62,MAT.sofa,5); rbox(h-A,h,-43,43,36,62,MAT.sofa,5);
+  for(let i=0;i<3;i++){
+    const a = -h+A+i*sw;
+    rbox(a+0.6,a+sw-0.6,-29,42,40,52,MAT.sofa,6);
+    rbox(a+1,a+sw-1,-28,-12,50,84,MAT.sofa,7).rotation.x = -0.12;
+  }
+  rbox(-h+A+4,-h+A+42,-13,1,50,84,MAT.teal,6).rotation.x = -0.2;
+  rbox(h-A-42,h-A-4,-13,1,50,84,MAT.terracotta,6).rotation.x = -0.2;
+});}
+sofa3(55,1060,Math.PI/2,178);
+// accent armchair on the side, facing the coffee table
 function armchair(x,z,rot){ grp(x,z,rot,()=>{
   [[-33,-33],[33,-33],[-33,35],[33,35]].forEach(([a,b])=>cyl(a,b,0,16,1.6,1.1,MAT.walnut,10));
   rbox(-38,38,-38,40,16,40,MAT.mustard,3);
@@ -754,19 +758,19 @@ function armchair(x,z,rot){ grp(x,z,rot,()=>{
   rbox(-30,30,-27,39,40,51,MAT.cushion,5);
   rbox(-16,16,-26,-14,50,78,MAT.cushion,6).rotation.x = -0.2;
 });}
-armchair(75,1030,Math.PI/2); armchair(305,1030,-Math.PI/2);
+// two single seaters side by side, square to the sofa; set back to leave a walkway at the sofa end
+armchair(169,875,0); armchair(251,875,0);
 // round coffee table
-cyl(190,1015,38,42,36,36,MAT.quartz,40); cyl(190,1015,3,38,5,5,MAT.black,16); cyl(190,1015,0,3,20,20,MAT.black,32);
-// TV wall: fluted panel, floating unit, 55" TV
-box(55,305,1150,1152.5,0,262,MAT.walnutDark);
-for(let xx=57; xx<303; xx+=6) box(xx,xx+3.5,1148,1150,0,262,MAT.walnut);
-box(55,305,1147,1148,262,264,MAT.led);
-rbox(70,290,1112,1148,22,56,MAT.oak,1.5);
-[143,217].forEach(xx=>box(xx-0.4,xx+0.4,1111.6,1112,24,54,MAT.gap));
-box(119,241,1144.5,1147.5,95,164,MAT.black); box(121,239,1144.2,1144.5,97,162,MAT.screen);
-rbox(148,212,1134,1146,58,64,MAT.black,1.5);
-cyl(262,1128,56,80,6,4,MAT.ceramic); box(88,104,1120,1138,56,70,MAT.terracotta);
-plant(38,1118,true,true);
+cyl(185,1052,38,42,36,36,MAT.quartz,40); cyl(185,1052,3,38,5,5,MAT.black,16); cyl(185,1052,0,3,20,20,MAT.black,32);
+// TV wall, centred on the solid part of the kitchen wall (z 918-1152 -> centre 1035)
+box(350,352.5,925,1145,0,262,MAT.walnutDark);
+for(let zz=927; zz<1142; zz+=6) box(348,350,zz,zz+3.5,0,262,MAT.walnut);
+box(347,348,925,1145,262,264,MAT.led);
+rbox(314,348,960,1110,22,56,MAT.oak,1.5);
+[1010,1060].forEach(zz=>box(313.6,314,zz-0.4,zz+0.4,24,54,MAT.gap));
+box(344.5,347.5,974,1096,95,164,MAT.black); box(344.2,344.5,976,1094,97,162,MAT.screen);
+rbox(332,344,1003,1067,58,64,MAT.black,1.5);
+cyl(328,975,56,80,6,4,MAT.ceramic); box(320,336,1087,1103,56,70,MAT.terracotta);
 
 /* ---------- Kitchen (closed, with a wide opening) ---------- */
 run([455,682,708,768],'z+',4); box(455,682,707.5,770,86,90,MAT.quartz);
