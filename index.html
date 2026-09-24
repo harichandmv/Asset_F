@@ -136,7 +136,7 @@ const WALLS = [
   [0,400,710,400,[[250,340,'door',{hinge:'s',side:-1}],[380,470,'door',{hinge:'e',side:-1,ang:66}]]],
   [510,400,510,700,[[420,680,'slide']]],
   [360,700,710,700],
-  [360,700,360,1000,[[712,912,'wide']]],
+  [360,700,360,1000,[[712,875,'wide']]],
   [690,700,690,1000,[[840,950,'win']]],
   [525,1000,700,1000,[[532,600,'door',{hinge:'s',side:1}]]],
   [360,1000,360,1160],
@@ -711,7 +711,6 @@ drapes('z',502.5,405,695,-1);
 }
 
 /* ---------- Storage + pooja on the Bed 2 wall (living side) ---------- */
-wardrobe([9,49,634,698],'x+',2,240,MAT.oak);                     // tall storage, 2 doors
 { const r=[9,54,702,792];
   box(9,54,702,792,0,72,MAT.teak);                                // drawer base
   FB(r,'x+',703,791,0,0.3,36,36.8,MAT.gap);
@@ -748,29 +747,58 @@ function sofa3(x,z,rot,W){ grp(x,z,rot,()=>{
   rbox(-h+A+4,-h+A+42,-13,1,50,84,MAT.teal,6).rotation.x = -0.2;
   rbox(h-A-42,h-A-4,-13,1,50,84,MAT.terracotta,6).rotation.x = -0.2;
 });}
-sofa3(55,1060,Math.PI/2,178);
+// Wooden-frame 3-seater: teak frame, 6 cm wooden arms, cane back panel, loose cushions
+function sofaWood(x,z,rot,W){ grp(x,z,rot,()=>{
+  const h=W/2, A=6, sw=(W-2*A)/3, wd=MAT.teak;
+  [-1,1].forEach(f=>{
+    const xa=f*(h-A/2);
+    box(xa-A/2,xa+A/2,34,40,0,58,wd);                      // front leg
+    box(xa-A/2,xa+A/2,-45,-39,0,88,wd);                    // back leg / back post
+    box(xa-A/2,xa+A/2,-45,43,58,62,wd);                    // flat wooden armrest
+    box(xa-A/2+1,xa+A/2-1,-39,34,14,17,wd);                // low side rail
+  });
+  box(-h+A,h-A,35,40,30,40,wd); box(-h+A,h-A,-45,-40,30,40,wd);   // seat rails
+  box(-h+A,h-A,-45,-41,82,88,wd);                          // back top rail
+  box(-h+A,h-A,-44.5,-42.5,40,82,MAT.cane);                // cane back panel
+  for(let i=0;i<3;i++){
+    const a = -h+A+i*sw;
+    rbox(a+0.6,a+sw-0.6,-40,39,40,52,MAT.sofa,5);           // seat cushion
+    rbox(a+1.5,a+sw-1.5,-41,-22,51,82,MAT.sofa,7).rotation.x = -0.1;   // back cushion
+  }
+  rbox(-h+A+5,-h+A+43,-22,-8,51,82,MAT.teal,6).rotation.x = -0.2;
+  rbox(h-A-43,h-A-5,-22,-8,51,82,MAT.terracotta,6).rotation.x = -0.2;
+});}
+sofaWood(55,1060,Math.PI/2,178);
 // accent armchair on the side, facing the coffee table
-function armchair(x,z,rot){ grp(x,z,rot,()=>{
-  [[-33,-33],[33,-33],[-33,35],[33,35]].forEach(([a,b])=>cyl(a,b,0,16,1.6,1.1,MAT.walnut,10));
-  rbox(-38,38,-38,40,16,40,MAT.mustard,3);
-  rbox(-38,-30,-38,40,36,62,MAT.mustard,4); rbox(30,38,-38,40,36,62,MAT.mustard,4);
-  rbox(-38,38,-40,-26,36,84,MAT.mustard,5).rotation.x = -0.08;
-  rbox(-30,30,-27,39,40,51,MAT.cushion,5);
-  rbox(-16,16,-26,-14,50,78,MAT.cushion,6).rotation.x = -0.2;
+function armchair(x,z,rot){ grp(x,z,rot,()=>{   // matches the wooden-frame sofa
+  const h=35, A=6, wd=MAT.teak;
+  [-1,1].forEach(f=>{
+    const xa=f*(h-A/2);
+    box(xa-A/2,xa+A/2,32,38,0,58,wd);                      // front leg
+    box(xa-A/2,xa+A/2,-42,-36,0,88,wd);                    // back leg / back post
+    box(xa-A/2,xa+A/2,-42,41,58,62,wd);                    // flat wooden armrest
+    box(xa-A/2+1,xa+A/2-1,-36,32,14,17,wd);                // low side rail
+  });
+  box(-h+A,h-A,33,38,30,40,wd); box(-h+A,h-A,-42,-37,30,40,wd);   // seat rails
+  box(-h+A,h-A,-42,-38,82,88,wd);                          // back top rail
+  box(-h+A,h-A,-41.5,-39.5,40,82,MAT.cane);                // cane back panel
+  rbox(-h+A+0.6,h-A-0.6,-37,37,40,52,MAT.sofa,5);          // seat cushion
+  rbox(-h+A+1.5,h-A-1.5,-38,-20,51,82,MAT.sofa,7).rotation.x = -0.1;  // back cushion
+  rbox(-15,15,-20,-8,52,76,MAT.mustard,6).rotation.x = -0.2;           // accent pillow
 });}
 // two single seaters side by side, square to the sofa; set back to leave a walkway at the sofa end
 armchair(169,875,0); armchair(251,875,0);
 // round coffee table
 cyl(185,1052,38,42,36,36,MAT.quartz,40); cyl(185,1052,3,38,5,5,MAT.black,16); cyl(185,1052,0,3,20,20,MAT.black,32);
-// TV wall, centred on the solid part of the kitchen wall (z 918-1152 -> centre 1035)
-box(350,352.5,925,1145,0,262,MAT.walnutDark);
-for(let zz=927; zz<1142; zz+=6) box(348,350,zz,zz+3.5,0,262,MAT.walnut);
-box(347,348,925,1145,262,264,MAT.led);
-rbox(314,348,960,1110,22,56,MAT.oak,1.5);
-[1010,1060].forEach(zz=>box(313.6,314,zz-0.4,zz+0.4,24,54,MAT.gap));
-box(344.5,347.5,974,1096,95,164,MAT.black); box(344.2,344.5,976,1094,97,162,MAT.screen);
-rbox(332,344,1003,1067,58,64,MAT.black,1.5);
-cyl(328,975,56,80,6,4,MAT.ceramic); box(320,336,1087,1103,56,70,MAT.terracotta);
+// TV wall, centred on the solid part of the kitchen wall (z 881-1152 -> centre 1017)
+box(350,352.5,907,1127,0,262,MAT.walnutDark);
+for(let zz=909; zz<1124; zz+=6) box(348,350,zz,zz+3.5,0,262,MAT.walnut);
+box(347,348,907,1127,262,264,MAT.led);
+rbox(314,348,942,1092,22,56,MAT.oak,1.5);
+[992,1042].forEach(zz=>box(313.6,314,zz-0.4,zz+0.4,24,54,MAT.gap));
+box(344.5,347.5,956,1078,95,164,MAT.black); box(344.2,344.5,958,1076,97,162,MAT.screen);
+rbox(332,344,985,1049,58,64,MAT.black,1.5);
+cyl(328,957,56,80,6,4,MAT.ceramic); box(320,336,1069,1085,56,70,MAT.terracotta);
 
 /* ---------- Kitchen (closed, with a wide opening) ---------- */
 run([455,682,708,768],'z+',4); box(455,682,707.5,770,86,90,MAT.quartz);
