@@ -138,17 +138,17 @@ const WALLS = [
   [360,700,710,700],
   [360,700,360,1000,[[712,875,'wide']]],
   [690,700,690,1000,[[840,950,'win']]],
-  [525,1000,700,1000,[[532,600,'door',{hinge:'s',side:1}]]],
+  [525,1000,700,1000],
   [360,1000,360,1160],
   [360,1130,525,1130],
-  [525,1000,525,1130],
+  [525,1000,525,1130,[[1025,1095,'door',{hinge:'e',side:1}]]],   // dry balcony door from the work area, opposite the jalli
   [0,1160,360,1160],
   [0,1000,0,1160],
   [-140,1000,0,1000],
   [-140,860,-140,1000,[[885,975,'door',{hinge:'s',side:1,main:true,ang:78}]]],
   [-390,860,0,860],
   [-390,540,0,540,[[-304,-80,'win']]],
-  [0,540,0,860,[[545,625,'door',{hinge:'s',side:-1}]]],
+  [0,540,0,860,[[770,850,'door',{hinge:'e',side:-1}]]],   // Bed 2 door, hinged at the corner so it folds back against the wall
   [-390,540,-390,860,[[770,840,'door',{hinge:'e',side:-1}]]],
   [-550,600,-390,600,[[-460,-400,'vent']]],
   [-550,840,-390,840],
@@ -663,11 +663,14 @@ box(555,665,7.5,10,165,212,MAT.curtain);                          // roman blind
 drapes('z',682.5,45,255,-1);
 
 /* ---------- Bed 2 ---------- */
-rbox(-290,-100,570,700,0,1.2,MAT.rug3,1);
-bed(-174,852.5,Math.PI,160,205,{hb:'#B7AE9F',duvet:'#7B8A45',fold:'#EEE9DE',throwC:'#C99A3B',accent:'#E9E2D5'});
-nightstand(-300,-262,808,850); nightstand(-86,-48,808,850);
+// queen bed (152 x 198), headboard on the dining-side wall, ~55-60 cm walkway kept along the window wall
+rbox(-318,-228,600,770,0,1.2,MAT.rug3,1);                            // rug at the foot of the bed
+bed(-8,686,-Math.PI/2,152,198,{hb:'#B7AE9F',duvet:'#7B8A45',fold:'#EEE9DE',throwC:'#C99A3B',accent:'#E9E2D5',hbH:105});
+// wall-mounted bedside shelf on the window side (a floor table would block the walkway; the door swing rules out one on the other side)
+box(-38,-8,562,596,52,56,MAT.walnut); box(-38,-8,562,563.5,40,52,MAT.walnut);
+lamp(-24,579,56);
 wardrobe([-382,-325,548,712],'x+',3,240,MAT.oak);
-drapes('x',547.5,-304,-80,1);
+box(-300,-84,547.5,550,165,212,MAT.curtain);                         // roman blind (floor curtains would hit the bed)
 
 /* ---------- Toilets ---------- */
 wcUnit(245,-232.5,0,70);  vanityUnit(207.5,-90,Math.PI/2,60);
@@ -678,14 +681,21 @@ wcUnit(-542.5,735,Math.PI/2,70); vanityUnit(-512,832.5,Math.PI,55);
 box(-542.5,-470,689,691,0,200,MAT.glass); box(-472.5,-470,688.5,691.5,0,200,MAT.chrome); showerHead(-506,607.5,607.5,1);
 
 /* ---------- Dining ---------- */
-rbox(110,270,520,610,72,76,MAT.teak,1.5);
-box(125,129,528,602,0,72,MAT.black); box(251,255,528,602,0,72,MAT.black);
-box(125,255,563,567,8,11,MAT.black);
-chair(150,494,'z+'); chair(230,494,'z+'); chair(150,636,'z-'); chair(230,636,'z-'); chair(86,565,'x+'); chair(294,565,'x-');
-pendant(160,565,170,16); pendant(220,565,170,16);
-// compact wash unit on the outer side wall of the dining, facing into the room
-// (built facing +z from the wall face, then turned to sit on the x = 0 wall)
-grp(7.5,452,Math.PI/2,()=>{
+// Dining: table in the Bed 2 wall / Master wall corner, built-in bench on the Master wall, chairs on two sides
+rbox(18,178,450,540,72,76,MAT.teak,1.5);                                         // table 160 x 90, 10 cm off the Bed 2 wall
+box(33,37,458,532,0,72,MAT.black); box(159,163,458,532,0,72,MAT.black);
+box(33,163,493,497,8,11,MAT.black);
+box(12,167,412,454,0,8,MAT.gap);                                                 // bench plinth
+rbox(9,170,409,457,8,40,MAT.teak,1.5);                                           // bench base (seats 3), into the corner
+rbox(10,169,411,456,40,47,MAT.sofa,3);                                           // seat cushion
+rbox(12,167,409,418,50,86,MAT.sofa,4);                                           // back cushion against the Master wall
+rbox(9,19,418,456,50,80,MAT.sofa,4);                                             // side cushion against the Bed 2 wall
+rbox(22,60,418,430,50,78,MAT.teal,5).rotation.x = -0.15;
+chair(58,566,'z-'); chair(138,566,'z-'); chair(202,495,'x-');
+pendant(68,495,170,16); pendant(128,495,170,16);
+// compact wash unit on the kitchen wall (dining side), near the main balcony door, facing into the dining
+// (built facing +z from the wall face, then turned to sit on the y = 700 wall)
+grp(413,692.5,Math.PI,()=>{
   box(-37.5,37.5,0.5,38.5,45,82,MAT.walnut);                      // floating cabinet 75 x 40
   FB([-37.5,37.5,0.5,38.5],'z+',-0.4,0.4,0,0.3,47,80,MAT.gap);
   box(-38.5,38.5,0,40.5,82,85,MAT.quartz);                        // top
@@ -694,21 +704,11 @@ grp(7.5,452,Math.PI/2,()=>{
   box(-30,30,0,1.5,112,182,MAT.mirror);                           // mirror 60 x 70
   box(-30,30,0,2.5,185,188,MAT.led);                              // light strip
 });
-drapes('z',502.5,405,695,-1);
+drapes('z',502.5,405,684,-1);
+// RCC pillar in the dining–kitchen wall at the balcony end (approx. 50 x 23 cm, from the site sketch)
+box(460,510,688.5,711.5,-3,WH,MAT.wall);
+box(460,510,687.3,688.5,0,9,MAT.skirt); box(458.8,460,687.3,700,0,9,MAT.skirt);
 
-/* ---------- Narrow study desk on the kitchen wall (dining side) ---------- */
-{ const r=[372,468,654,692];
-  box(370,470,652,692,72,75,MAT.oak);                             // floating top, 100 x 40
-  box(372,468,654,692,62,72,MAT.oak);                             // slim drawer
-  FB(r,'z-',373,467,0,0.3,62.5,63,MAT.gap); FB(r,'z-',410,430,0,1.5,66,68,MAT.brass);
-  box(380,460,690.5,692.5,92,140,MAT.cane);                       // pinboard
-  box(375,465,670,692,150,152.5,MAT.oak);                         // shelf with books
-  [[378,383,MAT.teal,24],[383,389,MAT.terracotta,21],[389,393,MAT.mustard,26],[393,398,MAT.sage,22],[398,402,MAT.walnut,25]]
-    .forEach(([x0,x1,m,h])=>box(x0,x1,674,690,152.5,152.5+h,m));
-  box(400,432,660,682,75,76,MAT.steelDark);                       // laptop
-  lamp(455,668,75);
-  chair(420,626,'z+');
-}
 
 
 
@@ -846,9 +846,10 @@ FB([369,433,928,991],'x+',929,990,0,0.3,120,121,MAT.gap);
 FB([369,433,928,991],'x+',934,937,0.3,3,125,172,MAT.chrome); FB([369,433,928,991],'x+',934,937,0.3,3,62,112,MAT.chrome);
 
 /* ---------- Work area and dry balcony ---------- */
-box(460,516,1064,1121,0,85,MAT.ceramic);
-{ const d=new THREE.Mesh(new THREE.CylinderGeometry(17,17,2,32),MAT.gap); d.rotation.x=Math.PI/2; d.position.set(488,45,1063.5); add(d); }
-box(462,514,1062.8,1064,72,82,MAT.ledge);
+// washing machine moved along the back wall so the dry balcony door is clear
+box(372,428,1064,1121,0,85,MAT.ceramic);
+{ const d=new THREE.Mesh(new THREE.CylinderGeometry(17,17,2,32),MAT.gap); d.rotation.x=Math.PI/2; d.position.set(400,45,1063.5); add(d); }
+box(374,426,1062.8,1064,72,82,MAT.ledge);
 
 /* ---------- Foyer ---------- */
 
