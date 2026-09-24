@@ -710,27 +710,10 @@ drapes('z',502.5,405,695,-1);
   chair(420,626,'z+');
 }
 
-/* ---------- Wall-mounted pooja unit on the Bed 2 wall (living side): 75 wide, 45 deep, no storage ---------- */
-{ const z0=710, z1=785, zc=(z0+z1)/2, P=97, TOP=185;
-  box(9,54,z0,z1,88,94,MAT.teak);                                 // floating base
-  box(54,55.5,z0,z1,89.5,92.5,MAT.brass);                         // brass edge
-  box(9,56,z0-2,z1+2,94,P,MAT.quartz);                            // platform
-  box(9,54,z0,z0+4,P,TOP,MAT.teak); box(9,54,z1-4,z1,P,TOP,MAT.teak);   // side panels
-  box(9,10.5,z0+4,z1-4,P,TOP,MAT.shade);                          // warm back glow
-  jalli(false,14.5,z0+4,z1-4,P,TOP,'#C9A45C');                    // brass-tone jaali screen
-  box(19,40,zc-17,zc+17,P,P+11,MAT.teak);                         // deity step
-  box(9,54,z0,z1,TOP,TOP+20,MAT.teak);                            // canopy
-  box(54,55.5,z0,z1,TOP+3,TOP+5,MAT.brass); box(54,55.5,z0,z1,TOP+16,TOP+18,MAT.brass);
-  cyl(44,zc,TOP-12,TOP,0.3,0.3,MAT.brass,6); cyl(44,zc,TOP-24,TOP-12,2,6,MAT.brass,20);   // bell
-  [z0+9,z1-9].forEach(z=>{                                        // two small nilavilakku
-    cyl(44,z,P,P+2,5,5,MAT.brass); cyl(44,z,P+2,P+22,1,1.5,MAT.brass,12);
-    cyl(44,z,P+22,P+24,4.5,2,MAT.brass); cyl(44,z,P+24,P+31,0.6,1.2,MAT.brass,8); sph(44,P+26,z,1.3,MAT.bulb);
-  });
-  const pl = new THREE.PointLight(0xffc27a,.35,2.2,2); pl.position.set(0.42,1.45,zc/100); scene.add(pl);
-}
+
 
 /* ---------- Living ---------- */
-rbox(112,292,978,1142,0,1.2,MAT.rug1,1);
+rbox(100,255,910,1065,0,1.2,MAT.rug1,1);
 // 3-seater sofa (178 cm) on the foyer-side wall, facing the TV on the kitchen wall
 function sofa3(x,z,rot,W){ grp(x,z,rot,()=>{
   const h=W/2, A=14, sw=(W-2*A)/3;
@@ -746,9 +729,9 @@ function sofa3(x,z,rot,W){ grp(x,z,rot,()=>{
   rbox(-h+A+4,-h+A+42,-13,1,50,84,MAT.teal,6).rotation.x = -0.2;
   rbox(h-A-42,h-A-4,-13,1,50,84,MAT.terracotta,6).rotation.x = -0.2;
 });}
-// Wooden-frame 3-seater: teak frame, 6 cm wooden arms, cane back panel, loose cushions
-function sofaWood(x,z,rot,W){ grp(x,z,rot,()=>{
-  const h=W/2, A=6, sw=(W-2*A)/3, wd=MAT.teak;
+// Wooden-frame sofa (n seats): teak frame, 6 cm wooden arms, cane back panel, loose cushions
+function sofaWood(x,z,rot,W,n){ n=n||3; grp(x,z,rot,()=>{
+  const h=W/2, A=6, sw=(W-2*A)/n, wd=MAT.teak;
   [-1,1].forEach(f=>{
     const xa=f*(h-A/2);
     box(xa-A/2,xa+A/2,34,40,0,58,wd);                      // front leg
@@ -759,7 +742,7 @@ function sofaWood(x,z,rot,W){ grp(x,z,rot,()=>{
   box(-h+A,h-A,35,40,30,40,wd); box(-h+A,h-A,-45,-40,30,40,wd);   // seat rails
   box(-h+A,h-A,-45,-41,82,88,wd);                          // back top rail
   box(-h+A,h-A,-44.5,-42.5,40,82,MAT.cane);                // cane back panel
-  for(let i=0;i<3;i++){
+  for(let i=0;i<n;i++){
     const a = -h+A+i*sw;
     rbox(a+0.6,a+sw-0.6,-40,39,40,52,MAT.sofa,5);           // seat cushion
     rbox(a+1.5,a+sw-1.5,-41,-22,51,82,MAT.sofa,7).rotation.x = -0.1;   // back cushion
@@ -767,7 +750,9 @@ function sofaWood(x,z,rot,W){ grp(x,z,rot,()=>{
   rbox(-h+A+5,-h+A+43,-22,-8,51,82,MAT.teal,6).rotation.x = -0.2;
   rbox(h-A-43,h-A-5,-22,-8,51,82,MAT.terracotta,6).rotation.x = -0.2;
 });}
-sofaWood(55,1060,Math.PI/2,178);
+// Wooden sofas in an L: 3-seater on the kitchen wall, 2-seater facing the TV
+sofaWood(307,1005,-Math.PI/2,200,3);   // 3-seater (200 cm) against the kitchen wall, facing the pooja wall
+sofaWood(180,860,0,145,2);   // 2-seater (145 cm) facing the TV
 // accent armchair on the side, facing the coffee table
 function armchair(x,z,rot){ grp(x,z,rot,()=>{   // matches the wooden-frame sofa
   const h=35, A=6, wd=MAT.teak;
@@ -786,18 +771,62 @@ function armchair(x,z,rot){ grp(x,z,rot,()=>{   // matches the wooden-frame sofa
   rbox(-15,15,-20,-8,52,76,MAT.mustard,6).rotation.x = -0.2;           // accent pillow
 });}
 // two single seaters side by side, square to the sofa; set back to leave a walkway at the sofa end
-armchair(169,875,0); armchair(251,875,0);
+
 // round coffee table
-cyl(185,1052,38,42,36,36,MAT.quartz,40); cyl(185,1052,3,38,5,5,MAT.black,16); cyl(185,1052,0,3,20,20,MAT.black,32);
-// TV wall, centred on the solid part of the kitchen wall (z 881-1152 -> centre 1017)
-box(350,352.5,907,1127,0,262,MAT.walnutDark);
-for(let zz=909; zz<1124; zz+=6) box(348,350,zz,zz+3.5,0,262,MAT.walnut);
-box(347,348,907,1127,262,264,MAT.led);
-rbox(314,348,942,1092,22,56,MAT.oak,1.5);
-[992,1042].forEach(zz=>box(313.6,314,zz-0.4,zz+0.4,24,54,MAT.gap));
-box(344.5,347.5,956,1078,95,164,MAT.black); box(344.2,344.5,958,1076,97,162,MAT.screen);
-rbox(332,344,985,1049,58,64,MAT.black,1.5);
-cyl(328,957,56,80,6,4,MAT.ceramic); box(320,336,1069,1085,56,70,MAT.terracotta);
+cyl(185,977,38,42,36,36,MAT.quartz,40); cyl(185,977,3,38,5,5,MAT.black,16); cyl(185,977,0,3,20,20,MAT.black,32);
+// TV wall on the living room's end wall (faces the dining), centred on the 2-seater that faces it
+box(100,300,1150,1152.5,0,262,MAT.walnutDark);
+for(let xx=102; xx<297; xx+=6) box(xx,xx+3.5,1148,1150,0,262,MAT.walnut);
+box(100,300,1147,1148,262,264,MAT.led);
+rbox(110,260,1112,1148,22,56,MAT.oak,1.5);
+[160,210].forEach(xx=>box(xx-0.4,xx+0.4,1111.6,1112,24,54,MAT.gap));
+box(124,246,1144.5,1147.5,95,164,MAT.black); box(126,244,1144.2,1144.5,97,162,MAT.screen);
+rbox(153,217,1134,1146,58,64,MAT.black,1.5);
+cyl(245,1128,56,80,6,4,MAT.ceramic); box(118,134,1120,1138,56,70,MAT.terracotta);
+
+// Pooja + shelf unit on the living room's foyer-side wall (x = 0), 145 long, 30 deep.
+// Built in a local frame (wall face at X, front facing -x, length along +z from 0), then turned 180 degrees onto the x = 0 wall.
+// Local z 0-62 = pooja niche (at the TV-wall corner), 62-145 = partitioned open shelves (towards the foyer).
+const PJ = {gx:359.5, gz:1148};
+grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
+  box(X-30,X,z0,z1,10,75,MAT.oak); box(X-28,X,z0+2,z1-2,0,10,MAT.gap);          // floating low cabinet
+  const r=[X-30,X,z0,z1];
+  [48,97].forEach(z=>FB(r,'x-',z-0.4,z+0.4,0,0.3,12,73,MAT.gap));
+  [24,72,121].forEach(z=>FB(r,'x-',z-6,z+6,0,2,68,70,MAT.brass));
+  box(X-31,X,z0-1,z1+1,75,78,MAT.walnut);                                        // cabinet top
+
+  // --- pooja niche (62 wide) ---
+  const P=97, TOP=190, zc=(z0+pz1)/2;
+  box(X-30,X,z0,z0+3,78,TOP+18,MAT.teak); box(X-30,X,pz1-3,pz1,78,TOP+18,MAT.teak);   // side panels
+  box(X-30,X,z0+3,pz1-3,78,81,MAT.teak);                                         // sill for diya / agarbatti
+  box(X-30,X,z0+3,pz1-3,P-3,P,MAT.teak); box(X-31,X-30,z0+3,pz1-3,P-2.5,P-0.5,MAT.brass);
+  box(X-1.5,X,z0+3,pz1-3,P,TOP,MAT.shade);                                       // warm back glow
+  jalli(false,X-6,z0+3,pz1-3,P,TOP,'#C9A45C');                                   // brass-tone jaali
+  box(X-18,X-10,zc-12,zc+12,P,P+9,MAT.teak);                                     // deity step
+  box(X-30,X,z0+3,pz1-3,TOP,TOP+18,MAT.teak);                                    // canopy
+  box(X-31.5,X-30,z0,pz1,TOP+3,TOP+5,MAT.brass); box(X-31.5,X-30,z0,pz1,TOP+14,TOP+16,MAT.brass);
+  cyl(X-22,zc,TOP-10,TOP,0.3,0.3,MAT.brass,6); cyl(X-22,zc,TOP-20,TOP-10,1.6,5,MAT.brass,20);   // bell
+  [z0+10,pz1-10].forEach(z=>{                                                    // two small nilavilakku
+    cyl(X-20,z,P,P+2,4,4,MAT.brass); cyl(X-20,z,P+2,P+18,0.8,1.3,MAT.brass,12);
+    cyl(X-20,z,P+18,P+20,3.8,1.8,MAT.brass); cyl(X-20,z,P+20,P+26,0.5,1,MAT.brass,8); sph(X-20,P+22,z,1.1,MAT.bulb);
+  });
+  cyl(X-18,z0+18,81,83,3.5,3.5,MAT.brass); cyl(X-18,pz1-18,81,89,1.1,1.1,MAT.brass,8);   // diya + agarbatti stand
+
+  // --- partitioned open shelves (83 wide): 2 columns x 4 levels ---
+  const sz0=pz1, sz1=z1, mid=(sz0+sz1)/2;
+  box(X-26,X,sz1-2.5,sz1,78,222,MAT.walnut);                                     // end panel (foyer side)
+  box(X-26,X,mid-1.25,mid+1.25,78,222,MAT.walnut);                               // centre divider
+  [112,146,180].forEach(h=>box(X-26,X,sz0,sz1,h,h+2.5,MAT.walnut));              // shelves
+  box(X-26,X,sz0,sz1,219.5,222,MAT.walnut);                                      // top
+  const books=(z,h0,cols)=>cols.forEach(([w,t,m],k)=>{ const zz=z+cols.slice(0,k).reduce((a,c)=>a+c[0],0); box(X-22,X-2,zz,zz+w,h0,h0+t,m); });
+  books(sz0+4,114.5,[[4,24,MAT.teal],[5,22,MAT.terracotta],[3,26,MAT.walnut],[5,23,MAT.mustard]]);
+  books(mid+4,148.5,[[5,24,MAT.sage],[4,26,MAT.walnut],[6,21,MAT.teal],[4,23,MAT.terracotta]]);
+  books(sz0+6,182.5,[[5,22,MAT.mustard],[4,25,MAT.teal],[5,20,MAT.linen]]);
+  books(mid+20,78,[[4,24,MAT.linen],[5,26,MAT.walnut],[4,22,MAT.sage]]);
+  cyl(X-12,mid+22,114.5,136,6,4,MAT.ceramic); cyl(X-12,sz0+20,148.5,162,7,7,MAT.pot);
+  cyl(X-12,mid+22,182.5,197,5,6,MAT.brass); box(X-20,X-4,sz0+6,sz0+34,78,80,MAT.walnutDark);
+});
+{ const pl = new THREE.PointLight(0xffc27a,.35,2.2,2); pl.position.set((PJ.gx-(352-35))/100,1.4,(PJ.gz-31)/100); scene.add(pl); }
 
 /* ---------- Kitchen (closed, with a wide opening) ---------- */
 run([455,682,708,768],'z+',4); box(455,682,707.5,770,86,90,MAT.quartz);
@@ -822,9 +851,9 @@ box(460,516,1064,1121,0,85,MAT.ceramic);
 box(462,514,1062.8,1064,72,82,MAT.ledge);
 
 /* ---------- Foyer ---------- */
-wardrobe([-125,-15,958,992],'z-',2,92,MAT.oak); box(-127,-13,956,993,92,95,MAT.walnut);
-{ const mr=new THREE.Mesh(new THREE.CylinderGeometry(32,32,1.5,48),MAT.mirror); mr.rotation.x=Math.PI/2; mr.position.set(-70,160,991.5); add(mr);
-  const fr=new THREE.Mesh(new THREE.TorusGeometry(32,1.2,8,48),MAT.brass); fr.position.set(-70,160,991); add(fr); }
+
+{ const mr=new THREE.Mesh(new THREE.CylinderGeometry(32,32,1.5,48),MAT.mirror); mr.rotation.x=Math.PI/2; mr.position.set(-65.5,150,991.5); add(mr);
+  const fr=new THREE.Mesh(new THREE.TorusGeometry(32,1.2,8,48),MAT.brass); fr.position.set(-65.5,150,991); add(fr); }
 rbox(-132,-72,895,965,0,1.2,MAT.rug2,1);
 
 /* ---------- Balconies ---------- */
