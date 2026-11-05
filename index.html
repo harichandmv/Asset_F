@@ -722,19 +722,19 @@ wcUnit(-542.5,735,Math.PI/2,70); vanityUnit(-512,832.5,Math.PI,55);
 box(-542.5,-470,689,691,0,200,MAT.glass); box(-472.5,-470,688.5,691.5,0,200,MAT.chrome); showerHead(-506,607.5,607.5,1);
 
 /* ---------- Dining ---------- */
-// Dining: table turned to run along the Bed 2 wall, built-in bench on that wall, 2 chairs on the open side.
-// Moved south so the area in front of the Master door (x 20-110) stays clear.
-rbox(50,140,521,681,72,76,MAT.teak,1.5);                                         // table 90 x 160, overlaps the bench front slightly
-box(58,132,536,540,0,72,MAT.black); box(58,132,662,666,0,72,MAT.black);
-box(93,97,536,666,8,11,MAT.black);
-box(12,54,522,679,0,8,MAT.gap);                                                  // bench plinth
-rbox(9,57,520,681,8,40,MAT.teak,1.5);                                            // bench base (seats 3) against the Bed 2 wall
-rbox(11,56,521,680,40,47,MAT.sofa,3);                                           // seat cushion
-rbox(9,18,522,679,50,86,MAT.sofa,4);                                             // back cushion against the Bed 2 wall
-rbox(18,30,530,568,50,78,MAT.teal,5).rotation.z = 0.15;
-rbox(18,30,640,676,50,78,MAT.mustard,5).rotation.z = 0.15;
-chair(166,561,'x-'); chair(166,641,'x-');
-pendant(95,571,170,16); pendant(95,631,170,16);
+// Dining: built-in bench on the Master wall (z = 400), between the Master door (x 20-110) and the Bed 3 door (x 380-470).
+// Table 160 x 90 in front of it, 2 chairs on the open side and 1 at the Bed 3 end. The Master-door end is kept free.
+rbox(130,290,450,540,72,76,MAT.teak,1.5);                                        // table 160 x 90
+box(145,149,458,532,0,72,MAT.black); box(271,275,458,532,0,72,MAT.black);
+box(145,275,493,497,8,11,MAT.black);
+box(133,287,412,454,0,8,MAT.gap);                                                // bench plinth
+rbox(130,290,409,457,8,40,MAT.teak,1.5);                                         // bench base (seats 3)
+rbox(131,289,411,456,40,47,MAT.sofa,3);                                          // seat cushion
+rbox(132,288,409,418,50,86,MAT.sofa,4);                                          // back cushion against the Master wall
+rbox(140,178,418,430,50,78,MAT.teal,5).rotation.x = -0.15;
+rbox(242,280,418,430,50,78,MAT.mustard,5).rotation.x = -0.15;
+chair(170,566,'z-'); chair(250,566,'z-'); chair(314,495,'x-');
+pendant(180,495,170,16); pendant(240,495,170,16);
 // Enclosed wash niche on the kitchen wall (dining side), between the living-side corner and the RCC pillar.
 // Low side walls (1.2 m) frame the wash area; green finger-tile back wall, floating fluted
 // walnut vanity, white quartz top, ceramic vessel basin, wall-mounted brass tap, arched mirror with halo light.
