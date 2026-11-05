@@ -693,17 +693,85 @@ rbox(9,19,418,456,50,80,MAT.sofa,4);                                            
 rbox(22,60,418,430,50,78,MAT.teal,5).rotation.x = -0.15;
 chair(58,566,'z-'); chair(138,566,'z-'); chair(202,495,'x-');
 pendant(68,495,170,16); pendant(128,495,170,16);
-// compact wash unit on the kitchen wall (dining side), near the main balcony door, facing into the dining
-// (built facing +z from the wall face, then turned to sit on the y = 700 wall)
-grp(413,692.5,Math.PI,()=>{
-  box(-37.5,37.5,0.5,38.5,45,82,MAT.walnut);                      // floating cabinet 75 x 40
-  FB([-37.5,37.5,0.5,38.5],'z+',-0.4,0.4,0,0.3,47,80,MAT.gap);
-  box(-38.5,38.5,0,40.5,82,85,MAT.quartz);                        // top
-  rbox(-20,20,5.5,33.5,85,97,MAT.ceramic,8);                      // counter-top basin
-  cyl(0,3.5,85,108,1.3,1.7,MAT.chrome,12); box(-1.2,1.2,3.5,12.5,105,107.5,MAT.chrome);
-  box(-30,30,0,1.5,112,182,MAT.mirror);                           // mirror 60 x 70
-  box(-30,30,0,2.5,185,188,MAT.led);                              // light strip
-});
+// Enclosed wash niche on the kitchen wall (dining side), between the living-side corner and the RCC pillar.
+// Low side walls (1.2 m) frame the wash area; green finger-tile back wall, floating fluted
+// walnut vanity, white quartz top, ceramic vessel basin, wall-mounted brass tap, arched mirror with halo light.
+{
+  const L0=352.5, L1=362.5, R0=451, R1=460.5;     // left wall, right wall (right one butts the pillar)
+  const ZB=692.5, ZF=637.5, IX0=L1, IX1=R0, CX=(IX0+IX1)/2, SW=120, TOP=225;
+  // finger-tile texture (own random source so the rest of the model stays the same)
+  let s2=7; const r2=()=>(s2=(s2*16807)%2147483647)/2147483647;
+  const fingerTex = canvasTex((g,p)=>{
+    const cols=6, rows=2, w=p/cols, h=p/rows;
+    g.fillStyle='#CFC8BA'; g.fillRect(0,0,p,p);
+    for(let i=0;i<cols;i++) for(let j=0;j<rows;j++){
+      const x=i*w+1.5, y=j*h+(i%2?h/2:0)+1.5;
+      [y, y-p].forEach(yy=>{
+        g.fillStyle=shade('#2E5E52',(r2()-.5)*26); g.fillRect(x,yy,w-3,h-3);
+        const gr=g.createLinearGradient(x,0,x+w-3,0);
+        gr.addColorStop(0,'rgba(255,255,255,.16)'); gr.addColorStop(.35,'rgba(255,255,255,0)'); gr.addColorStop(1,'rgba(0,0,0,.12)');
+        g.fillStyle=gr; g.fillRect(x,yy,w-3,h-3);
+      });
+    }
+  },256);
+  const tileT = fingerTex.clone(); tileT.needsUpdate=true; tileT.repeat.set((IX1-IX0)/30,(TOP-88)/30);
+  const tileM = M('#FFFFFF',{map:tileT,roughness:.2});
+  const bowlM = M('#FBFBFA',{roughness:.22,side:THREE.DoubleSide});
+  const inkM  = M('#2A2724',{roughness:.35});
+
+  // two low side walls (1.2 m) with quartz caps
+  box(L0,L1,ZF,ZB,0,SW,MAT.wall); box(R0,R1,ZF,ZB,0,SW,MAT.wall);
+  box(L0-3,L1+0.5,ZF-1,ZB,SW,SW+2.5,MAT.quartz); box(R0-0.5,R1,ZF-1,ZB,SW,SW+2.5,MAT.quartz);
+  box(R1,R1+1.2,ZF,688.5,0,9,MAT.skirt);                           // skirting on the pillar side
+  box(L1,R0,ZB-1.5,ZB,0,9,MAT.skirt);                              // skirting inside the niche
+  // slim brass trim on the front edges of the side walls
+  box(L1-1.5,L1,ZF-0.6,ZF+1.2,0,SW,MAT.brass); box(R0,R0+1.5,ZF-0.6,ZF+1.2,0,SW,MAT.brass);
+  // fluted walnut cladding on the outer face of the left wall (the side seen from the table and living)
+  box(L0-1,L0,ZF,ZB,0,SW,MAT.walnutDark);
+  for(let z=ZF+1; z<ZB-3; z+=5) box(L0-2.6,L0-1,z,z+3.2,0,SW,MAT.walnut);
+  // tiled back wall, from the counter up to 2.25 m, with a brass edge on top
+  box(IX0,IX1,ZB-2,ZB,88,TOP,tileM);
+  box(IX0,IX1,ZB-2.6,ZB,TOP,TOP+1.2,MAT.brass);
+
+  // floating vanity: dark walnut body, fluted walnut front, soft light below
+  box(IX0+1.5,IX1-1.5,646,ZB-2,32,82,MAT.walnutDark);
+  for(let x=IX0+3; x<IX1-4; x+=4) box(x,x+2.8,644.8,646,33,81,MAT.walnut);
+  box(IX0+5,IX1-5,650,686,31.4,32,MAT.led);
+  // white quartz counter, 6 cm thick
+  box(IX0,IX1,640,ZB-2,82,88,MAT.quartz);
+
+  // ceramic vessel basin (turned profile)
+  const prof = [[0,0],[11,0],[15,1.5],[18.5,5],[20.5,10],[21,14],[19.8,14.2],[19.2,10],[17,5.5],[13,3.2],[0,2.8]].map(([a,b])=>new THREE.Vector2(a,b));
+  const bowl = new THREE.Mesh(new THREE.LatheGeometry(prof,48), bowlM);
+  bowl.position.set(CX,88,666); bowl.castShadow=true; bowl.receiveShadow=true; add(bowl);
+  cyl(CX,666,90.8,91.2,2.4,2.4,MAT.brass,20);                      // drain
+  // wall-mounted brass tap with a small lever
+  const zcyl=(x,y,z0,z1,r,mat)=>{ const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,z1-z0,20),mat); m.rotation.x=Math.PI/2; m.position.set(x,y,(z0+z1)/2); m.castShadow=true; return add(m); };
+  zcyl(CX,111,ZB-3,ZB-2,4,MAT.brass);                             // wall rose
+  zcyl(CX,111,671,ZB-3,1.2,MAT.brass);                            // spout
+  zcyl(CX,110.2,670.5,672,1.4,MAT.brass);                         // spout tip
+  box(CX-0.6,CX+0.6,684,686,112,116.5,MAT.brass);                   // lever
+
+  // arched mirror: brass frame, warm halo behind
+  const arch=(w,h)=>{ const s=new THREE.Shape(), r=w/2; s.moveTo(-r,0); s.lineTo(r,0); s.lineTo(r,h-r); s.absarc(0,h-r,r,0,Math.PI,false); s.lineTo(-r,0); return s; };
+  const archMesh=(w,h,y0,z0,dz,mat)=>{ const m=new THREE.Mesh(new THREE.ExtrudeGeometry(arch(w,h),{depth:dz,bevelEnabled:false,curveSegments:32}),mat); m.position.set(CX,y0,z0); add(m); return m; };
+  archMesh(58,90,116,ZB-2.3,0.3,MAT.led);                          // halo
+  archMesh(52,84,119,ZB-3.4,1.1,MAT.brass);                        // frame
+  archMesh(49,81,120.5,ZB-4.3,1,MAT.mirror);                       // glass
+
+  // brass towel ring with a hand towel, on the tiled wall beside the mirror
+  { const ring=new THREE.Mesh(new THREE.TorusGeometry(7,0.6,10,32),MAT.brass); ring.position.set(IX0+10,152,ZB-5); add(ring);
+    box(IX0+9,IX0+11,ZB-5,ZB-2,157,160,MAT.brass); }
+  rbox(IX0+3,IX0+17,ZB-6.5,ZB-3.5,116,146,MAT.linen,1.2);
+  // counter accessories: soap dispenser, rolled towels, a small vase with leaves
+  cyl(IX1-14,676,88,103,3.2,3.4,inkM,20); cyl(IX1-14,676,103,106,0.8,0.8,MAT.brass,8); box(IX1-14,IX1-9,675.4,676.6,105,106.2,MAT.brass);
+  [[IX0+7],[IX0+16]].forEach(([x])=>{ const t=new THREE.Mesh(new THREE.CylinderGeometry(4.5,4.5,20,20),MAT.linen); t.rotation.x=Math.PI/2; t.position.set(x,92.5,670); t.castShadow=true; add(t); });
+  cyl(IX1-12,650,88,103,4,5,MAT.potWhite,20);
+  [[0,112,0],[3,109,2],[-3,108,-1],[1,115,-2]].forEach(([dx,y,dz],i)=>sph(IX1-12+dx,y,650+dz,3.5,i%2?MAT.leaf:MAT.leaf2,1,1.6,1));
+
+  // soft warm light inside the niche
+  { const pl=new THREE.PointLight(0xffd9a8,.4,2.2,2); pl.position.set(CX/100,1.9,6.5); scene.add(pl); }
+}
 drapes('z',502.5,405,684,-1);
 // RCC pillar in the dining–kitchen wall at the balcony end (approx. 50 x 23 cm, from the site sketch)
 box(460,510,688.5,711.5,-3,WH,MAT.wall);
