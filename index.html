@@ -669,9 +669,10 @@ bed(-8,686,-Math.PI/2,152,198,{hb:'#B7AE9F',duvet:'#7B8A45',fold:'#EEE9DE',throw
 // wall-mounted bedside shelf on the window side (a floor table would block the walkway; the door swing rules out one on the other side)
 box(-38,-8,562,596,52,56,MAT.walnut); box(-38,-8,562,563.5,40,52,MAT.walnut);
 lamp(-24,579,56);
-// Wardrobe + study in the same 164 cm run on the toilet-side wall (57 deep, front faces +x).
-// Window-wall end (z 548-632, 84 wide) = study; toilet-door end (z 632-712, 80 wide) = 2-door wardrobe.
-wardrobe([-382,-325,632,712],'x+',2,240,MAT.oak);
+// Wardrobe + study in one 214 cm run on the toilet-side wall (57 deep, front faces +x).
+// Window-wall end (z 548-632, 84 wide) = study; then a 3-door wardrobe (z 632-762, 130 wide) up to the toilet door frame.
+wardrobe([-382,-325,632,762],'x+',3,240,MAT.oak);
+{ const p2=632+130*2/3; FB([-382,-325,632,762],'x+',p2+4,p2+6,0,2.5,85,150,MAT.brass); }   // handle for the third door
 {
   const X0=-382, Z0=548, Z1=632, ZM=(Z0+Z1)/2;
   rbox(X0,-326,Z0+0.5,Z1-0.5,72,76,MAT.oak,1);                                    // desk top, 56 deep
