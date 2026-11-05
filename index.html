@@ -133,7 +133,7 @@ const WALLS = [
   [0,0,690,0,[[25,175,'slide'],[270,345,'door',{hinge:'e',side:-1}],[375,450,'door',{hinge:'s',side:-1}],[560,660,'win']]],
   [0,0,0,540,[[120,300,'win']]],
   [690,0,690,400,[[70,230,'slide']]],
-  [0,400,710,400,[[250,340,'door',{hinge:'s',side:-1}],[380,470,'door',{hinge:'e',side:-1,ang:66}]]],
+  [0,400,710,400,[[20,110,'door',{hinge:'s',side:-1}],[380,470,'door',{hinge:'e',side:-1,ang:66}]]],
   [510,400,510,700,[[420,680,'slide']]],
   [360,700,710,700],
   [360,700,360,1000,[[712,875,'wide']]],
@@ -647,7 +647,16 @@ box(350.5,352.5,60,340,0,265,MAT.walnutDark);                    // fluted wall 
 for(let zz=62; zz<338; zz+=7) box(348.5,350.5,zz,zz+4,0,265,MAT.walnut);
 bed(349,200,-Math.PI/2,180,205,{hb:'#CDBFA8',duvet:'#E4DCCD',fold:'#F3EFE7',throwC:'#6E7550',accent:'#C99A3B'});
 nightstand(302,344,52,94); nightstand(302,344,306,348);
-wardrobe([12,232,334,392],'z-',4,240,MAT.oak);
+// Master door is now at the Bed 2-wall end (x 20-110), so the wardrobe moves right of it.
+// Sliding doors, because the bed side is only ~44 cm away and hinged doors would hit the bed.
+{ const X0=120, X1=300, Z0=334, Z1=392, H=240, M0=(X0+X1)/2;
+  box(X0,X1,Z0+4,Z1,0,H,MAT.oak);                                        // carcass
+  box(X0,X1,Z0,Z0+4,H-2,H,MAT.alu); box(X0,X1,Z0,Z0+4,0,2,MAT.alu);       // top and bottom tracks
+  box(X0+1,M0+3,Z0+2,Z0+4,2,H-2,MAT.oak);                                 // rear sliding panel
+  box(M0-3,X1-1,Z0,Z0+2,2,H-2,MAT.oak);                                   // front sliding panel
+  box(M0-3.4,M0-3,Z0,Z0+2,2,H-2,MAT.gap);                                 // shadow line at the overlap
+  box(X0+4,X0+6,Z0+1.4,Z0+2,80,160,MAT.brass); box(X1-6,X1-4,Z0-0.6,Z0,80,160,MAT.brass);   // long pulls
+}
 drapes('z',7.5,95,325,1);
 drapes('x',7.5,12,196,1);
 
@@ -713,18 +722,19 @@ wcUnit(-542.5,735,Math.PI/2,70); vanityUnit(-512,832.5,Math.PI,55);
 box(-542.5,-470,689,691,0,200,MAT.glass); box(-472.5,-470,688.5,691.5,0,200,MAT.chrome); showerHead(-506,607.5,607.5,1);
 
 /* ---------- Dining ---------- */
-// Dining: table in the Bed 2 wall / Master wall corner, built-in bench on the Master wall, chairs on two sides
-rbox(18,178,450,540,72,76,MAT.teak,1.5);                                         // table 160 x 90, 10 cm off the Bed 2 wall
-box(33,37,458,532,0,72,MAT.black); box(159,163,458,532,0,72,MAT.black);
-box(33,163,493,497,8,11,MAT.black);
-box(12,167,412,454,0,8,MAT.gap);                                                 // bench plinth
-rbox(9,170,409,457,8,40,MAT.teak,1.5);                                           // bench base (seats 3), into the corner
-rbox(10,169,411,456,40,47,MAT.sofa,3);                                           // seat cushion
-rbox(12,167,409,418,50,86,MAT.sofa,4);                                           // back cushion against the Master wall
-rbox(9,19,418,456,50,80,MAT.sofa,4);                                             // side cushion against the Bed 2 wall
-rbox(22,60,418,430,50,78,MAT.teal,5).rotation.x = -0.15;
-chair(58,566,'z-'); chair(138,566,'z-'); chair(202,495,'x-');
-pendant(68,495,170,16); pendant(128,495,170,16);
+// Dining: table turned to run along the Bed 2 wall, built-in bench on that wall, 2 chairs on the open side.
+// Moved south so the area in front of the Master door (x 20-110) stays clear.
+rbox(50,140,521,681,72,76,MAT.teak,1.5);                                         // table 90 x 160, overlaps the bench front slightly
+box(58,132,536,540,0,72,MAT.black); box(58,132,662,666,0,72,MAT.black);
+box(93,97,536,666,8,11,MAT.black);
+box(12,54,522,679,0,8,MAT.gap);                                                  // bench plinth
+rbox(9,57,520,681,8,40,MAT.teak,1.5);                                            // bench base (seats 3) against the Bed 2 wall
+rbox(11,56,521,680,40,47,MAT.sofa,3);                                           // seat cushion
+rbox(9,18,522,679,50,86,MAT.sofa,4);                                             // back cushion against the Bed 2 wall
+rbox(18,30,530,568,50,78,MAT.teal,5).rotation.z = 0.15;
+rbox(18,30,640,676,50,78,MAT.mustard,5).rotation.z = 0.15;
+chair(166,561,'x-'); chair(166,641,'x-');
+pendant(95,571,170,16); pendant(95,631,170,16);
 // Enclosed wash niche on the kitchen wall (dining side), between the living-side corner and the RCC pillar.
 // Low side walls (1.2 m) frame the wash area; green finger-tile back wall, floating fluted
 // walnut vanity, white quartz top, ceramic vessel basin, wall-mounted brass tap, arched mirror with halo light.
