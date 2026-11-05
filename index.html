@@ -669,7 +669,38 @@ bed(-8,686,-Math.PI/2,152,198,{hb:'#B7AE9F',duvet:'#7B8A45',fold:'#EEE9DE',throw
 // wall-mounted bedside shelf on the window side (a floor table would block the walkway; the door swing rules out one on the other side)
 box(-38,-8,562,596,52,56,MAT.walnut); box(-38,-8,562,563.5,40,52,MAT.walnut);
 lamp(-24,579,56);
-wardrobe([-382,-325,548,712],'x+',3,240,MAT.oak);
+// Wardrobe + study in the same 164 cm run on the toilet-side wall (57 deep, front faces +x).
+// Window-wall end (z 548-632, 84 wide) = study; toilet-door end (z 632-712, 80 wide) = 2-door wardrobe.
+wardrobe([-382,-325,632,712],'x+',2,240,MAT.oak);
+{
+  const X0=-382, Z0=548, Z1=632, ZM=(Z0+Z1)/2;
+  rbox(X0,-326,Z0+0.5,Z1-0.5,72,76,MAT.oak,1);                                    // desk top, 56 deep
+  const dr=[X0+2,-332,Z0+8,Z1-8];                                                // slim drawers under the top (knee space kept free)
+  box(dr[0],dr[1],dr[2],dr[3],62,72,MAT.oak);
+  FB(dr,'x+',ZM-0.4,ZM+0.4,0,0.3,63,71,MAT.gap);
+  [ZM-21,ZM+11].forEach(z=>FB(dr,'x+',z,z+10,0,1.5,66.5,67.5,MAT.brass));
+  box(X0,X0+2,Z0,Z1,76,194,MAT.chairFab);                                         // fabric pin-board behind the desk
+  box(X0+2,X0+26,Z0+1,Z1-1,147.5,150,MAT.walnut);                                 // open shelf
+  const oc=[X0,-347,Z0,Z1];                                                       // overhead cabinet, 35 deep, in line with the wardrobe top
+  box(oc[0],oc[1],oc[2],oc[3],195,240,MAT.oak);
+  FB(oc,'x+',ZM-0.4,ZM+0.4,0,0.3,197,238,MAT.gap);
+  [ZM-14,ZM+4].forEach(z=>FB(oc,'x+',z,z+10,0,1.5,196,197.5,MAT.brass));
+  box(X0+4,-350,Z0+4,Z1-4,194.4,195,MAT.led);                                     // task light under the cabinet
+  // laptop
+  box(-366,-346,575,605,76,77.4,MAT.steelDark);
+  { const th=0.28, h=21, hx=-366, hy=77.4;
+    const lid=new THREE.Mesh(new THREE.BoxGeometry(1,h,30),MAT.steelDark); lid.rotation.z=th; lid.position.set(hx-h/2*Math.sin(th),hy+h/2*Math.cos(th),590); lid.castShadow=true; add(lid);
+    const scr=new THREE.Mesh(new THREE.BoxGeometry(0.3,h-2,28),MAT.screen); scr.rotation.z=th; scr.position.set(hx-h/2*Math.sin(th)+0.62*Math.cos(th),hy+h/2*Math.cos(th)+0.62*Math.sin(th),590); add(scr); }
+  // desk lamp
+  cyl(-372,622,76,77.5,6,6,MAT.brass); cyl(-372,622,77.5,108,0.7,0.7,MAT.brass,8);
+  box(-372,-362,621.3,622.7,107,108.5,MAT.brass); cyl(-362,622,99,108,2.5,6,MAT.pendant); sph(-362,100.5,622,2,MAT.bulb);
+  // pen cup, books, a small plant
+  cyl(-374,558,76,86,3.2,3.2,MAT.ceramic,16);
+  [[4,22,MAT.teal],[3,25,MAT.walnut],[5,21,MAT.mustard],[4,24,MAT.terracotta],[3,23,MAT.sage]].reduce((z,[w,t,m])=>{ box(X0+4,X0+22,z,z+w,150,150+t,m); return z+w; },Z0+6);
+  cyl(X0+14,Z1-14,150,160,5,4,MAT.pot,16);
+  [[0,165,0],[3,163,2],[-3,162,-2]].forEach(([dx,y,dz],i)=>sph(X0+14+dx,y,Z1-14+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
+  chair(-300,ZM,'x-');                                                            // study chair, facing the desk
+}
 box(-300,-84,547.5,550,165,212,MAT.curtain);                         // roman blind (floor curtains would hit the bed)
 
 /* ---------- Toilets ---------- */
