@@ -68,7 +68,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
   <header class="bar">
     <div class="brand">
-      <h1>3BHK Flat · Closed kitchen</h1>
+      <h1>3BHK Flat · Open kitchen</h1>
       <p class="sub mono" id="area">Sizes in cm, from the plan</p>
     </div>
     <div class="controls">
@@ -136,7 +136,6 @@ const WALLS = [
   [0,400,710,400,[[250,340,'door',{hinge:'s',side:-1}],[380,470,'door',{hinge:'e',side:-1,ang:66}]]],
   [510,400,510,700,[[420,680,'slide']]],
   [360,700,710,700],
-  [360,700,360,1000,[[712,875,'wide']]],
   [690,700,690,1000,[[840,950,'win']]],
   [525,1000,700,1000,[[532,600,'door',{hinge:'s',side:1}]]],
   [360,1000,360,1160],
@@ -919,7 +918,23 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
 });
 { const pl = new THREE.PointLight(0xffc27a,.35,2.2,2); pl.position.set((PJ.gx-(352-35))/100,1.4,(PJ.gz-31)/100); scene.add(pl); }
 
-/* ---------- Kitchen (closed, with a wide opening) ---------- */
+/* ---------- Kitchen (open to the living room) ---------- */
+// The kitchen–living wall is replaced by a 90 cm high counter (y 800-1000) with a wooden top, no stools.
+// The 92 cm gap at the dining end (y 708-800) is the way into the kitchen.
+// Living side is flat (no overhang), so the 3-seater sofa can sit against it.
+{ const X0=352.5, X1=412.5, Z0=800, Z1=1000;
+  run([X0,X1,Z0,Z1],'x+',4);                                                  // kitchen-side drawers and shutters
+  box(351.5,X0,Z0,Z1,0,86,MAT.walnutDark);                                    // living-side backing
+  for(let z=Z0+2; z<Z1-3; z+=6) box(350,351.5,z,z+3.5,1,86,MAT.walnut);      // fluted walnut on the living side
+  box(350,X1,Z0-1.5,Z0,0,86,MAT.walnut);                                      // finished end panel at the walkway
+  rbox(349.5,X1+1.5,Z0-1.5,Z1,86,90,MAT.teak,1);                              // wooden top
+  pendant(381,862,150,12); pendant(381,938,150,12);                           // two lights over the counter
+  // a few things on the counter
+  cyl(382,836,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
+  [[378,832,MAT.mustard],[386,838,MAT.terracotta],[380,841,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
+  cyl(376,985,90,104,4.5,5.5,MAT.potWhite,20);
+  [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(376+dx,y,985+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
+}
 run([455,682,708,768],'z+',4); box(455,682,707.5,770,86,90,MAT.quartz);
 run([622,682,768,990],'x-',4); box(620,682,770,990,86,90,MAT.quartz);
 box(455,682,707.5,709,90,150,MAT.splash);
@@ -931,15 +946,17 @@ box(510,575,715,760,90,91,MAT.black);
 [[525,727],[560,727],[525,748],[560,748]].forEach(([x,z])=>cyl(x,z,91,92,5,5,MAT.steelDark,16));
 box(632,672,885,955,88.5,90.2,MAT.steelDark);
 cyl(678,920,90,122,1.5,1.9,MAT.chrome,12); box(660,678,918,922,118,121,MAT.chrome);
-// fridge
-box(369,433,928,991,0,186,MAT.steel);
-FB([369,433,928,991],'x+',929,990,0,0.3,120,121,MAT.gap);
-FB([369,433,928,991],'x+',934,937,0.3,3,125,172,MAT.chrome); FB([369,433,928,991],'x+',934,937,0.3,3,62,112,MAT.chrome);
 
 /* ---------- Work area and dry balcony ---------- */
-box(460,516,1064,1121,0,85,MAT.ceramic);
-{ const d=new THREE.Mesh(new THREE.CylinderGeometry(17,17,2,32),MAT.gap); d.rotation.x=Math.PI/2; d.position.set(488,45,1063.5); add(d); }
-box(462,514,1062.8,1064,72,82,MAT.ledge);
+// Washing machine and fridge on the back (living-side) wall of the work area, fronts facing the dry balcony.
+// Washing machine pushed into the far corner; fridge right next to it, towards the kitchen.
+box(369,426,1061,1121,0,85,MAT.ceramic);                                         // washing machine 60 x 57
+{ const d=new THREE.Mesh(new THREE.CylinderGeometry(17,17,2,32),MAT.gap); d.rotation.z=Math.PI/2; d.position.set(426.5,45,1091); add(d); }
+box(426,427.2,1063,1119,72,82,MAT.ledge);                                        // control panel
+// fridge 63 wide x 64 deep, hinge on the washing machine side so it opens towards the kitchen
+box(369,433,996,1059,0,186,MAT.steel);
+FB([369,433,996,1059],'x+',997,1058,0,0.3,120,121,MAT.gap);
+FB([369,433,996,1059],'x+',1002,1005,0.3,3,125,172,MAT.chrome); FB([369,433,996,1059],'x+',1002,1005,0.3,3,62,112,MAT.chrome);
 
 /* ---------- Foyer ---------- */
 
