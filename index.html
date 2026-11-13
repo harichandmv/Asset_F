@@ -1142,8 +1142,9 @@ board('x',7.5,1,665,120,5);                                     // dining board
 box(348.5,371.5,700,1000,WH-60,WH,MAT.wall);
 // Living / dining split AC on the living-room face of the beam, blowing towards the living and dining; AC socket beside it
 acIn('x',348.5,-1,765,855); sock('x',348.5,-1,863,250,'AC');
-board('z',407.5,1,488,120,2);                                   // by the Bed 3 door (balcony light)
+board('z',407.5,1,488,120,3);                                   // by the Bed 3 door (balcony light + balcony fan)
 elLight(600,550);                                               // dining balcony
+smallFan(590,470);                                              // dining balcony: 600 mm hugger fan, clear of the cloth hanger rods
 acOut(522,602,664,692,0,'z-');                                  // AC outdoor unit on the balcony floor
 
 // ---- Kitchen, work area, dry balcony
@@ -1156,8 +1157,9 @@ board('z',707.5,1,377,125,4);                                   // kitchen light
 sock('z',858.5,-1,392,60,'6'); sock('z',858.5,-1,404,60,'16');   // kitchen sockets moved to the open counter's end panel
 board('z',992.5,-1,535,110,1); sock('z',992.5,-1,547,110,'16');  // south wall
 elLight(410,1068);                                              // work area
-board('x',367.5,1,1092,120,1); sock('x',367.5,1,1105,120,'16');  // washing machine
-elLight(603,1090);                                              // dry balcony
+board('x',367.5,1,1090,120,2); sock('x',367.5,1,1105,120,'16');  // work area: washing machine + dry balcony fan switch
+elLight(603,1097);                                              // dry balcony
+smallFan(612,1045);                                             // dry balcony: 600 mm hugger fan on a slab hook (blades ~271 cm, above the raised hanger)
 
 // ---- Living and foyer
 elFan(180,980); elLight(180,870); elLight(180,1075);
