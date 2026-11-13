@@ -1032,14 +1032,22 @@ plate('z',1112.5,590,225,-1,'S');
 { const RM=M('#D9D3C6',{roughness:.9});
   [553,673].forEach(x=>box(x-3,x+3,1010,1070,WH-4,WH,MAT.steelDark));         // ceiling brackets (6 pulleys each)
   for(let i=0;i<6;i++){ const z=1015+i*10;
-    const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.9,0.9,128,12),MAT.steel); rod.rotation.z=Math.PI/2; rod.position.set(613,252,z); add(rod);
-    [553,673].forEach(x=>cyl(x,z,253,WH-4,0.25,0.25,RM,6)); }
+    const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.9,0.9,128,12),MAT.steel); rod.rotation.z=Math.PI/2; rod.position.set(613,240,z); add(rod);
+    [553,673].forEach(x=>cyl(x,z,241,WH-4,0.25,0.25,RM,6)); }
   cyl(545,1011,128,WH-4,0.35,0.35,RM,6); box(541,549,1007.5,1009,124,132,MAT.steelDark);   // rope and cleat on the north wall
   box(548,553,1010,1016,WH-4,WH-1,MAT.steelDark);
   // a couple of things drying
-  box(575,605,1024.5,1025.5,195,251,M('#7FA3B8',{roughness:1})); box(620,650,1044.5,1045.5,205,251,M('#E3D6C0',{roughness:1})); }
-// 15 switches for the dry balcony light and fan, inside the work area next to the open doorway
-plate('z',1122.5,502,125,-1,'W',17);
+  box(575,605,1024.5,1025.5,183,239,M('#7FA3B8',{roughness:1})); box(620,650,1044.5,1045.5,193,239,M('#E3D6C0',{roughness:1})); }
+// 16 small ceiling fan: 600 mm low-profile (hugger) fan on a hook cast into the slab, blades at ~270 cm.
+//    The cloth hanger is tied off at ~240 cm when raised, so the rods always stay well below the blades.
+cyl(612,1050,WH-1.2,WH,6,6,PL,24);
+{ const h=new THREE.Mesh(new THREE.TorusGeometry(2.2,0.45,8,20,Math.PI*1.5),MAT.steelDark); h.position.set(612,WH-4.5,1050); h.rotation.y=Math.PI/2; add(h); }
+cyl(612,1050,WH-2.5,WH-1.2,0.45,0.45,MAT.steelDark,8);
+cyl(612,1050,WH-8,WH-1.2,5,6,PL,24); cyl(612,1050,WH-22,WH-8,10,9,PL,28);                // canopy and motor
+for(let i=0;i<3;i++){ const a=i*2*Math.PI/3, b=new THREE.Mesh(new THREE.BoxGeometry(22,0.6,7),PL);
+  b.position.set(612+18*Math.cos(a),WH-19,1050+18*Math.sin(a)); b.rotation.y=-a; b.castShadow=true; add(b); }
+// 15 switches for the dry balcony light, wall fan and ceiling fan, inside the work area next to the open doorway
+plate('z',1122.5,500,125,-1,'W',26);
 // 11 ceiling light points (fix before the slab is cast): kitchen x2, work area, dry balcony (kept clear of the cloth hanger)
 [[525,815],[575,905],[445,1062],[600,1090]].forEach(([x,z])=>{ cyl(x,z,WH-2.5,WH,9,9,PL,24); cyl(x,z,WH-2.7,WH-2.5,7.5,7.5,MAT.led,24); });
 
