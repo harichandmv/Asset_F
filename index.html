@@ -982,6 +982,8 @@ box(697.5,703,713,729,264,280,MAT.steelDark);                                   
 // 3 mixie on the prep counter between hob and corner; twin 6/16 A socket on the backsplash
 box(612,630,722,740,90,104,PL); cyl(621,731,104,128,6.5,7.5,MAT.glass,20); cyl(621,731,128,130,6.8,6.8,MAT.black,20);
 plate('z',709,648,110,1,'S',17);
+// 3b twin 6/16 A socket on the short counter between the tall unit and the hob (toaster, kettle, sandwich maker), on the pillar face
+plate('z',711.5,480,110,1,'S',17);
 // 4 spare twin socket on the sink-side backsplash (kettle, wet grinder, toaster) + 5 dishwasher isolator switch
 plate('x',681,785,110,-1,'S',17);
 plate('x',681,830,110,-1,'I');
@@ -1004,7 +1006,7 @@ plate('z',992.5,627,160,-1,'S');
 // 8 exhaust fan high on the east wall, between the window and the corner, far from the chimney outlet
 box(680.5,682.5,954,988,228,262,PL);
 { const f=new THREE.Mesh(new THREE.CylinderGeometry(13,13,0.6,28),MAT.gap); f.rotation.z=Math.PI/2; f.position.set(680.2,245,971); add(f); }
-// 9 optional pop-up socket in the open counter (air fryer, table-top induction) - needs a floor conduit before tiling
+// 9 twin pop-up socket in the open counter (air fryer, sandwich maker; no upper cabinets above) - needs a floor conduit before tiling
 cyl(398,972,90,91.4,3.5,3.5,MAT.steelDark,20);
 // 10 work area: washing machine socket above the machine, fridge socket above the fridge, spare twin socket
 plate('x',367.5,1100,115,1,'S');
