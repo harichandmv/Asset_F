@@ -726,6 +726,21 @@ rbox(110,270,520,610,72,76,MAT.teak,1.5);
 box(125,129,528,602,0,72,MAT.black); box(251,255,528,602,0,72,MAT.black);
 box(125,255,563,567,8,11,MAT.black);
 chair(150,494,'z+'); chair(230,494,'z+'); chair(150,636,'z-'); chair(230,636,'z-'); chair(86,565,'x+'); chair(294,565,'x-');
+// Small study on the dining side of the dining–kitchen wall, between the kitchen corner and the RCC pillar.
+// Wall-hung oak desk 90 x 45 at 75 cm with a slim drawer, cane pin-board, one open shelf, chair facing the wall.
+{ const r=[365,455,647,692.5];
+  rbox(365,455,647,692.5,72,75,MAT.oak,1);                        // floating desk top
+  box(368,452,650,692.5,63,72,MAT.oak);                           // slim drawer
+  FB(r,'z-',369,451,0,0.3,63.5,64,MAT.gap); FB(r,'z-',400,420,0,1.5,67,69,MAT.brass);
+  box(372,448,690.5,692.5,90,140,MAT.cane);                       // pin-board
+  box(368,452,668,692.5,152,155,MAT.oak);                         // open shelf
+  [[372,377,MAT.teal,24],[377,383,MAT.terracotta,21],[383,387,MAT.mustard,26],[387,392,MAT.sage,22],[392,396,MAT.walnut,25]]
+    .forEach(([x0,x1,m,h])=>box(x0,x1,672,690,155,155+h,m));
+  cyl(438,680,155,165,5,4,MAT.pot,16); [[0,170,0],[3,167,2],[-3,166,-2]].forEach(([dx,y,dz],i)=>sph(438+dx,y,680+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
+  box(392,424,656,678,75,76.2,MAT.steelDark);                     // laptop
+  lamp(442,667,75);
+  chair(410,622,'z+');
+}
 // Enclosed wash niche at the builder's basin spot: dining outer wall (x = 0), in the corner with the Master wall.
 // The Master wall is its left side; one low side wall (1.2 m) on the right. Built in a local frame and turned into place.
 // Green finger-tile back wall, floating fluted
@@ -1142,6 +1157,7 @@ board('x',7.5,1,665,120,5);                                     // dining board
 box(348.5,371.5,700,1000,WH-60,WH,MAT.wall);
 // Living / dining split AC on the living-room face of the beam, blowing towards the living and dining; AC socket beside it
 acIn('x',348.5,-1,765,855); sock('x',348.5,-1,863,250,'AC');
+sock('z',692.5,-1,372,82,'6'); sock('z',692.5,-1,383,82,'USB');   // study desk: 6 A + USB (not in the drawing)
 board('z',407.5,1,488,120,3);                                   // by the Bed 3 door (balcony light + balcony fan)
 elLight(600,550);                                               // dining balcony
 smallFan(590,470);                                              // dining balcony: 600 mm hugger fan, clear of the cloth hanger rods
