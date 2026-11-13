@@ -648,6 +648,15 @@ for(let zz=62; zz<338; zz+=7) box(348.5,350.5,zz,zz+4,0,265,MAT.walnut);
 bed(349,200,-Math.PI/2,156,202,{hb:'#CDBFA8',duvet:'#E4DCCD',fold:'#F3EFE7',throwC:'#6E7550',accent:'#C99A3B'});
 nightstand(302,344,64,106); nightstand(302,344,294,336);
 wardrobe([12,232,334,392],'z-',4,240,MAT.oak);
+// Robot vacuum dock: open bay (52 w x 65 h) at the bottom of the first wardrobe door, near the window wall.
+// 6 A socket inside the bay at 30 cm. About 3 m of clear floor in front for the robot to come and go.
+{ const r=[12,232,334,392], PL=M('#FBFAF6',{roughness:.4});
+  FB(r,'z-',13,66,0,0.3,64.6,65.4,MAT.gap);                                      // shutter above starts at 65 cm
+  box(14,66,333.4,334.1,0,64,MAT.black);                                          // open bay
+  box(21,59,332.8,333.4,2,48,PL); box(36,44,332.6,332.8,40,43,MAT.led);            // dock front + status light
+  box(19,61,318,334,0,1.2,PL);                                                    // dock ramp
+  cyl(40,316,1.2,10.5,17.5,17.5,MAT.steelDark,32); cyl(40,320,10.5,13,4.2,4.2,MAT.black,20);   // robot parked
+}
 drapes('z',7.5,95,325,1);
 drapes('x',7.5,12,196,1);
 
