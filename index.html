@@ -644,16 +644,18 @@ function run(r,front,n){   // kitchen base cabinets
 rbox(95,315,70,330,0,1.2,MAT.rug1,1);
 box(350.5,352.5,60,340,0,265,MAT.walnutDark);                    // fluted wall panel behind the bed
 for(let zz=62; zz<338; zz+=7) box(348.5,350.5,zz,zz+4,0,265,MAT.walnut);
-bed(349,200,-Math.PI/2,180,205,{hb:'#CDBFA8',duvet:'#E4DCCD',fold:'#F3EFE7',throwC:'#6E7550',accent:'#C99A3B'});
-nightstand(302,344,52,94); nightstand(302,344,306,348);
+// queen bed: 152 x 198 mattress (60 x 78 in) on a 156 x 202 frame
+bed(349,200,-Math.PI/2,156,202,{hb:'#CDBFA8',duvet:'#E4DCCD',fold:'#F3EFE7',throwC:'#6E7550',accent:'#C99A3B'});
+nightstand(302,344,64,106); nightstand(302,344,294,336);
 wardrobe([12,232,334,392],'z-',4,240,MAT.oak);
 drapes('z',7.5,95,325,1);
 drapes('x',7.5,12,196,1);
 
 /* ---------- Bed 3 ---------- */
 rbox(430,650,110,300,0,1.2,MAT.rug2,1);
-bed(367.5,200,Math.PI/2,160,205,{hb:'#8F8B85',duvet:'#7E2E3A',fold:'#EEE7DA',throwC:'#9C958C',accent:'#EEE7DA',hbH:112});
-nightstand(372,412,62,104); nightstand(372,412,296,338);
+// queen bed: 152 x 198 mattress on a 156 x 202 frame
+bed(367.5,200,Math.PI/2,156,202,{hb:'#8F8B85',duvet:'#7E2E3A',fold:'#EEE7DA',throwC:'#9C958C',accent:'#EEE7DA',hbH:112});
+nightstand(372,412,64,106); nightstand(372,412,294,336);
 wardrobe([482,683,334,392],'z-',4,240,MAT.oak);
 rbox(545,665,8,63,72,76,MAT.oak,1);                               // study desk under the window
 box(549,553,12,59,0,72,MAT.black); box(657,661,12,59,0,72,MAT.black);
@@ -663,8 +665,9 @@ drapes('z',682.5,45,255,-1);
 
 /* ---------- Bed 2 ---------- */
 rbox(-290,-100,570,700,0,1.2,MAT.rug3,1);
-bed(-174,852.5,Math.PI,160,205,{hb:'#B7AE9F',duvet:'#7B8A45',fold:'#EEE9DE',throwC:'#C99A3B',accent:'#E9E2D5'});
-nightstand(-300,-262,808,850); nightstand(-86,-48,808,850);
+// queen bed: 152 x 198 mattress on a 156 x 202 frame
+bed(-174,852.5,Math.PI,156,202,{hb:'#B7AE9F',duvet:'#7B8A45',fold:'#EEE9DE',throwC:'#C99A3B',accent:'#E9E2D5'});
+nightstand(-298,-260,808,850); nightstand(-88,-50,808,850);
 // Wardrobe + study in one 214 cm run on the toilet-side wall (57 deep, front faces +x).
 // Window-wall end (z 548-632, 84 wide) = study; then a 3-door wardrobe (z 632-762, 130 wide) up to the toilet door frame.
 wardrobe([-382,-325,632,762],'x+',3,240,MAT.oak);
