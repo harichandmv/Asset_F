@@ -138,9 +138,9 @@ const WALLS = [
   [360,700,710,700],
   [690,700,690,1000,[[840,950,'win']]],
   [525,1000,700,1000],
-  [360,962.5,360,1160],   // extended to y 955 to back the 100 cm fridge
+  [360,1000,360,1160],
   [360,1130,525,1130],
-  [525,1000,525,1130,[[1010,1120,'slide']]],   // dry balcony sliding door from the work area, opposite the washing machine and fridge
+  [525,1000,525,1130,[[1010,1120,'wide']]],   // open doorway (no door) from the work area to the dry balcony
   [0,1160,360,1160],
   [0,1000,0,1160],
   [-140,1000,0,1000],
@@ -919,21 +919,21 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
 { const pl = new THREE.PointLight(0xffc27a,.35,2.2,2); pl.position.set((PJ.gx-(352-35))/100,1.4,(PJ.gz-31)/100); scene.add(pl); }
 
 /* ---------- Kitchen (open to the living room) ---------- */
-// The kitchen–living wall is replaced by a 90 cm high counter (y 860-955) with a wooden top, no stools.
+// The kitchen–living wall is replaced by a 90 cm high counter (y 860-990) with a wooden top, no stools.
 // The way into the kitchen is at the dining end; it stays ~92 cm wide past the tall unit beside the hob counter.
 // Living side is flat (no overhang), so the 3-seater sofa can sit against it.
-{ const X0=352.5, X1=412.5, Z0=860, Z1=955;
-  run([X0,X1,Z0,Z1],'x+',2);                                                  // kitchen-side drawers and shutters
+{ const X0=352.5, X1=412.5, Z0=860, Z1=990;
+  run([X0,X1,Z0,Z1],'x+',3);                                                  // kitchen-side drawers and shutters
   box(351.5,X0,Z0,Z1,0,86,MAT.walnutDark);                                    // living-side backing
   for(let z=Z0+2; z<Z1-3; z+=6) box(350,351.5,z,z+3.5,1,86,MAT.walnut);      // fluted walnut on the living side
   box(350,X1,Z0-1.5,Z0,0,86,MAT.walnut);                                      // finished end panel at the walkway
   rbox(349.5,X1+1.5,Z0-1.5,Z1,86,90,MAT.teak,1);                              // wooden top
-  pendant(381,885,150,12); pendant(381,930,150,12);                           // two lights over the counter
+  pendant(381,895,150,12); pendant(381,955,150,12);                           // two lights over the counter
   // a few things on the counter
-  cyl(382,880,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
-  [[378,876,MAT.mustard],[386,882,MAT.terracotta],[380,885,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
-  cyl(374,943,90,104,4.5,5.5,MAT.potWhite,20);
-  [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(374+dx,y,943+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
+  cyl(382,900,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
+  [[378,896,MAT.mustard],[386,902,MAT.terracotta],[380,905,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
+  cyl(376,980,90,104,4.5,5.5,MAT.potWhite,20);
+  [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(376+dx,y,980+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
 }
 run([455,682,708,768],'z+',4); box(455,682,707.5,770,86,90,MAT.quartz);
 run([622,682,768,990],'x-',4); box(620,682,770,990,86,90,MAT.quartz);
@@ -953,15 +953,10 @@ cyl(678,920,90,122,1.5,1.9,MAT.chrome,12); box(660,678,918,922,118,121,MAT.chrom
 box(369,426,1060,1120,0,85,MAT.ceramic);                                         // washing machine 60 x 57
 { const d=new THREE.Mesh(new THREE.CylinderGeometry(17,17,2,32),MAT.gap); d.rotation.z=Math.PI/2; d.position.set(426.5,45,1090); add(d); }
 box(426,427.2,1062,1118,72,82,MAT.ledge);                                        // control panel
-// fridge 100 wide x 73 deep (side-by-side), facing the dry balcony; doors swing clear of the washing machine
-{ const r=[369,442,957,1057];
-  box(r[0],r[1],r[2],r[3],0,178,MAT.steel);
-  FB(r,'x+',1006.6,1007.4,0,0.3,2,176,MAT.gap);                                  // split between the two doors
-  FB(r,'x+',999,1002,0.3,3.5,70,150,MAT.chrome); FB(r,'x+',1012,1015,0.3,3.5,70,150,MAT.chrome);   // handles
-  FB(r,'x+',970,990,0,0.6,108,134,MAT.black);                                   // water dispenser
-}
-// walnut side panel between the open counter and the fridge, so the living room sees wood, not the fridge's steel side
-box(367.5,445,955,957,0,200,MAT.walnutDark); for(let x=369; x<443; x+=6) box(x,x+3.5,953.5,955,0,200,MAT.walnut);
+// fridge 63 wide x 64 deep, hinge on the washing machine side so it opens towards the kitchen
+box(369,433,993,1056,0,186,MAT.steel);
+FB([369,433,993,1056],'x+',994,1055,0,0.3,120,121,MAT.gap);
+FB([369,433,993,1056],'x+',999,1002,0.3,3,125,172,MAT.chrome); FB([369,433,993,1056],'x+',999,1002,0.3,3,62,112,MAT.chrome);
 
 /* ---------- Kitchen appliances and electrical points ---------- */
 // Plates: white = socket, dark rocker = switch, red rocker = isolator switch for a built-in appliance.
@@ -1012,40 +1007,41 @@ plate('z',992.5,627,160,-1,'S');
 box(680.5,682.5,954,988,228,262,PL);
 { const f=new THREE.Mesh(new THREE.CylinderGeometry(13,13,0.6,28),MAT.gap); f.rotation.z=Math.PI/2; f.position.set(680.2,245,971); add(f); }
 // 9 twin pop-up socket in the open counter (air fryer, sandwich maker; no upper cabinets above) - needs a floor conduit before tiling
-cyl(399,935,90,91.4,3.5,3.5,MAT.steelDark,20);
-// 10 work area: washing machine socket above the machine, fridge socket above the fridge, spare twin socket
+cyl(398,972,90,91.4,3.5,3.5,MAT.steelDark,20);
+// 10 work area: 16 A socket above the washing machine corner (washer or wet grinder), fridge socket behind the fridge, spare twin socket
 plate('x',367.5,1100,115,1,'S');
-plate('x',367.5,1025,205,1,'S');
+plate('x',367.5,1040,45,1,'S');                                                 // fridge socket behind the fridge, low down
 plate('z',1122.5,470,115,-1,'S',17);
 /* ---------- Dry balcony fittings (inside x 532.5-692.5, y 1007.5-1112.5) ---------- */
-// 12 wet grinder platform: black granite slab at 75 cm on two masonry legs, north-east corner, clear of the hanger
-box(632,692.5,1007.5,1047.5,71,75,M('#2A2A2A',{roughness:.35}));
-box(632,640,1007.5,1045,0,71,MAT.wall); box(684.5,692.5,1007.5,1045,0,71,MAT.wall);
-box(641,684,1008,1044,20,21.5,M('#2A2A2A',{roughness:.35}));                    // shelf below for the drum and buckets
-box(649,675,1013,1041,75,95,PL); cyl(662,1027,95,118,12,12,MAT.steel,28); cyl(662,1027,118,121,12.5,12.5,MAT.black,28);   // wet grinder
-// socket + its own switch for the grinder, 35 cm above the platform
-plate('z',1007.5,643,110,1,'S'); plate('z',1007.5,652.6,110,1,'W');
-// 13 wall fan point high on the north wall, blowing across the drying clothes (a ceiling fan would hit the hanger)
-plate('z',1007.5,600,225,1,'S');
-{ const g=new THREE.Group(); g.position.set(600,212,1022); add(g);
+// 12 wet grinder platform on the south wall, next to the jalli: black granite slab at 75 cm on two masonry legs
+//    (the washing machine may come here instead, so the socket is 16 A)
+box(632,692.5,1072.5,1112.5,71,75,M('#2A2A2A',{roughness:.35}));
+box(632,640,1075,1112.5,0,71,MAT.wall); box(684.5,692.5,1075,1112.5,0,71,MAT.wall);
+box(641,684,1076,1112,20,21.5,M('#2A2A2A',{roughness:.35}));                    // shelf below for the drum and buckets
+box(649,675,1079,1107,75,95,PL); cyl(662,1093,95,118,12,12,MAT.steel,28); cyl(662,1093,118,121,12.5,12.5,MAT.black,28);   // wet grinder
+// 16 A socket + its own switch, 35 cm above the platform (weatherproof type)
+plate('z',1112.5,643,110,-1,'S'); plate('z',1112.5,652.6,110,-1,'W');
+// 13 wall fan point high on the south wall, blowing across the drying clothes (a ceiling fan would hit the hanger)
+plate('z',1112.5,590,225,-1,'S');
+{ const g=new THREE.Group(); g.position.set(590,212,1098); add(g);
   const ring=new THREE.Mesh(new THREE.TorusGeometry(17,0.6,8,36),MAT.steelDark); g.add(ring);
   const hub=new THREE.Mesh(new THREE.CylinderGeometry(4,4,5,20),PL); hub.rotation.x=Math.PI/2; g.add(hub);
   for(let i=0;i<3;i++){ const b=new THREE.Mesh(new THREE.BoxGeometry(5,14,0.5),PL); b.rotation.z=i*2*Math.PI/3; b.position.set(7*Math.sin(-i*2*Math.PI/3),7*Math.cos(i*2*Math.PI/3),0); g.add(b); }
-  box(596,604,1007.5,1015,206,218,PL); }                                      // wall bracket
-// 14 ceiling pulley cloth hanger: 6 rods x 4 ft along the balcony, two ceiling brackets, rope down to a wall cleat
+  box(586,594,1105,1112.5,206,218,PL); }                                      // wall bracket
+// 14 ceiling pulley cloth hanger over the north half: 6 rods x 4 ft, two ceiling brackets, rope down to a cleat on the north wall
 { const RM=M('#D9D3C6',{roughness:.9});
-  [553,673].forEach(x=>box(x-3,x+3,1048,1110,WH-4,WH,MAT.steelDark));         // ceiling brackets (6 pulleys each)
-  for(let i=0;i<6;i++){ const z=1053+i*10;
+  [553,673].forEach(x=>box(x-3,x+3,1010,1070,WH-4,WH,MAT.steelDark));         // ceiling brackets (6 pulleys each)
+  for(let i=0;i<6;i++){ const z=1015+i*10;
     const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.9,0.9,128,12),MAT.steel); rod.rotation.z=Math.PI/2; rod.position.set(613,252,z); add(rod);
     [553,673].forEach(x=>cyl(x,z,253,WH-4,0.25,0.25,RM,6)); }
-  cyl(545,1109,128,WH-4,0.35,0.35,RM,6); box(541,549,1111,1112.5,124,132,MAT.steelDark);   // rope and cleat on the south wall
-  box(548,553,1104,1110,WH-4,WH-1,MAT.steelDark);
+  cyl(545,1011,128,WH-4,0.35,0.35,RM,6); box(541,549,1007.5,1009,124,132,MAT.steelDark);   // rope and cleat on the north wall
+  box(548,553,1010,1016,WH-4,WH-1,MAT.steelDark);
   // a couple of things drying
-  box(575,605,1063.5,1064.5,195,251,M('#7FA3B8',{roughness:1})); box(620,650,1083.5,1084.5,205,251,M('#E3D6C0',{roughness:1})); }
-// 15 switches for the dry balcony light and fan, inside the work area next to the sliding door
+  box(575,605,1024.5,1025.5,195,251,M('#7FA3B8',{roughness:1})); box(620,650,1044.5,1045.5,205,251,M('#E3D6C0',{roughness:1})); }
+// 15 switches for the dry balcony light and fan, inside the work area next to the open doorway
 plate('z',1122.5,502,125,-1,'W',17);
 // 11 ceiling light points (fix before the slab is cast): kitchen x2, work area, dry balcony (kept clear of the cloth hanger)
-[[525,815],[575,905],[445,1062],[575,1030]].forEach(([x,z])=>{ cyl(x,z,WH-2.5,WH,9,9,PL,24); cyl(x,z,WH-2.7,WH-2.5,7.5,7.5,MAT.led,24); });
+[[525,815],[575,905],[445,1062],[600,1090]].forEach(([x,z])=>{ cyl(x,z,WH-2.5,WH,9,9,PL,24); cyl(x,z,WH-2.7,WH-2.5,7.5,7.5,MAT.led,24); });
 
 /* ---------- Foyer ---------- */
 
