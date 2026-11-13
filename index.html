@@ -1021,13 +1021,6 @@ box(641,684,1076,1112,20,21.5,M('#2A2A2A',{roughness:.35}));                    
 box(649,675,1079,1107,75,95,PL); cyl(662,1093,95,118,12,12,MAT.steel,28); cyl(662,1093,118,121,12.5,12.5,MAT.black,28);   // wet grinder
 // 16 A socket + its own switch, 35 cm above the platform (weatherproof type)
 plate('z',1112.5,643,110,-1,'S'); plate('z',1112.5,652.6,110,-1,'W');
-// 13 wall fan point high on the south wall, blowing across the drying clothes (a ceiling fan would hit the hanger)
-plate('z',1112.5,590,225,-1,'S');
-{ const g=new THREE.Group(); g.position.set(590,212,1098); add(g);
-  const ring=new THREE.Mesh(new THREE.TorusGeometry(17,0.6,8,36),MAT.steelDark); g.add(ring);
-  const hub=new THREE.Mesh(new THREE.CylinderGeometry(4,4,5,20),PL); hub.rotation.x=Math.PI/2; g.add(hub);
-  for(let i=0;i<3;i++){ const b=new THREE.Mesh(new THREE.BoxGeometry(5,14,0.5),PL); b.rotation.z=i*2*Math.PI/3; b.position.set(7*Math.sin(-i*2*Math.PI/3),7*Math.cos(i*2*Math.PI/3),0); g.add(b); }
-  box(586,594,1105,1112.5,206,218,PL); }                                      // wall bracket
 // 14 ceiling pulley cloth hanger over the north half: 6 rods x 4 ft, two ceiling brackets, rope down to a cleat on the north wall
 { const RM=M('#D9D3C6',{roughness:.9});
   [553,673].forEach(x=>box(x-3,x+3,1010,1070,WH-4,WH,MAT.steelDark));         // ceiling brackets (6 pulleys each)
@@ -1046,7 +1039,7 @@ cyl(612,1050,WH-2.5,WH-1.2,0.45,0.45,MAT.steelDark,8);
 cyl(612,1050,WH-8,WH-1.2,5,6,PL,24); cyl(612,1050,WH-22,WH-8,10,9,PL,28);                // canopy and motor
 for(let i=0;i<3;i++){ const a=i*2*Math.PI/3, b=new THREE.Mesh(new THREE.BoxGeometry(22,0.6,7),PL);
   b.position.set(612+18*Math.cos(a),WH-19,1050+18*Math.sin(a)); b.rotation.y=-a; b.castShadow=true; add(b); }
-// 15 switches for the dry balcony light, wall fan and ceiling fan, inside the work area next to the open doorway
+// 15 switches for the dry balcony light and ceiling fan (+ fan regulator), inside the work area next to the open doorway
 plate('z',1122.5,500,125,-1,'W',26);
 // 11 ceiling light points (fix before the slab is cast): kitchen x2, work area, dry balcony (kept clear of the cloth hanger)
 [[525,815],[575,905],[445,1062],[600,1090]].forEach(([x,z])=>{ cyl(x,z,WH-2.5,WH,9,9,PL,24); cyl(x,z,WH-2.7,WH-2.5,7.5,7.5,MAT.led,24); });
@@ -1058,6 +1051,38 @@ plate('z',1122.5,500,125,-1,'W',26);
 rbox(-132,-72,895,965,0,1.2,MAT.rug2,1);
 
 /* ---------- Balconies ---------- */
+// Every balcony gets the same kit as the dry balcony: ceiling pulley cloth hanger (6 rods x 4 ft, tied off at ~240 cm),
+// small 600 mm hugger ceiling fan on a slab hook (blades ~270 cm), ceiling light, and switches inside the room by the door.
+function clothHanger(ax,a0,a1,c0,cleat){       // ax 'x': rods run along x from a0 to a1; rods at cross positions c0, c0+10 ... c0+50
+  const RM=M('#D9D3C6',{roughness:.9}), L=a1-a0, mid=(a0+a1)/2;
+  [a0+3,a1-3].forEach(a=> ax==='x' ? box(a-3,a+3,c0-5,c0+55,WH-4,WH,MAT.steelDark) : box(c0-5,c0+55,a-3,a+3,WH-4,WH,MAT.steelDark));
+  for(let i=0;i<6;i++){ const c=c0+i*10;
+    const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.9,0.9,L,12),MAT.steel);
+    if(ax==='x'){ rod.rotation.z=Math.PI/2; rod.position.set(mid,240,c); } else { rod.rotation.x=Math.PI/2; rod.position.set(c,240,mid); }
+    add(rod);
+    [a0+3,a1-3].forEach(a=> ax==='x' ? cyl(a,c,241,WH-4,0.25,0.25,RM,6) : cyl(c,a,241,WH-4,0.25,0.25,RM,6)); }
+  const [cx,cz,wallAx]=cleat;                    // rope cleat on a wall at 130 cm
+  cyl(cx,cz,128,WH-4,0.35,0.35,RM,6);
+  wallAx==='x' ? box(cx-0.75,cx+0.75,cz-4,cz+4,124,132,MAT.steelDark) : box(cx-4,cx+4,cz-0.75,cz+0.75,124,132,MAT.steelDark);
+}
+function smallFan(x,z){                          // 600 mm hugger fan on a slab hook
+  cyl(x,z,WH-1.2,WH,6,6,PL,24); cyl(x,z,WH-8,WH-1.2,5,6,PL,24); cyl(x,z,WH-22,WH-8,10,9,PL,28);
+  for(let i=0;i<3;i++){ const a=i*2*Math.PI/3, b=new THREE.Mesh(new THREE.BoxGeometry(22,0.6,7),PL);
+    b.position.set(x+18*Math.cos(a),WH-19,z+18*Math.sin(a)); b.rotation.y=-a; b.castShadow=true; add(b); }
+}
+function ceilLight(x,z){ cyl(x,z,WH-2.5,WH,9,9,PL,24); cyl(x,z,WH-2.7,WH-2.5,7.5,7.5,MAT.led,24); }
+// Dining balcony (inside x 517.5-705, y 407.5-692.5): rods along the length, next to the railing; fan over the seating
+clothHanger('z',489,611,645,[690,408.5,'z']);
+smallFan(578,552); ceilLight(578,455);
+plate('z',688.5,478,125,-1,'W',26);             // switches in the dining, on the pillar face beside the sliding door
+// Master bed balcony (inside x 5-192.5, y -115 to -7.5): rods along the length, near the railing
+clothHanger('x',39,161,-110,[191.5,-100,'x']);
+smallFan(100,-35); ceilLight(35,-35);
+plate('z',7.5,216,125,1,'W',26);                 // switches in the master bedroom, beside the sliding door
+// Bed 3 balcony (inside x 697.5-805, y 45-255): rods along the length, near the outer railing
+clothHanger('z',89,211,745,[698.5,245,'x']);
+smallFan(730,150); ceilLight(735,62);
+plate('x',682.5,285,125,-1,'W',26);              // switches in Bed 3, beside the sliding door (clear of the curtains)
 lounge(615,478,0); lounge(615,625,Math.PI); cyl(615,552,0,46,22,22,MAT.teak,32);
 plant(686,428); plant(686,674,true);
 lounge(80,-62,Math.PI); plant(172,-94);
