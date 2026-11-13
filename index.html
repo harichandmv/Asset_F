@@ -138,7 +138,7 @@ const WALLS = [
   [360,700,710,700],
   [690,700,690,1000,[[840,950,'win']]],
   [525,1000,700,1000],
-  [360,1000,360,1160],
+  [360,962.5,360,1160],   // extended to y 955 to back the 100 cm fridge
   [360,1130,525,1130],
   [525,1000,525,1130,[[1010,1120,'slide']]],   // dry balcony sliding door from the work area, opposite the washing machine and fridge
   [0,1160,360,1160],
@@ -919,21 +919,21 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
 { const pl = new THREE.PointLight(0xffc27a,.35,2.2,2); pl.position.set((PJ.gx-(352-35))/100,1.4,(PJ.gz-31)/100); scene.add(pl); }
 
 /* ---------- Kitchen (open to the living room) ---------- */
-// The kitchen–living wall is replaced by a 90 cm high counter (y 860-990) with a wooden top, no stools.
+// The kitchen–living wall is replaced by a 90 cm high counter (y 860-955) with a wooden top, no stools.
 // The way into the kitchen is at the dining end; it stays ~92 cm wide past the tall unit beside the hob counter.
 // Living side is flat (no overhang), so the 3-seater sofa can sit against it.
-{ const X0=352.5, X1=412.5, Z0=860, Z1=990;
-  run([X0,X1,Z0,Z1],'x+',3);                                                  // kitchen-side drawers and shutters
+{ const X0=352.5, X1=412.5, Z0=860, Z1=955;
+  run([X0,X1,Z0,Z1],'x+',2);                                                  // kitchen-side drawers and shutters
   box(351.5,X0,Z0,Z1,0,86,MAT.walnutDark);                                    // living-side backing
   for(let z=Z0+2; z<Z1-3; z+=6) box(350,351.5,z,z+3.5,1,86,MAT.walnut);      // fluted walnut on the living side
   box(350,X1,Z0-1.5,Z0,0,86,MAT.walnut);                                      // finished end panel at the walkway
   rbox(349.5,X1+1.5,Z0-1.5,Z1,86,90,MAT.teak,1);                              // wooden top
-  pendant(381,895,150,12); pendant(381,955,150,12);                           // two lights over the counter
+  pendant(381,885,150,12); pendant(381,930,150,12);                           // two lights over the counter
   // a few things on the counter
-  cyl(382,900,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
-  [[378,896,MAT.mustard],[386,902,MAT.terracotta],[380,905,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
-  cyl(376,980,90,104,4.5,5.5,MAT.potWhite,20);
-  [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(376+dx,y,980+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
+  cyl(382,880,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
+  [[378,876,MAT.mustard],[386,882,MAT.terracotta],[380,885,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
+  cyl(374,943,90,104,4.5,5.5,MAT.potWhite,20);
+  [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(374+dx,y,943+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
 }
 run([455,682,708,768],'z+',4); box(455,682,707.5,770,86,90,MAT.quartz);
 run([622,682,768,990],'x-',4); box(620,682,770,990,86,90,MAT.quartz);
@@ -953,10 +953,15 @@ cyl(678,920,90,122,1.5,1.9,MAT.chrome,12); box(660,678,918,922,118,121,MAT.chrom
 box(369,426,1060,1120,0,85,MAT.ceramic);                                         // washing machine 60 x 57
 { const d=new THREE.Mesh(new THREE.CylinderGeometry(17,17,2,32),MAT.gap); d.rotation.z=Math.PI/2; d.position.set(426.5,45,1090); add(d); }
 box(426,427.2,1062,1118,72,82,MAT.ledge);                                        // control panel
-// fridge 63 wide x 64 deep, hinge on the washing machine side so it opens towards the kitchen
-box(369,433,993,1056,0,186,MAT.steel);
-FB([369,433,993,1056],'x+',994,1055,0,0.3,120,121,MAT.gap);
-FB([369,433,993,1056],'x+',999,1002,0.3,3,125,172,MAT.chrome); FB([369,433,993,1056],'x+',999,1002,0.3,3,62,112,MAT.chrome);
+// fridge 100 wide x 73 deep (side-by-side), facing the dry balcony; doors swing clear of the washing machine
+{ const r=[369,442,957,1057];
+  box(r[0],r[1],r[2],r[3],0,178,MAT.steel);
+  FB(r,'x+',1006.6,1007.4,0,0.3,2,176,MAT.gap);                                  // split between the two doors
+  FB(r,'x+',999,1002,0.3,3.5,70,150,MAT.chrome); FB(r,'x+',1012,1015,0.3,3.5,70,150,MAT.chrome);   // handles
+  FB(r,'x+',970,990,0,0.6,108,134,MAT.black);                                   // water dispenser
+}
+// walnut side panel between the open counter and the fridge, so the living room sees wood, not the fridge's steel side
+box(367.5,445,955,957,0,200,MAT.walnutDark); for(let x=369; x<443; x+=6) box(x,x+3.5,953.5,955,0,200,MAT.walnut);
 
 /* ---------- Kitchen appliances and electrical points ---------- */
 // Plates: white = socket, dark rocker = switch, red rocker = isolator switch for a built-in appliance.
@@ -1007,7 +1012,7 @@ plate('z',992.5,627,160,-1,'S');
 box(680.5,682.5,954,988,228,262,PL);
 { const f=new THREE.Mesh(new THREE.CylinderGeometry(13,13,0.6,28),MAT.gap); f.rotation.z=Math.PI/2; f.position.set(680.2,245,971); add(f); }
 // 9 twin pop-up socket in the open counter (air fryer, sandwich maker; no upper cabinets above) - needs a floor conduit before tiling
-cyl(398,972,90,91.4,3.5,3.5,MAT.steelDark,20);
+cyl(399,935,90,91.4,3.5,3.5,MAT.steelDark,20);
 // 10 work area: washing machine socket above the machine, fridge socket above the fridge, spare twin socket
 plate('x',367.5,1100,115,1,'S');
 plate('x',367.5,1025,205,1,'S');
