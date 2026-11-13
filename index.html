@@ -1160,7 +1160,8 @@ board('z',692.5,-1,396,82,2);                                   // study fan swi
 board('z',407.5,1,488,120,3);                                   // by the Bed 3 door (balcony light + balcony fan)
 elLight(600,550);                                               // dining balcony
 smallFan(590,470);                                              // dining balcony: 600 mm hugger fan, clear of the cloth hanger rods
-acOut(522,602,664,692,0,'z-');                                  // AC outdoor unit on the balcony floor
+acOut(522,602,662,692.5,222,'z-');                              // AC outdoor unit high on the balcony's south wall, on wall brackets
+box(527,530,660,692.5,217,222,MAT.steelDark); box(594,597,660,692.5,217,222,MAT.steelDark);
 
 // ---- Kitchen, work area, dry balcony
 elFan(507,882); elLight(402,882); elLight(606,882);
