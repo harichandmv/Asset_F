@@ -726,7 +726,6 @@ rbox(110,270,520,610,72,76,MAT.teak,1.5);
 box(125,129,528,602,0,72,MAT.black); box(251,255,528,602,0,72,MAT.black);
 box(125,255,563,567,8,11,MAT.black);
 chair(150,494,'z+'); chair(230,494,'z+'); chair(150,636,'z-'); chair(230,636,'z-'); chair(86,565,'x+'); chair(294,565,'x-');
-pendant(160,565,170,16); pendant(220,565,170,16);
 // Enclosed wash niche at the builder's basin spot: dining outer wall (x = 0), in the corner with the Master wall.
 // The Master wall is its left side; one low side wall (1.2 m) on the right. Built in a local frame and turned into place.
 // Green finger-tile back wall, floating fluted
@@ -940,7 +939,6 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
   for(let z=Z0+2; z<Z1-3; z+=6) box(350,351.5,z,z+3.5,1,86,MAT.walnut);      // fluted walnut on the living side
   box(350,X1,Z0-1.5,Z0,0,86,MAT.walnut);                                      // finished end panel at the walkway
   rbox(349.5,X1+1.5,Z0-1.5,Z1,86,90,MAT.teak,1);                              // wooden top
-  pendant(381,895,150,12); pendant(381,955,150,12);                           // two lights over the counter
   // a few things on the counter
   cyl(382,900,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
   [[378,896,MAT.mustard],[386,902,MAT.terracotta],[380,905,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
@@ -984,27 +982,16 @@ function plate(ax,face,a,h,dir,kind,w){        // ax 'z': plate on a wall y = fa
     else B(c-1.2,c+1.2,t,t+0.5,h-2.2,h+2.2,kind==='I'?PR:MAT.black);
   }
 }
-// 1 main kitchen switchboard at the way in (lights, pendants, exhaust fan, under-cabinet LEDs, spare)
-plate('z',707.5,381,130,1,'W',22);
-plate('z',707.5,381,112,1,'I',17);                                              // isolators: microwave + spare (oven / future)
-// 2 chimney: ducted, over the hob; socket just above the hood (can sit behind the chimney cover)
-plate('z',707.5,568,225,1,'S');
+// 2 chimney: ducted, over the hob
 box(557,682.5,711,731,262,282,MAT.whiteLacq);                                   // boxed 6-inch duct along the wall, out through the east wall
 box(697.5,703,713,729,264,280,MAT.steelDark);                                   // outside cowl
-// 3 mixie on the prep counter between hob and corner; twin 6/16 A socket on the backsplash
+// 3 mixie on the prep counter between hob and corner
 box(612,630,722,740,90,104,PL); cyl(621,731,104,128,6.5,7.5,MAT.glass,20); cyl(621,731,128,130,6.8,6.8,MAT.black,20);
-plate('z',709,648,110,1,'S',17);
-// 3b twin 6/16 A socket on the short counter between the tall unit and the hob (toaster, kettle, sandwich maker), on the pillar face
-plate('z',711.5,480,110,1,'S',17);
-// 4 spare twin socket on the sink-side backsplash (kettle, wet grinder, toaster) + 5 dishwasher isolator switch
-plate('x',681,785,110,-1,'S',17);
-plate('x',681,830,110,-1,'I');
 // 5 dishwasher (60 cm) in the sink run, right next to the sink
 box(620.5,622,821,881,10,85,MAT.steel); box(619.5,620.5,826,876,77,79.5,MAT.steelDark); box(620.3,620.6,822,880,80.5,84,MAT.black);
-// 6 water purifier on the end wall of the sink counter, tap at glass height; socket beside it, high and dry
+// 6 water purifier on the end wall of the sink counter, tap at glass height
 box(637,672,968,992.5,115,165,PL); box(640,669,967.4,968,140,160,MAT.steelDark);
 box(653,656,961,968,128,131,MAT.chrome); cyl(654.5,962.5,123,128,0.6,0.6,MAT.chrome,8);
-plate('z',992.5,627,160,-1,'S');
 // 7 tall unit at the left end of the hob counter (x 395-455), built-in combination microwave at eye level.
 //   55 cm of counter stays between it and the hob.
 { const r=[395,455,707.5,767.5];
@@ -1015,24 +1002,12 @@ plate('z',992.5,627,160,-1,'S');
   FB(r,'z+',399,438,1,1.3,125,160,MAT.screen);                                  // glass door
   FB(r,'z+',441,450,1,1.3,128,158,MAT.steelDark);                               // controls
 }
-// 8 exhaust fan high on the east wall, between the window and the corner, far from the chimney outlet
-box(680.5,682.5,954,988,228,262,PL);
-{ const f=new THREE.Mesh(new THREE.CylinderGeometry(13,13,0.6,28),MAT.gap); f.rotation.z=Math.PI/2; f.position.set(680.2,245,971); add(f); }
-// 9 twin pop-up socket in the open counter (air fryer, sandwich maker; no upper cabinets above) - needs a floor conduit before tiling
-cyl(398,972,90,91.4,3.5,3.5,MAT.steelDark,20);
-// 10 work area: 16 A socket above the washing machine corner (washer or wet grinder), fridge socket behind the fridge, spare twin socket
-plate('x',367.5,1100,115,1,'S');
-plate('x',367.5,1040,45,1,'S');                                                 // fridge socket behind the fridge, low down
-plate('z',1122.5,470,115,-1,'S',17);
 /* ---------- Dry balcony fittings (inside x 532.5-692.5, y 1007.5-1112.5) ---------- */
 // 12 wet grinder platform on the south wall, next to the jalli: black granite slab at 75 cm on two masonry legs
-//    (the washing machine may come here instead, so the socket is 16 A)
 box(632,692.5,1072.5,1112.5,71,75,M('#2A2A2A',{roughness:.35}));
 box(632,640,1075,1112.5,0,71,MAT.wall); box(684.5,692.5,1075,1112.5,0,71,MAT.wall);
 box(641,684,1076,1112,20,21.5,M('#2A2A2A',{roughness:.35}));                    // shelf below for the drum and buckets
 box(649,675,1079,1107,75,95,PL); cyl(662,1093,95,118,12,12,MAT.steel,28); cyl(662,1093,118,121,12.5,12.5,MAT.black,28);   // wet grinder
-// 16 A socket + its own switch, 35 cm above the platform (weatherproof type)
-plate('z',1112.5,643,110,-1,'S'); plate('z',1112.5,652.6,110,-1,'W');
 // 14 ceiling pulley cloth hanger over the north half: 6 rods x 4 ft, two ceiling brackets, rope down to a cleat on the north wall
 { const RM=M('#D9D3C6',{roughness:.9});
   [553,673].forEach(x=>box(x-3,x+3,1010,1070,WH-4,WH,MAT.steelDark));         // ceiling brackets (6 pulleys each)
@@ -1043,18 +1018,6 @@ plate('z',1112.5,643,110,-1,'S'); plate('z',1112.5,652.6,110,-1,'W');
   box(548,553,1010,1016,WH-4,WH-1,MAT.steelDark);
   // a couple of things drying
   box(575,605,1024.5,1025.5,183,239,M('#7FA3B8',{roughness:1})); box(620,650,1044.5,1045.5,193,239,M('#E3D6C0',{roughness:1})); }
-// 16 small ceiling fan: 600 mm low-profile (hugger) fan on a hook cast into the slab, blades at ~270 cm.
-//    The cloth hanger is tied off at ~240 cm when raised, so the rods always stay well below the blades.
-cyl(612,1050,WH-1.2,WH,6,6,PL,24);
-{ const h=new THREE.Mesh(new THREE.TorusGeometry(2.2,0.45,8,20,Math.PI*1.5),MAT.steelDark); h.position.set(612,WH-4.5,1050); h.rotation.y=Math.PI/2; add(h); }
-cyl(612,1050,WH-2.5,WH-1.2,0.45,0.45,MAT.steelDark,8);
-cyl(612,1050,WH-8,WH-1.2,5,6,PL,24); cyl(612,1050,WH-22,WH-8,10,9,PL,28);                // canopy and motor
-for(let i=0;i<3;i++){ const a=i*2*Math.PI/3, b=new THREE.Mesh(new THREE.BoxGeometry(22,0.6,7),PL);
-  b.position.set(612+18*Math.cos(a),WH-19,1050+18*Math.sin(a)); b.rotation.y=-a; b.castShadow=true; add(b); }
-// 15 switches for the dry balcony light and ceiling fan (+ fan regulator), inside the work area next to the open doorway
-plate('z',1122.5,500,125,-1,'W',26);
-// 11 ceiling light points (fix before the slab is cast): kitchen x2, work area, dry balcony (kept clear of the cloth hanger)
-[[525,815],[575,905],[445,1062],[600,1090]].forEach(([x,z])=>{ cyl(x,z,WH-2.5,WH,9,9,PL,24); cyl(x,z,WH-2.7,WH-2.5,7.5,7.5,MAT.led,24); });
 
 /* ---------- Foyer ---------- */
 
@@ -1063,8 +1026,7 @@ plate('z',1122.5,500,125,-1,'W',26);
 rbox(-132,-72,895,965,0,1.2,MAT.rug2,1);
 
 /* ---------- Balconies ---------- */
-// Every balcony gets the same kit as the dry balcony: ceiling pulley cloth hanger (6 rods x 4 ft, tied off at ~240 cm),
-// small 600 mm hugger ceiling fan on a slab hook (blades ~270 cm), ceiling light, and switches inside the room by the door.
+// Every balcony gets a ceiling pulley cloth hanger (6 rods x 4 ft, tied off at ~240 cm).
 function clothHanger(ax,a0,a1,c0,cleat){       // ax 'x': rods run along x from a0 to a1; rods at cross positions c0, c0+10 ... c0+50
   const RM=M('#D9D3C6',{roughness:.9}), L=a1-a0, mid=(a0+a1)/2;
   [a0+3,a1-3].forEach(a=> ax==='x' ? box(a-3,a+3,c0-5,c0+55,WH-4,WH,MAT.steelDark) : box(c0-5,c0+55,a-3,a+3,WH-4,WH,MAT.steelDark));
@@ -1085,20 +1047,126 @@ function smallFan(x,z){                          // 600 mm hugger fan on a slab 
 function ceilLight(x,z){ cyl(x,z,WH-2.5,WH,9,9,PL,24); cyl(x,z,WH-2.7,WH-2.5,7.5,7.5,MAT.led,24); }
 // Dining balcony (inside x 517.5-705, y 407.5-692.5): rods along the length, next to the railing; fan over the seating
 clothHanger('z',489,611,645,[690,408.5,'z']);
-smallFan(578,552); ceilLight(578,455);
-plate('z',688.5,478,125,-1,'W',26);             // switches in the dining, on the pillar face beside the sliding door
 // Master bed balcony (inside x 5-192.5, y -115 to -7.5): rods along the length, near the railing
 clothHanger('x',39,161,-110,[191.5,-100,'x']);
-smallFan(100,-58); ceilLight(35,-35);
-plate('z',7.5,216,125,1,'W',26);                 // switches in the master bedroom, beside the sliding door
 // Bed 3 balcony (inside x 697.5-805, y 45-255): rods along the length, near the outer railing
 clothHanger('z',89,211,745,[698.5,245,'x']);
-smallFan(745,150); ceilLight(735,62);
-plate('x',682.5,285,125,-1,'W',26);              // switches in Bed 3, beside the sliding door (clear of the curtains)
+
 lounge(615,478,0); lounge(615,625,Math.PI); cyl(615,552,0,46,22,22,MAT.teak,32);
 plant(686,428); plant(686,674,true);
 lounge(80,-62,Math.PI); plant(172,-94);
 plant(784,70,true); plant(784,232);
+
+/* ---------- Electrical layout (from the builder's electrical drawing, Type F) ---------- */
+// Positions read from the drawing and fitted to this model's rooms. Ceiling lights float just under the ceiling.
+// Heights: switch boards 120 cm, bedside boards 75 cm, wall lights 200 cm, AC units 235-265 cm.
+{
+const EW=M('#FBFAF6',{roughness:.4}), EG=M('#D9DBD6',{roughness:.6}), EB=M('#3D6FB6',{roughness:.5}), ER=M('#C8402E',{roughness:.5});
+const WB=(ax,face,dir,a0,a1,d0,d1,h0,h1,m)=>{ const p=face+dir*d0, q=face+dir*d1;
+  return ax==='z' ? box(a0,a1,Math.min(p,q),Math.max(p,q),h0,h1,m) : box(Math.min(p,q),Math.max(p,q),a0,a1,h0,h1,m); };
+// switch board with n switches
+const board=(ax,face,dir,a,h,n)=>{ const w=4+2.8*n; WB(ax,face,dir,a-w/2,a+w/2,0,0.9,h-4.5,h+4.5,EW);
+  for(let i=0;i<n;i++){ const c=a-w/2+2+2.8*i+1.4; WB(ax,face,dir,c-0.9,c+0.9,0.9,1.4,h-2.2,h+2.2,MAT.black); } };
+// socket: '6' 6 A, '16' 16 A, 'AC' 16 A AC socket, 'GY' geyser 16 A (red switch), 'USB', 'TV' (RG6), 'TEL'
+const sock=(ax,face,dir,a,h,k)=>{ const big=(k==='16'||k==='AC'||k==='GY'), w=big?10:8.6;
+  WB(ax,face,dir,a-w/2,a+w/2,0,0.9,h-w/2,h+w/2,EW);
+  if(k==='USB'){ WB(ax,face,dir,a-2.2,a+2.2,0.9,1.2,h-0.6,h+0.6,EB); return; }
+  if(k==='TV'||k==='TEL'){ WB(ax,face,dir,a-1.4,a+1.4,0.9,1.3,h-1.4,h+1.4,MAT.steelDark); return; }
+  const r=big?0.7:0.5; [[-1.6,1.2],[1.6,1.2],[0,-1.8]].forEach(([u,v])=>WB(ax,face,dir,a+u-r,a+u+r,0.9,1.2,h+v-r,h+v+r,MAT.black));
+  if(k==='GY'||k==='AC') WB(ax,face,dir,a+w/2-2.6,a+w/2-0.8,0.9,1.4,h+1,h+3.5,ER); };
+const wallLight=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-3,a+3,0,3,h-6,h+2,EW); WB(ax,face,dir,a-7,a+7,3,10,h-1,h+9,MAT.led); };
+const mirrorLight=(ax,face,dir,a,h,w)=>{ WB(ax,face,dir,a-w/2,a+w/2,0,4,h-2,h+2,MAT.chrome); WB(ax,face,dir,a-w/2+1,a+w/2-1,2,4.3,h-2.6,h-2,MAT.led); };
+const exhaust=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-16,a+16,0,3,h-16,h+16,EW); WB(ax,face,dir,a-12,a+12,3,3.3,h-12,h+12,MAT.steelDark); WB(ax,face,dir,a-1,a+1,3.3,3.6,h-11,h+11,EW); WB(ax,face,dir,a-11,a+11,3.3,3.6,h-1,h+1,EW); };
+const acIn=(ax,face,dir,a0,a1)=>{ WB(ax,face,dir,a0,a1,0,22,234,264,EW); WB(ax,face,dir,a0+4,a1-4,21.5,22.4,237,241,MAT.steelDark); WB(ax,face,dir,a1-10,a1-6,22,22.4,246,248,MAT.led); };
+const acOut=(x0,x1,z0,z1,h0,front)=>{ box(x0,x1,z0,z1,h0,h0+56,EG);
+  const cx=(x0+x1)/2, cz=(z0+z1)/2, g=new THREE.Mesh(new THREE.CylinderGeometry(19,19,0.6,32),MAT.steelDark);
+  if(front[0]==='x'){ g.rotation.z=Math.PI/2; g.position.set(front[1]==='+'?x1+0.3:x0-0.3,h0+28,cz-10); }
+  else { g.rotation.x=Math.PI/2; g.position.set(cx-10,h0+28,front[1]==='+'?z1+0.3:z0-0.3); }
+  add(g); };
+const DOWN=272;   // floating ceiling lights
+const elLight=(x,z)=>{ cyl(x,z,DOWN,DOWN+4,15,15,EW,32); cyl(x,z,DOWN-0.4,DOWN,13,13,MAT.led,32); };
+const elFan=(x,z)=>{ cyl(x,z,WH-6,WH,5,6,EW,20); cyl(x,z,258,WH-6,0.9,0.9,EW,10); cyl(x,z,250,258,11,10,EW,28);
+  for(let i=0;i<3;i++){ const a=i*2*Math.PI/3+0.4, b=new THREE.Mesh(new THREE.BoxGeometry(56,0.8,11),EW);
+    b.position.set(x+38*Math.cos(a),253,z+38*Math.sin(a)); b.rotation.y=-a; b.castShadow=true; add(b); } };
+const bell=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-6,a+6,0,4,h-5,h+5,EB); };
+const bellPush=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-3,a+3,0,1,h-4,h+4,EW); WB(ax,face,dir,a-1.2,a+1.2,1,1.6,h-1.2,h+1.2,EB); };
+
+// ---- Master bedroom
+elFan(216,180);
+wallLight('x',7.5,1,175,225);                                   // wall bracket on the window wall (above the window head)
+wallLight('x',348.5,-1,200,200);                                // wall bracket above the headboard
+board('x',7.5,1,315,120,4); sock('x',7.5,1,315,35,'6');           // window-wall board (drawing has it near the window; moved just past it)
+board('x',348.5,-1,74,75,3); sock('x',348.5,-1,86,75,'6'); sock('x',348.5,-1,96,75,'USB'); sock('x',348.5,-1,106,75,'TEL');   // bedside
+board('z',392.5,-1,243,120,4);                                  // by the bedroom door
+acIn('z',7.5,1,205,295); sock('z',7.5,1,302,250,'AC');           // split AC on the toilet wall
+board('z',7.5,1,258,120,3);                                     // toilet switches (light, exhaust, geyser) outside the toilet door
+elLight(85,-60);                                                // master balcony
+acOut(164,192,-235,-155,190,'x-');                              // AC outdoor unit on the outer face of the toilet wall
+box(170,192.5,-232,-229,186,190,MAT.steelDark); box(170,192.5,-161,-158,186,190,MAT.steelDark);
+
+// ---- Bed 3
+elFan(514,185);
+wallLight('x',367.5,1,200,200);                                 // above the headboard
+wallLight('x',682.5,-1,262,200);                                // right wall, past the balcony door
+board('x',367.5,1,300,75,3); sock('x',367.5,1,312,75,'6'); sock('x',367.5,1,322,75,'USB');   // bedside
+board('z',392.5,-1,476,120,3);                                  // by the bedroom door
+acIn('z',7.5,1,415,505); sock('z',7.5,1,510,250,'AC');           // split AC on the toilet wall
+board('z',7.5,1,462,120,3);                                     // toilet switches outside the toilet door
+elLight(752,235);                                               // Bed 3 balcony
+acOut(527.5,555.5,-235,-155,190,'x+');                          // AC outdoor unit on the outer face of the toilet wall
+box(527.5,550,-232,-229,186,190,MAT.steelDark); box(527.5,550,-161,-158,186,190,MAT.steelDark);
+
+// ---- Bed 2
+elFan(-175,715);
+wallLight('z',852.5,-1,-174,200);                               // above the headboard
+wallLight('x',-7.5,-1,735,200);                                 // dining-side wall
+board('z',852.5,-1,-279,75,3); sock('z',852.5,-1,-267,75,'6'); sock('z',852.5,-1,-257,75,'USB');   // bedside
+board('x',-7.5,-1,690,120,4);                                   // by the bedroom door
+acIn('z',547.5,1,-250,-160); sock('z',547.5,1,-152,250,'AC');    // split AC above the window
+board('x',-382.5,1,766,120,2);                                  // toilet switches outside the toilet door
+acOut(-180,-100,504,532.5,190,'z-');                             // AC outdoor unit outside the bedroom wall
+box(-177,-174,509,532.5,186,190,MAT.steelDark); box(-106,-103,509,532.5,186,190,MAT.steelDark);
+
+// ---- Toilets: ceiling light, exhaust in the ventilator, geyser socket, mirror light, socket by the basin
+elLight(280,-140); exhaust('z',-232.5,1,280,191); sock('x',207.5,1,-190,200,'GY'); mirrorLight('x',207.5,1,-90,200,40); sock('x',207.5,1,-130,120,'6');
+elLight(440,-140); exhaust('z',-232.5,1,440,191); sock('x',512.5,-1,-190,200,'GY'); mirrorLight('x',512.5,-1,-90,200,40); sock('x',512.5,-1,-130,120,'6');
+elLight(-480,740); exhaust('z',607.5,1,-430,191); sock('x',-397.5,-1,670,200,'GY'); mirrorLight('z',832.5,-1,-512,200,36); sock('z',832.5,-1,-478,120,'6');
+
+// ---- Dining
+elFan(190,565); elLight(190,455); elLight(190,675);
+mirrorLight('x',9.6,1,452,213,44);                              // mirror light over the wash basin
+bell('x',9.6,1,420,248);                                        // calling bell
+board('x',7.5,1,515,120,2);                                     // wash basin board
+board('x',7.5,1,665,120,5);                                     // dining board
+acIn('x',502.5,-1,510,600); sock('x',502.5,-1,606,250,'AC');     // split AC above the balcony sliding door
+board('z',407.5,1,488,120,2);                                   // by the Bed 3 door (balcony light)
+elLight(600,550);                                               // dining balcony
+acOut(522,602,664,692,0,'z-');                                  // AC outdoor unit on the balcony floor
+
+// ---- Kitchen, work area, dry balcony
+elFan(507,882); elLight(402,882); elLight(606,882);
+board('z',707.5,1,505,110,2); sock('z',707.5,1,519,110,'16'); sock('z',707.5,1,531,110,'16');   // hob wall
+board('x',682.5,-1,768,110,2); sock('x',682.5,-1,782,110,'6'); sock('x',682.5,-1,794,110,'16');  // window wall, upper end
+board('x',682.5,-1,958,110,1); sock('x',682.5,-1,968,110,'6'); sock('x',682.5,-1,980,110,'16');  // window wall, lower end
+exhaust('x',682.5,-1,972,228);                                  // exhaust fan
+board('z',707.5,1,377,125,4);                                   // kitchen lights and fan (drawing has it on the removed kitchen–living wall)
+sock('z',858.5,-1,392,60,'6'); sock('z',858.5,-1,404,60,'16');   // kitchen sockets moved to the open counter's end panel
+board('z',992.5,-1,535,110,1); sock('z',992.5,-1,547,110,'16');  // south wall
+elLight(410,1068);                                              // work area
+board('x',367.5,1,1092,120,1); sock('x',367.5,1,1105,120,'16');  // washing machine
+elLight(603,1090);                                              // dry balcony
+
+// ---- Living and foyer
+elFan(180,980); elLight(180,870); elLight(180,1075);
+wallLight('x',352.5,-1,1012,200);
+board('x',7.5,1,1030,120,5);
+board('z',1152.5,-1,150,120,2); sock('z',1152.5,-1,178,40,'6'); sock('z',1152.5,-1,190,40,'16'); sock('z',1152.5,-1,202,40,'USB'); sock('z',1152.5,-1,214,40,'TV');   // TV wall
+board('z',1152.5,-1,330,120,2); sock('z',1152.5,-1,345,40,'TEL');
+elLight(-70,930);
+box(-92,-58,989,992.5,200,245,EW); box(-88,-62,988.7,989,212,222,MAT.steelDark);   // DB (above the foyer mirror)
+board('x',-132.5,1,985,120,3);                                  // by the main door
+bellPush('x',-147.5,-1,872,130);                                // calling bell push, outside the main door
+}
 
 /* ---------- Room labels ---------- */
 const labels = [];
