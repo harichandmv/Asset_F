@@ -919,19 +919,19 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
 { const pl = new THREE.PointLight(0xffc27a,.35,2.2,2); pl.position.set((PJ.gx-(352-35))/100,1.4,(PJ.gz-31)/100); scene.add(pl); }
 
 /* ---------- Kitchen (open to the living room) ---------- */
-// The kitchen–living wall is replaced by a 90 cm high counter (y 800-990) with a wooden top, no stools.
-// The 92 cm gap at the dining end (y 708-800) is the way into the kitchen.
+// The kitchen–living wall is replaced by a 90 cm high counter (y 860-990) with a wooden top, no stools.
+// The way into the kitchen is at the dining end; it stays ~92 cm wide past the tall unit beside the hob counter.
 // Living side is flat (no overhang), so the 3-seater sofa can sit against it.
-{ const X0=352.5, X1=412.5, Z0=800, Z1=990;
-  run([X0,X1,Z0,Z1],'x+',4);                                                  // kitchen-side drawers and shutters
+{ const X0=352.5, X1=412.5, Z0=860, Z1=990;
+  run([X0,X1,Z0,Z1],'x+',3);                                                  // kitchen-side drawers and shutters
   box(351.5,X0,Z0,Z1,0,86,MAT.walnutDark);                                    // living-side backing
   for(let z=Z0+2; z<Z1-3; z+=6) box(350,351.5,z,z+3.5,1,86,MAT.walnut);      // fluted walnut on the living side
   box(350,X1,Z0-1.5,Z0,0,86,MAT.walnut);                                      // finished end panel at the walkway
   rbox(349.5,X1+1.5,Z0-1.5,Z1,86,90,MAT.teak,1);                              // wooden top
-  pendant(381,862,150,12); pendant(381,938,150,12);                           // two lights over the counter
+  pendant(381,895,150,12); pendant(381,955,150,12);                           // two lights over the counter
   // a few things on the counter
-  cyl(382,836,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
-  [[378,832,MAT.mustard],[386,838,MAT.terracotta],[380,841,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
+  cyl(382,900,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
+  [[378,896,MAT.mustard],[386,902,MAT.terracotta],[380,905,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
   cyl(376,980,90,104,4.5,5.5,MAT.potWhite,20);
   [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(376+dx,y,980+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
 }
@@ -973,7 +973,8 @@ function plate(ax,face,a,h,dir,kind,w){        // ax 'z': plate on a wall y = fa
   }
 }
 // 1 main kitchen switchboard at the way in (lights, pendants, exhaust fan, under-cabinet LEDs, spare)
-plate('z',707.5,400,125,1,'W',26);
+plate('z',707.5,381,130,1,'W',22);
+plate('z',707.5,381,112,1,'I',17);                                              // isolators: microwave + spare (oven / future)
 // 2 chimney: ducted, over the hob; socket just above the hood (can sit behind the chimney cover)
 plate('z',707.5,568,225,1,'S');
 box(557,682.5,711,731,262,282,MAT.whiteLacq);                                   // boxed 6-inch duct along the wall, out through the east wall
@@ -990,16 +991,16 @@ box(620.5,622,821,881,10,85,MAT.steel); box(619.5,620.5,826,876,77,79.5,MAT.stee
 box(637,672,968,992.5,115,165,PL); box(640,669,967.4,968,140,160,MAT.steelDark);
 box(653,656,961,968,128,131,MAT.chrome); cyl(654.5,962.5,123,128,0.6,0.6,MAT.chrome,8);
 plate('z',992.5,627,160,-1,'S');
-// 7 tall unit on the kitchen's south wall: built-in combination microwave (microwave + convection + grill) at eye level
-{ const r=[559,619.5,932.5,992.5];
-  box(r[0],r[1],938,r[3],0,10,MAT.gap); box(r[0],r[1],r[2],r[3],10,215,MAT.whiteLacq);
-  [69.6,117.6,167.6].forEach(h=>FB(r,'z-',r[0]+1,r[1]-1,0,0.3,h,h+0.8,MAT.gap));
-  [[64,66],[112,114]].forEach(([h0,h1])=>FB(r,'z-',575,603,0.3,1.8,h0,h1,MAT.brass)); FB(r,'z-',575,603,0.3,1.8,170,172,MAT.brass);
-  FB(r,'z-',r[0]+2,r[1]-2,0,1,120,165,MAT.black);                               // microwave front
-  FB(r,'z-',565,604,1,1.3,125,160,MAT.screen);                                  // glass door
-  FB(r,'z-',607,615,1,1.3,128,158,MAT.steelDark);                               // controls
+// 7 tall unit at the left end of the hob counter (x 395-455), built-in combination microwave at eye level.
+//   55 cm of counter stays between it and the hob.
+{ const r=[395,455,707.5,767.5];
+  box(r[0],r[1],r[2],761.5,0,10,MAT.gap); box(r[0],r[1],r[2],r[3],10,215,MAT.whiteLacq);
+  [69.6,117.6,167.6].forEach(h=>FB(r,'z+',r[0]+1,r[1]-1,0,0.3,h,h+0.8,MAT.gap));
+  [[64,66],[112,114],[170,172]].forEach(([h0,h1])=>FB(r,'z+',411,439,0.3,1.8,h0,h1,MAT.brass));
+  FB(r,'z+',r[0]+2,r[1]-2,0,1,120,165,MAT.black);                               // microwave front
+  FB(r,'z+',399,438,1,1.3,125,160,MAT.screen);                                  // glass door
+  FB(r,'z+',441,450,1,1.3,128,158,MAT.steelDark);                               // controls
 }
-plate('z',992.5,545,125,-1,'I',17);                                             // isolators: microwave + spare (oven / future)
 // 8 exhaust fan high on the east wall, between the window and the corner, far from the chimney outlet
 box(680.5,682.5,954,988,228,262,PL);
 { const f=new THREE.Mesh(new THREE.CylinderGeometry(13,13,0.6,28),MAT.gap); f.rotation.z=Math.PI/2; f.position.set(680.2,245,971); add(f); }
