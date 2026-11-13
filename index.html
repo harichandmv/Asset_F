@@ -540,7 +540,7 @@ WALLS.forEach(([x1,y1,x2,y2,ops,kind])=>{
 /* ---------- Furniture pieces ---------- */
 function bed(x,z,rot,W,L,o){ grp(x,z,rot,()=>{
   const hb=M(o.hb,{roughness:1}), duv=M(o.duvet,{roughness:1}), fold=M(o.fold,{roughness:1}), thr=M(o.throwC,{roughness:1}), acc=M(o.accent,{roughness:1});
-  rbox(-W/2-10,W/2+10,0,9,0,o.hbH||118,hb,4);
+  rbox(-W/2-3,W/2+3,0,5,0,85,MAT.walnut,1.5);                   // plain low wooden headboard
   rbox(-W/2,W/2,9,9+L,8,34,hb,3);
   [[-W/2+6,15],[W/2-6,15],[-W/2+6,3+L],[W/2-6,3+L]].forEach(([a,b])=>cyl(a,b,0,8,2,2,MAT.black,10));
   rbox(-W/2+2,W/2-2,11,7+L,33,55,MAT.linen,6);
@@ -557,7 +557,6 @@ function lamp(x,z,h){ cyl(x,z,h,h+3,7,8,MAT.brass); cyl(x,z,h+3,h+26,4,6,MAT.cer
 function nightstand(x0,x1,z0,z1){
   rbox(x0,x1,z0,z1,14,52,MAT.walnut,2);
   [[x0+3,z0+3],[x1-3,z0+3],[x0+3,z1-3],[x1-3,z1-3]].forEach(([a,b])=>cyl(a,b,0,14,1.2,1.2,MAT.brass,8));
-  lamp((x0+x1)/2,(z0+z1)/2,52);
 }
 function wardrobe(r,front,n,h,mat){
   box(r[0],r[1],r[2],r[3],0,h,mat);
@@ -642,8 +641,6 @@ function run(r,front,n){   // kitchen base cabinets
 
 /* ---------- Master bed ---------- */
 rbox(95,315,70,330,0,1.2,MAT.rug1,1);
-box(350.5,352.5,60,340,0,265,MAT.walnutDark);                    // fluted wall panel behind the bed
-for(let zz=62; zz<338; zz+=7) box(348.5,350.5,zz,zz+4,0,265,MAT.walnut);
 // queen bed: 152 x 198 mattress (60 x 78 in) on a 156 x 202 frame
 bed(349,200,-Math.PI/2,156,202,{hb:'#CDBFA8',duvet:'#E4DCCD',fold:'#F3EFE7',throwC:'#6E7550',accent:'#C99A3B'});
 nightstand(302,344,64,106); nightstand(302,344,294,336);
@@ -1109,9 +1106,9 @@ const bellPush=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-3,a+3,0,1,h-4,h+4,EW); WB(a
 // ---- Master bedroom
 elFan(216,180);
 wallLight('x',7.5,1,175,225);                                   // wall bracket on the window wall (above the window head)
-wallLight('x',348.5,-1,200,200);                                // wall bracket above the headboard
+wallLight('x',352.5,-1,200,200);                                // wall bracket above the headboard
 board('x',7.5,1,315,120,4); sock('x',7.5,1,315,35,'6');           // window-wall board (drawing has it near the window; moved just past it)
-board('x',348.5,-1,74,75,3); sock('x',348.5,-1,86,75,'6'); sock('x',348.5,-1,96,75,'USB'); sock('x',348.5,-1,106,75,'TEL');   // bedside
+board('x',352.5,-1,74,75,3); sock('x',352.5,-1,86,75,'6'); sock('x',352.5,-1,96,75,'USB'); sock('x',352.5,-1,106,75,'TEL');   // bedside
 board('z',392.5,-1,243,120,4);                                  // by the bedroom door
 acIn('z',7.5,1,205,295); sock('z',7.5,1,302,250,'AC');           // split AC on the toilet wall
 board('z',7.5,1,258,120,3);                                     // toilet switches (light, exhaust, geyser) outside the toilet door
