@@ -949,8 +949,9 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
   box(350,X1,Z0-1.5,Z0,0,86,MAT.walnut);                                      // finished end panel at the walkway
   rbox(349.5,X1+1.5,Z0-1.5,Z1,86,90,MAT.teak,1);                              // wooden top
   // a few things on the counter
-  cyl(382,900,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
-  [[378,896,MAT.mustard],[386,902,MAT.terracotta],[380,905,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
+  pendant(386,895,150,12); pendant(386,955,150,12);                           // two hanging lights over the counter, 60 cm above the top, hung beside the beam
+  cyl(382,925,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
+  [[378,921,MAT.mustard],[386,927,MAT.terracotta],[380,930,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
   cyl(376,980,90,104,4.5,5.5,MAT.potWhite,20);
   [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(376+dx,y,980+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
 }
@@ -1166,7 +1167,7 @@ board('z',707.5,1,505,110,2); sock('z',707.5,1,519,110,'16'); sock('z',707.5,1,5
 board('x',682.5,-1,768,110,2); sock('x',682.5,-1,782,110,'6'); sock('x',682.5,-1,794,110,'16');  // window wall, upper end
 board('x',682.5,-1,958,110,1); sock('x',682.5,-1,968,110,'6'); sock('x',682.5,-1,980,110,'16');  // window wall, lower end
 exhaust('x',682.5,-1,972,228);                                  // exhaust fan
-board('z',707.5,1,377,125,4);                                   // kitchen lights and fan (drawing has it on the removed kitchen–living wall)
+board('z',707.5,1,377,125,5);                                   // kitchen lights, fan + counter hanging lights (drawing has it on the removed kitchen–living wall)
 sock('z',858.5,-1,392,60,'6'); sock('z',858.5,-1,404,60,'16');   // kitchen sockets moved to the open counter's end panel
 board('z',992.5,-1,535,110,1); sock('z',992.5,-1,547,110,'16');  // south wall
 elLight(410,1068);                                              // work area
