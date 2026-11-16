@@ -1126,12 +1126,13 @@ const bellPush=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-3,a+3,0,1,h-4,h+4,EW); WB(a
 
 // ---- Master bedroom
 elFan(216,180);
+elLight(216,280); elLight(216,80);                              // master: 2 ceiling lights beside the fan, door side and far side (not in the drawing)
 wallLight('x',7.5,1,220,200);                                   // wall bracket moved off the window, centred above the study desk
 wallLight('x',352.5,-1,200,200);                                // wall bracket above the headboard
 board('x',7.5,1,315,120,4); sock('x',7.5,1,315,35,'6');           // window-wall board (drawing has it near the window; moved just past it)
 sock('x',7.5,1,180,85,'6'); sock('x',7.5,1,190,85,'USB');        // study desk socket + USB (not in the drawing)
 board('x',352.5,-1,74,75,3); sock('x',352.5,-1,86,75,'6'); sock('x',352.5,-1,96,75,'USB'); sock('x',352.5,-1,106,75,'TEL');   // bedside
-board('z',392.5,-1,243,120,5);                                  // by the bedroom door (+1 switch for the exhaust provision)
+board('z',392.5,-1,243,120,6);                                  // by the bedroom door (+1 switch for the exhaust provision)
 exh150('x',7.5,1,297,262);                                      // master: outer wall, near the ceiling in the gap between the study desk and the wardrobe
 acIn('z',7.5,1,205,295); sock('z',7.5,1,302,250,'AC');           // split AC on the toilet wall
 board('z',7.5,1,258,120,3);                                     // toilet switches (light, exhaust, geyser) outside the toilet door
@@ -1141,10 +1142,11 @@ box(170,192.5,-232,-229,186,190,MAT.steelDark); box(170,192.5,-161,-158,186,190,
 
 // ---- Bed 3
 elFan(514,185);
+elLight(514,285); elLight(514,85);                              // Bed 3: 2 ceiling lights beside the fan, door side and far side (not in the drawing)
 wallLight('x',367.5,1,200,200);                                 // above the headboard
 wallLight('x',682.5,-1,262,200);                                // right wall, past the balcony door
 board('x',367.5,1,300,75,3); sock('x',367.5,1,312,75,'6'); sock('x',367.5,1,322,75,'USB');   // bedside
-board('z',392.5,-1,476,120,4);                                  // by the bedroom door (+1 switch for the exhaust provision)
+board('z',392.5,-1,476,120,5);                                  // by the bedroom door (+1 switch for the exhaust provision)
 exh150('z',7.5,1,538,262);                                      // Bed 3: next to the window, near the ceiling (socket above the window)
 acIn('z',7.5,1,415,505); sock('z',7.5,1,510,250,'AC');           // split AC on the toilet wall
 board('z',7.5,1,462,120,3);                                     // toilet switches outside the toilet door
@@ -1154,10 +1156,11 @@ box(527.5,550,-232,-229,186,190,MAT.steelDark); box(527.5,550,-161,-158,186,190,
 
 // ---- Bed 2
 elFan(-175,715);
+elLight(-75,715); elLight(-275,715);                            // Bed 2: 2 ceiling lights beside the fan, door side and far side (not in the drawing)
 wallLight('z',852.5,-1,-174,200);                               // above the headboard
 wallLight('x',-7.5,-1,735,200);                                 // dining-side wall
 board('z',852.5,-1,-279,75,3); sock('z',852.5,-1,-267,75,'6'); sock('z',852.5,-1,-257,75,'USB');   // bedside
-board('x',-7.5,-1,690,120,5);                                   // by the bedroom door (+1 switch for the exhaust provision)
+board('x',-7.5,-1,690,120,6);                                   // by the bedroom door (+1 switch for the exhaust provision)
 exh150('z',547.5,1,-40,262);                                    // Bed 2: outer window wall, door-side end, away from the AC
 acIn('z',547.5,1,-250,-160); sock('z',547.5,1,-152,250,'AC');    // split AC above the window
 board('x',-382.5,1,766,120,2);                                  // toilet switches outside the toilet door
