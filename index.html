@@ -80,6 +80,11 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
       <button class="tog" id="t-labels" aria-pressed="true">Labels</button>
       <button class="tog" id="t-half" aria-pressed="false">Low walls</button>
       <button class="tog" id="t-night" aria-pressed="false">Night</button>
+      <div class="seg" id="cct" role="group" aria-label="Light colour" hidden>
+        <button data-k="warm" aria-pressed="true" title="Warm white, about 2700 K">Warm</button>
+        <button data-k="neutral" aria-pressed="false" title="Neutral white, about 4000 K">Neutral</button>
+        <button data-k="cool" aria-pressed="false" title="Cool white, about 6500 K">Cool</button>
+      </div>
     </div>
   </header>
 
@@ -1304,6 +1309,17 @@ const nightCeil = new THREE.Group(); nightCeil.visible=false; root.add(nightCeil
     const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),cm); m.rotation.x=Math.PI/2; m.position.set((x0+x1)/2,WH-0.2,(z0+z1)/2); nightCeil.add(m); }); }
 const nightHemi = new THREE.HemisphereLight(0x8a7d6a, 0x2a241e, 0.4); nightHemi.visible=false; scene.add(nightHemi);
 const dayEnv = scene.environment;
+// Colour-temperature (CCT) lights: warm 2700 K, neutral 4000 K, cool 6500 K
+const CCT = {warm:{light:0xffc58a, glow:'#FFC27E'}, neutral:{light:0xfff0dc, glow:'#FFF1DE'}, cool:{light:0xe6efff, glow:'#E8F0FF'}};
+const DAY_GLOW = {led:MAT.led.emissive.clone(), bulb:MAT.bulb.emissive.clone(), shade:MAT.shade.emissive.clone()};
+let cctKey = 'warm';
+function applyCct(){
+  if(!state.night){ MAT.led.emissive.copy(DAY_GLOW.led); MAT.bulb.emissive.copy(DAY_GLOW.bulb); MAT.shade.emissive.copy(DAY_GLOW.shade); return; }
+  const c = CCT[cctKey];
+  NIGHT_LIGHTS.forEach(l=>l.color.setHex(c.light));
+  [MAT.led, MAT.bulb, MAT.shade].forEach(m=>m.emissive.set(c.glow));
+  nightHemi.color.setHex(cctKey==='cool' ? 0x7d8494 : cctKey==='neutral' ? 0x8a8478 : 0x8a7d6a);
+}
 function setNight(on){
   state.night = on; window.__night = on;
   sun.intensity = on ? 0 : 1.7; sun.castShadow = !on;
@@ -1315,6 +1331,7 @@ function setNight(on){
   if(on) scene.background = new THREE.Color('#0C1220'); else applyBg();
   root.traverse(o=>{ if(o.material) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>m.needsUpdate=true); });
   renderer.shadowMap.needsUpdate = true;
+  applyCct(); $('#cct').hidden = !on;
 }
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const HINTS = {
@@ -1336,6 +1353,11 @@ function markChip(id){ chipsEl.querySelectorAll('.chip').forEach(c=>c.setAttribu
 function syncLabels(){ labels.forEach(s=>s.visible = state.labels && state.mode!=='walk'); }
 
 $('#t-labels').addEventListener('click',e=>{ state.labels=!state.labels; e.currentTarget.setAttribute('aria-pressed',state.labels); syncLabels(); });
+document.querySelectorAll('#cct button').forEach(b=>b.addEventListener('click',()=>{
+  cctKey = b.dataset.k;
+  document.querySelectorAll('#cct button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+  applyCct();
+}));
 $('#t-night').addEventListener('click',e=>{ setNight(!state.night); e.currentTarget.setAttribute('aria-pressed',state.night); });
 $('#t-half').addEventListener('click',e=>{ state.half=!state.half; e.currentTarget.setAttribute('aria-pressed',state.half); clip.constant = state.half ? 1.15 : 100; renderer.shadowMap.needsUpdate = true; });
 ['overview','top','walk'].forEach(m=>$('#m-'+m).addEventListener('click',()=>setMode(m)));
