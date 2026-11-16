@@ -644,15 +644,6 @@ function run(r,front,n){   // kitchen base cabinets
 bed(349,200,-Math.PI/2,156,202,{hb:'#CDBFA8',duvet:'#E4DCCD',fold:'#F3EFE7',throwC:'#6E7550',accent:'#C99A3B'});
 
 wardrobe([12,232,334,392],'z-',4,240,MAT.oak);
-// Robot vacuum dock: open bay (52 w x 65 h) at the bottom of the first wardrobe door, near the window wall.
-// 6 A socket inside the bay at 30 cm. About 3 m of clear floor in front for the robot to come and go.
-{ const r=[12,232,334,392], PL=M('#FBFAF6',{roughness:.4});
-  FB(r,'z-',13,66,0,0.3,64.6,65.4,MAT.gap);                                      // shutter above starts at 65 cm
-  box(14,66,333.4,334.1,0,64,MAT.black);                                          // open bay
-  box(21,59,332.8,333.4,2,48,PL); box(36,44,332.6,332.8,40,43,MAT.led);            // dock front + status light
-  box(19,61,318,334,0,1.2,PL);                                                    // dock ramp
-  cyl(40,316,1.2,10.5,17.5,17.5,MAT.steelDark,32); cyl(40,320,10.5,13,4.2,4.2,MAT.black,20);   // robot parked
-}
 drapes('z',7.5,15,230,1);
 // Study table on the window wall, between the window and the wardrobe: wall-hung oak desk 105 x 50 at 75 cm (no legs, so the
 // robot vacuum can still drive under it from its dock), one drawer, open shelf above, chair facing the wall.
@@ -1183,6 +1174,12 @@ box(348.5,371.5,700,1000,WH-60,WH,MAT.wall);
 // Living / dining split AC on the living-room face of the beam, blowing towards the living and dining; AC socket beside it
 acIn('x',348.5,-1,765,855); sock('x',348.5,-1,863,250,'AC');
 sock('z',692.5,-1,372,82,'6'); sock('z',692.5,-1,383,82,'USB');   // study desk: 6 A + USB (not in the drawing)
+// Robot vacuum dock in the dining, between the study desk and the balcony door, back against the RCC pillar face.
+// 6 A socket low on the pillar beside it (not in the drawing). The robot leaves towards the dining table.
+box(456,488,676,688.5,0,42,EW); box(468,476,675.6,676,36,39,MAT.led);             // dock + status light
+box(454,490,660,688.5,0,1.2,EW);                                                // dock ramp
+cyl(472,658,1.2,10.5,17.5,17.5,MAT.steelDark,32); cyl(472,662,10.5,13,4.2,4.2,MAT.black,20);   // robot parked
+sock('z',688.5,-1,500,25,'6');
 elFan(375,565);                                                // study: regular 1200 mm ceiling fan, in line with the dining fan (blade tips ~60 cm clear of the wall)
 board('z',692.5,-1,398,82,3);                                   // study: fan switch + regulator, wall lamp switch (not in the drawing)
 board('z',407.5,1,488,120,4);                                   // by the Bed 3 door (balcony light + balcony fan + dining 3rd light)
