@@ -726,13 +726,17 @@ chair(150,494,'z+'); chair(230,494,'z+'); chair(150,636,'z-'); chair(230,636,'z-
   rbox(365,455,647,692.5,72,75,MAT.oak,1);                        // floating desk top
   box(368,452,650,692.5,63,72,MAT.oak);                           // slim drawer
   FB(r,'z-',369,451,0,0.3,63.5,64,MAT.gap); FB(r,'z-',400,420,0,1.5,67,69,MAT.brass);
-  box(372,448,690.5,692.5,90,140,MAT.cane);                       // pin-board
+  box(372,428,690.5,692.5,90,140,MAT.cane);                       // pin-board
   box(368,452,668,692.5,152,155,MAT.oak);                         // open shelf
   [[372,377,MAT.teal,24],[377,383,MAT.terracotta,21],[383,387,MAT.mustard,26],[387,392,MAT.sage,22],[392,396,MAT.walnut,25]]
     .forEach(([x0,x1,m,h])=>box(x0,x1,672,690,155,155+h,m));
   cyl(438,680,155,165,5,4,MAT.pot,16); [[0,170,0],[3,167,2],[-3,166,-2]].forEach(([dx,y,dz],i)=>sph(438+dx,y,680+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
   box(392,424,656,678,75,76.2,MAT.steelDark);                     // laptop
-  lamp(442,667,75);
+  // swing-arm wall lamp on the left of the desk, just under the shelf, shade about 45 cm above the desk top
+  box(436,444,689.5,692.5,124,136,MAT.brass);                     // wall plate
+  box(439.3,440.7,664,689.5,129.3,130.7,MAT.brass);               // arm
+  cyl(440,664,121,130,3,7.5,MAT.black,24);                        // shade, open side down
+  sph(440,122.5,664,2.2,MAT.bulb);
   chair(410,622,'z+');
 }
 // Enclosed wash niche at the builder's basin spot: dining outer wall (x = 0), in the corner with the Master wall.
@@ -1154,7 +1158,7 @@ box(348.5,371.5,700,1000,WH-60,WH,MAT.wall);
 acIn('x',348.5,-1,765,855); sock('x',348.5,-1,863,250,'AC');
 sock('z',692.5,-1,372,82,'6'); sock('z',692.5,-1,383,82,'USB');   // study desk: 6 A + USB (not in the drawing)
 elFan(375,565);                                                // study: regular 1200 mm ceiling fan, in line with the dining fan (blade tips ~60 cm clear of the wall)
-board('z',692.5,-1,396,82,2);                                   // study fan switch + regulator (not in the drawing)
+board('z',692.5,-1,398,82,3);                                   // study: fan switch + regulator, wall lamp switch (not in the drawing)
 board('z',407.5,1,488,120,3);                                   // by the Bed 3 door (balcony light + balcony fan)
 elLight(600,550);                                               // dining balcony
 smallFan(590,470);                                              // dining balcony: 600 mm hugger fan, clear of the cloth hanger rods
@@ -1176,9 +1180,10 @@ elLight(603,1097);                                              // dry balcony
 smallFan(612,1045);                                             // dry balcony: 600 mm hugger fan on a slab hook (blades ~271 cm, above the raised hanger)
 
 // ---- Living and foyer
-elFan(180,980); elLight(180,870); elLight(180,1075);
+elFan(180,980);
+elLight(100,840); elLight(260,840); elLight(100,1080); elLight(260,1080);   // 4 living lights in a rectangle around the fan (2 more than the drawing)
 wallLight('x',352.5,-1,1012,200);
-board('x',7.5,1,1030,120,5);
+board('x',7.5,1,1030,120,6);                                    // living board: one more switch so the 4 lights work as 2 groups
 board('z',1152.5,-1,150,120,2); sock('z',1152.5,-1,178,40,'6'); sock('z',1152.5,-1,190,40,'16'); sock('z',1152.5,-1,202,40,'USB'); sock('z',1152.5,-1,214,40,'TV');   // TV wall
 board('z',1152.5,-1,330,120,2); sock('z',1152.5,-1,345,40,'TEL');
 elLight(-70,930);
