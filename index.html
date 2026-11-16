@@ -550,7 +550,7 @@ function bed(x,z,rot,W,L,o){ grp(x,z,rot,()=>{
   rbox(-W/2-3,W/2+3,9+L*0.7,9+L*0.86,56,62.5,thr,2.5);
   rbox(-W/2+7,-2,14,44,54,72,MAT.pillow,7).rotation.x = -0.3;
   rbox(2,W/2-7,14,44,54,72,MAT.pillow,7).rotation.x = -0.3;
-  rbox(-W/4-17,-W/4+17,38,50,55,88,acc,6).rotation.x = -0.2;
+  if(!o.sleeperLeft) rbox(-W/4-17,-W/4+17,38,50,55,88,acc,6).rotation.x = -0.2;
   rbox(W/4-17,W/4+17,38,50,55,88,acc,6).rotation.x = -0.2;
 });}
 function lamp(x,z,h){ cyl(x,z,h,h+3,7,8,MAT.brass); cyl(x,z,h+3,h+26,4,6,MAT.ceramic); cyl(x,z,h+24,h+44,11,14,MAT.shade,28); }
@@ -641,7 +641,7 @@ function run(r,front,n){   // kitchen base cabinets
 
 /* ---------- Master bed ---------- */
 // queen bed: 152 x 198 mattress (60 x 78 in) on a 156 x 202 frame
-bed(349,200,-Math.PI/2,156,202,{hb:'#CDBFA8',duvet:'#E4DCCD',fold:'#F3EFE7',throwC:'#6E7550',accent:'#C99A3B'});
+bed(349,200,-Math.PI/2,156,202,{hb:'#CDBFA8',duvet:'#E4DCCD',fold:'#F3EFE7',throwC:'#6E7550',accent:'#C99A3B',sleeperLeft:true});
 
 wardrobe([12,232,334,392],'z-',4,240,MAT.oak);
 drapes('z',7.5,20,165,1);
@@ -1210,6 +1210,36 @@ elLight(-70,930);
 box(-92,-58,989,992.5,200,245,EW); box(-88,-62,988.7,989,212,222,MAT.steelDark);   // DB (above the foyer mirror)
 board('x',-132.5,1,985,120,3);                                  // by the main door
 bellPush('x',-147.5,-1,872,130);                                // calling bell push, outside the main door
+}
+
+/* ---------- People (for scale): one asleep in the master bed, one on the living sofa, one at the dining table ---------- */
+{
+const SKIN=M('#A9764F',{roughness:.8}), HAIR=M('#2A2420',{roughness:.9}), PANTS=M('#3A3F4B',{roughness:.9});
+// seated figure in a local frame facing +z; sh = seat height, zb = where the back starts
+const seated=(sh,zb,kn,shirt)=>{                                   // kn = knee position (just past the seat front)
+  [-1,1].forEach(f=>{
+    rbox(f*3,f*15,zb+6,kn,sh,sh+13,PANTS,5);                        // thigh
+    rbox(f*4,f*14,kn-11,kn,6,sh+4,PANTS,4);                         // lower leg
+    rbox(f*3.5,f*13,kn-11,kn+13,0,7,MAT.black,3);                   // foot
+    rbox(f*17,f*24,zb+2,zb+12,sh+24,sh+52,shirt,3.5);               // upper arm
+    rbox(f*12,f*21,zb+10,zb+38,sh+14,sh+22,SKIN,3.5);               // forearm resting on the thigh
+  });
+  rbox(-17,17,zb,zb+19,sh+4,sh+58,shirt,7);                          // torso
+  cyl(0,zb+9,sh+57,sh+64,4.5,5,SKIN,14);                             // neck
+  sph(0,sh+74,zb+10,10.5,SKIN,1,1.15,1);                             // head
+  sph(0,sh+78,zb+7,10.8,HAIR,1,1,1);                                 // hair (back of the head)
+};
+// living: 2-seater sofa facing the TV, left seat
+grp(180-33,860,0,()=>seated(52,-23,44,M('#C9853A',{roughness:.9})));
+// dining: chair on the far side of the table, facing the table
+grp(150,636,Math.PI,()=>seated(51,-18,27,M('#5B7FA6',{roughness:.9})));
+// master bedroom: asleep on the left half of the bed, under the duvet (same frame as the bed)
+grp(349,200,-Math.PI/2,()=>{
+  sph(-36,67,31,10,SKIN,1,0.95,1.1); sph(-36,70,27,10.3,HAIR,1,1,1);   // head on the pillow
+  rbox(-58,-14,46,82,54,67,M('#8C9A6E',{roughness:.9}),8);             // shoulders above the duvet fold
+  rbox(-12,-4,52,74,58,64,SKIN,3);                                      // one arm over the duvet
+  rbox(-56,-16,80,190,58,69,M('#E4DCCD',{roughness:1}),9);             // body under the duvet
+});
 }
 
 /* ---------- Room labels ---------- */
