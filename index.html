@@ -726,17 +726,17 @@ chair(150,494,'z+'); chair(230,494,'z+'); chair(150,636,'z-'); chair(230,636,'z-
   rbox(365,455,647,692.5,72,75,MAT.oak,1);                        // floating desk top
   box(368,452,650,692.5,63,72,MAT.oak);                           // slim drawer
   FB(r,'z-',369,451,0,0.3,63.5,64,MAT.gap); FB(r,'z-',400,420,0,1.5,67,69,MAT.brass);
-  box(372,428,690.5,692.5,90,140,MAT.cane);                       // pin-board
+  box(372,448,690.5,692.5,90,140,MAT.cane);                       // pin-board
   box(368,452,668,692.5,152,155,MAT.oak);                         // open shelf
   [[372,377,MAT.teal,24],[377,383,MAT.terracotta,21],[383,387,MAT.mustard,26],[387,392,MAT.sage,22],[392,396,MAT.walnut,25]]
     .forEach(([x0,x1,m,h])=>box(x0,x1,672,690,155,155+h,m));
   cyl(438,680,155,165,5,4,MAT.pot,16); [[0,170,0],[3,167,2],[-3,166,-2]].forEach(([dx,y,dz],i)=>sph(438+dx,y,680+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
   box(392,424,656,678,75,76.2,MAT.steelDark);                     // laptop
-  // swing-arm wall lamp on the left of the desk, just under the shelf, shade about 45 cm above the desk top
-  box(436,444,689.5,692.5,124,136,MAT.brass);                     // wall plate
-  box(439.3,440.7,664,689.5,129.3,130.7,MAT.brass);               // arm
-  cyl(440,664,121,130,3,7.5,MAT.black,24);                        // shade, open side down
-  sph(440,122.5,664,2.2,MAT.bulb);
+  // wall lamp centred above the study, over the shelf (about 190 cm), arm reaching 34 cm out so it lights the desk past the shelf edge
+  box(405,415,689.5,692.5,186,200,MAT.brass);                     // wall plate
+  box(409.3,410.7,658,689.5,192.3,193.7,MAT.brass);               // arm
+  cyl(410,658,182,193,3.5,9,MAT.black,24);                        // shade, open side down
+  sph(410,184,658,2.6,MAT.bulb);
   chair(410,622,'z+');
 }
 // Enclosed wash niche at the builder's basin spot: dining outer wall (x = 0), in the corner with the Master wall.
