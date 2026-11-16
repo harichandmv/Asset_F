@@ -1090,6 +1090,15 @@ const sock=(ax,face,dir,a,h,k)=>{ const big=(k==='16'||k==='AC'||k==='GY'), w=bi
   if(k==='GY'||k==='AC') WB(ax,face,dir,a+w/2-2.6,a+w/2-0.8,0.9,1.4,h+1,h+3.5,ER); };
 const wallLight=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-3,a+3,0,3,h-6,h+2,EW); WB(ax,face,dir,a-7,a+7,3,10,h-1,h+9,MAT.led); };
 const mirrorLight=(ax,face,dir,a,h,w)=>{ WB(ax,face,dir,a-w/2,a+w/2,0,4,h-2,h+2,MAT.chrome); WB(ax,face,dir,a-w/2+1,a+w/2-1,2,4.3,h-2.6,h-2,MAT.led); };
+// 150 mm bedroom exhaust provision: PVC sleeve through the outer wall ~30 cm below the ceiling, small silent fan with
+// back-draft shutters, rain cowl outside, 6 A socket beside it (switched from the bedroom door board). Not in the drawing.
+const exh150=(ax,face,dir,a,h)=>{
+  const g=new THREE.Mesh(new THREE.CylinderGeometry(10,10,2.5,28),EW);
+  if(ax==='x'){ g.rotation.z=Math.PI/2; g.position.set(face+dir*1.25,h,a); } else { g.rotation.x=Math.PI/2; g.position.set(a,h,face+dir*1.25); }
+  add(g);
+  [-4,0,4].forEach(o=>WB(ax,face,dir,a-7.5,a+7.5,2.5,2.9,h+o-0.5,h+o+0.5,MAT.steelDark));      // shutter louvres
+  WB(ax,face,dir,a-12,a+12,-15,-27,h-9,h+13,EG); WB(ax,face,dir,a-12,a+12,-15,-30,h+13,h+15,EG);   // outside rain cowl
+  sock(ax,face,dir,a+20,h,'6'); };
 const exhaust=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-16,a+16,0,3,h-16,h+16,EW); WB(ax,face,dir,a-12,a+12,3,3.3,h-12,h+12,MAT.steelDark); WB(ax,face,dir,a-1,a+1,3.3,3.6,h-11,h+11,EW); WB(ax,face,dir,a-11,a+11,3.3,3.6,h-1,h+1,EW); };
 const acIn=(ax,face,dir,a0,a1)=>{ WB(ax,face,dir,a0,a1,0,22,234,264,EW); WB(ax,face,dir,a0+4,a1-4,21.5,22.4,237,241,MAT.steelDark); WB(ax,face,dir,a1-10,a1-6,22,22.4,246,248,MAT.led); };
 const acOut=(x0,x1,z0,z1,h0,front)=>{ box(x0,x1,z0,z1,h0,h0+56,EG);
@@ -1111,7 +1120,8 @@ wallLight('x',7.5,1,175,225);                                   // wall bracket 
 wallLight('x',352.5,-1,200,200);                                // wall bracket above the headboard
 board('x',7.5,1,315,120,4); sock('x',7.5,1,315,35,'6');           // window-wall board (drawing has it near the window; moved just past it)
 board('x',352.5,-1,74,75,3); sock('x',352.5,-1,86,75,'6'); sock('x',352.5,-1,96,75,'USB'); sock('x',352.5,-1,106,75,'TEL');   // bedside
-board('z',392.5,-1,243,120,4);                                  // by the bedroom door
+board('z',392.5,-1,243,120,5);                                  // by the bedroom door (+1 switch for the exhaust provision)
+exh150('x',7.5,1,55,262);                                       // master: outer window wall, in the balcony-side corner
 acIn('z',7.5,1,205,295); sock('z',7.5,1,302,250,'AC');           // split AC on the toilet wall
 board('z',7.5,1,258,120,3);                                     // toilet switches (light, exhaust, geyser) outside the toilet door
 elLight(85,-60);                                                // master balcony
@@ -1123,7 +1133,8 @@ elFan(514,185);
 wallLight('x',367.5,1,200,200);                                 // above the headboard
 wallLight('x',682.5,-1,262,200);                                // right wall, past the balcony door
 board('x',367.5,1,300,75,3); sock('x',367.5,1,312,75,'6'); sock('x',367.5,1,322,75,'USB');   // bedside
-board('z',392.5,-1,476,120,3);                                  // by the bedroom door
+board('z',392.5,-1,476,120,4);                                  // by the bedroom door (+1 switch for the exhaust provision)
+exh150('x',682.5,-1,285,262);                                   // Bed 3: outer balcony-side wall, between the balcony door and the wardrobe
 acIn('z',7.5,1,415,505); sock('z',7.5,1,510,250,'AC');           // split AC on the toilet wall
 board('z',7.5,1,462,120,3);                                     // toilet switches outside the toilet door
 elLight(752,235);                                               // Bed 3 balcony
@@ -1135,7 +1146,8 @@ elFan(-175,715);
 wallLight('z',852.5,-1,-174,200);                               // above the headboard
 wallLight('x',-7.5,-1,735,200);                                 // dining-side wall
 board('z',852.5,-1,-279,75,3); sock('z',852.5,-1,-267,75,'6'); sock('z',852.5,-1,-257,75,'USB');   // bedside
-board('x',-7.5,-1,690,120,4);                                   // by the bedroom door
+board('x',-7.5,-1,690,120,5);                                   // by the bedroom door (+1 switch for the exhaust provision)
+exh150('z',547.5,1,-40,262);                                    // Bed 2: outer window wall, door-side end, away from the AC
 acIn('z',547.5,1,-250,-160); sock('z',547.5,1,-152,250,'AC');    // split AC above the window
 board('x',-382.5,1,766,120,2);                                  // toilet switches outside the toilet door
 acOut(-180,-100,504,532.5,190,'z-');                             // AC outdoor unit outside the bedroom wall
