@@ -79,6 +79,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
       </div>
       <button class="tog" id="t-labels" aria-pressed="true">Labels</button>
       <button class="tog" id="t-half" aria-pressed="false">Low walls</button>
+      <button class="tog" id="t-night" aria-pressed="false">Night</button>
     </div>
   </header>
 
@@ -189,8 +190,10 @@ const CENTER = new THREE.Vector3(1.3, 0, 4.6);
 const root = new THREE.Group();
 root.scale.setScalar(0.01);           // model in cm, world in m
 scene.add(root);
+const NIGHT_PTS = [];   // light fittings in cm [x,y,z,weight], used by the Night view
 
 function applyBg(){
+  if(window.__night) return;
   const v = getComputedStyle(document.documentElement).getPropertyValue('--scene').trim() || '#E2E6DF';
   scene.background = new THREE.Color(v);
 }
@@ -226,8 +229,9 @@ Object.assign(sun.shadow.camera,{left:-10,right:10,top:10,bottom:-10,near:1,far:
 sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
 scene.add(sun, sun.target);
 // Warm room lights (no shadows)
+const DAY_LIGHTS = [];
 [[1.9,2.2,5.65,.55],[1.8,2.6,9.8,.45],[1.8,2.6,2.0,.4],[5.2,2.6,2.0,.4],[-1.9,2.6,7.0,.4],[5.2,2.6,8.5,.4],[-0.7,2.5,9.3,.3]]
-  .forEach(([x,y,z,i])=>{ const l = new THREE.PointLight(0xffd9a8, i, 5, 2); l.position.set(x,y,z); scene.add(l); });
+  .forEach(([x,y,z,i])=>{ const l = new THREE.PointLight(0xffd9a8, i, 5, 2); l.position.set(x,y,z); scene.add(l); DAY_LIGHTS.push(l); });
 
 const ground = new THREE.Mesh(new THREE.PlaneGeometry(80,80), new THREE.ShadowMaterial({opacity:0.14}));
 ground.rotation.x = -Math.PI/2; ground.position.y = -0.035; ground.receiveShadow = true;
@@ -608,6 +612,7 @@ function rod(axis,face,a0,a1,dir){
 }
 function drapes(axis,face,a0,a1,dir){ rod(axis,face,a0-6,a1+6,dir); curtain(axis,face,a0,a0+52,dir); curtain(axis,face,a1-52,a1,dir); }
 function pendant(x,z,h,r){
+  NIGHT_PTS.push([x,h,z,0.6]);
   cyl(x,z,h+r+2,WH,0.35,0.35,MAT.black,6);
   const m=new THREE.Mesh(new THREE.CylinderGeometry(r*0.25,r,r*1.1,28,1,true),MAT.pendant);
   m.position.set(x,h+r*0.55,z); m.castShadow=true; add(m);
@@ -736,7 +741,7 @@ chair(150,494,'z+'); chair(230,494,'z+'); chair(150,636,'z-'); chair(230,636,'z-
   box(405,415,689.5,692.5,186,200,MAT.brass);                     // wall plate
   box(409.3,410.7,658,689.5,192.3,193.7,MAT.brass);               // arm
   cyl(410,658,182,193,3.5,9,MAT.black,24);                        // shade, open side down
-  sph(410,184,658,2.6,MAT.bulb);
+  sph(410,184,658,2.6,MAT.bulb); NIGHT_PTS.push([410,180,658,0.5]);
   chair(410,622,'z+');
 }
 // Enclosed wash niche at the builder's basin spot: dining outer wall (x = 0), in the corner with the Master wall.
@@ -1088,8 +1093,8 @@ const sock=(ax,face,dir,a,h,k)=>{ const big=(k==='16'||k==='AC'||k==='GY'), w=bi
   if(k==='TV'||k==='TEL'){ WB(ax,face,dir,a-1.4,a+1.4,0.9,1.3,h-1.4,h+1.4,MAT.steelDark); return; }
   const r=big?0.7:0.5; [[-1.6,1.2],[1.6,1.2],[0,-1.8]].forEach(([u,v])=>WB(ax,face,dir,a+u-r,a+u+r,0.9,1.2,h+v-r,h+v+r,MAT.black));
   if(k==='GY'||k==='AC') WB(ax,face,dir,a+w/2-2.6,a+w/2-0.8,0.9,1.4,h+1,h+3.5,ER); };
-const wallLight=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-3,a+3,0,3,h-6,h+2,EW); WB(ax,face,dir,a-7,a+7,3,10,h-1,h+9,MAT.led); };
-const mirrorLight=(ax,face,dir,a,h,w)=>{ WB(ax,face,dir,a-w/2,a+w/2,0,4,h-2,h+2,MAT.chrome); WB(ax,face,dir,a-w/2+1,a+w/2-1,2,4.3,h-2.6,h-2,MAT.led); };
+const wallLight=(ax,face,dir,a,h)=>{ NIGHT_PTS.push(ax==='x'?[face+dir*10,h+4,a,0.6]:[a,h+4,face+dir*10,0.6]); WB(ax,face,dir,a-3,a+3,0,3,h-6,h+2,EW); WB(ax,face,dir,a-7,a+7,3,10,h-1,h+9,MAT.led); };
+const mirrorLight=(ax,face,dir,a,h,w)=>{ NIGHT_PTS.push(ax==='x'?[face+dir*6,h-3,a,0.5]:[a,h-3,face+dir*6,0.5]); WB(ax,face,dir,a-w/2,a+w/2,0,4,h-2,h+2,MAT.chrome); WB(ax,face,dir,a-w/2+1,a+w/2-1,2,4.3,h-2.6,h-2,MAT.led); };
 // 150 mm bedroom exhaust provision: PVC sleeve through the outer wall ~30 cm below the ceiling, small silent fan with
 // back-draft shutters, rain cowl outside, 6 A socket beside it (switched from the bedroom door board). Not in the drawing.
 const exh150=(ax,face,dir,a,h)=>{
@@ -1107,7 +1112,7 @@ const acOut=(x0,x1,z0,z1,h0,front)=>{ box(x0,x1,z0,z1,h0,h0+56,EG);
   else { g.rotation.x=Math.PI/2; g.position.set(cx-10,h0+28,front[1]==='+'?z1+0.3:z0-0.3); }
   add(g); };
 const DOWN=272;   // floating ceiling lights
-const elLight=(x,z)=>{ cyl(x,z,DOWN,DOWN+4,15,15,EW,32); cyl(x,z,DOWN-0.4,DOWN,13,13,MAT.led,32); };
+const elLight=(x,z)=>{ NIGHT_PTS.push([x,DOWN,z,1]); cyl(x,z,DOWN,DOWN+4,15,15,EW,32); cyl(x,z,DOWN-0.4,DOWN,13,13,MAT.led,32); };
 const elFan=(x,z)=>{ cyl(x,z,WH-6,WH,5,6,EW,20); cyl(x,z,258,WH-6,0.9,0.9,EW,10); cyl(x,z,250,258,11,10,EW,28);
   for(let i=0;i<3;i++){ const a=i*2*Math.PI/3+0.4, b=new THREE.Mesh(new THREE.BoxGeometry(56,0.8,11),EW);
     b.position.set(x+38*Math.cos(a),253,z+38*Math.sin(a)); b.rotation.y=-a; b.castShadow=true; add(b); } };
@@ -1270,7 +1275,47 @@ Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Pro
   .then(()=>{ ROOMS.forEach(makeLabel); syncLabels(); });
 
 /* ---------- State and UI ---------- */
-const state = {mode:'overview', labels:true, half:false, room:null};
+const state = {mode:'overview', labels:true, half:false, room:null, night:false};
+
+/* ---------- Night view: every light fitting on, sun and sky off ---------- */
+// One warm point light per room, at the average of that room's fittings, brighter for rooms with more fittings.
+const NIGHT_LIGHTS = [];
+{
+  const groups = {};
+  const roomOf = (x,z)=>{
+    let best=null, bd=1e9;
+    for(const r of ROOMS){ const [x0,z0,x1,z1]=r.r;
+      if(x>=x0&&x<=x1&&z>=z0&&z<=z1) return r;
+      const cx=(x0+x1)/2, cz=(z0+z1)/2, d=(x-cx)**2+(z-cz)**2; if(d<bd){bd=d;best=r;} }
+    return best; };
+  NIGHT_PTS.forEach(([x,y,z,w])=>{ const r=roomOf(x,z); (groups[r.id]=groups[r.id]||{r,pts:[]}).pts.push([x,y,z,w]); });
+  Object.values(groups).forEach(({r,pts})=>{
+    const W=pts.reduce((a,p)=>a+p[3],0);
+    const x=pts.reduce((a,p)=>a+p[0]*p[3],0)/W, z=pts.reduce((a,p)=>a+p[2]*p[3],0)/W;
+    const [x0,z0,x1,z1]=r.r, size=Math.max(Math.abs(x1-x0),Math.abs(z1-z0))/100;
+    const l=new THREE.PointLight(0xffd6a0, 0.55+0.38*W, Math.max(3.2,size*1.35), 1.6);
+    l.position.set(x/100, 2.35, z/100); l.visible=false; scene.add(l); NIGHT_LIGHTS.push(l);
+  });
+}
+// ceiling for the night view: downward-facing planes over every room, so they show from inside but not from above
+const nightCeil = new THREE.Group(); nightCeil.visible=false; root.add(nightCeil);
+{ const cm = new THREE.MeshStandardMaterial({color:'#EEEAE2', roughness:1});
+  ROOMS.forEach(r=>{ const [x0,z0,x1,z1]=r.r, w=Math.abs(x1-x0)+30, d=Math.abs(z1-z0)+30;
+    const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),cm); m.rotation.x=Math.PI/2; m.position.set((x0+x1)/2,WH-0.2,(z0+z1)/2); nightCeil.add(m); }); }
+const nightHemi = new THREE.HemisphereLight(0x8a7d6a, 0x2a241e, 0.4); nightHemi.visible=false; scene.add(nightHemi);
+const dayEnv = scene.environment;
+function setNight(on){
+  state.night = on; window.__night = on;
+  sun.intensity = on ? 0 : 1.7; sun.castShadow = !on;
+  DAY_LIGHTS.forEach(l=>l.visible=!on);
+  NIGHT_LIGHTS.forEach(l=>l.visible=on); nightHemi.visible = on; nightCeil.visible = on;
+  scene.environment = on ? null : dayEnv;
+  MAT.led.emissiveIntensity = on ? 3 : 1.2; MAT.bulb.emissiveIntensity = on ? 3.2 : 1.6; MAT.shade.emissiveIntensity = on ? 1.2 : .55;
+  renderer.toneMappingExposure = on ? 1.15 : 0.95;
+  if(on) scene.background = new THREE.Color('#0C1220'); else applyBg();
+  root.traverse(o=>{ if(o.material) (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>m.needsUpdate=true); });
+  renderer.shadowMap.needsUpdate = true;
+}
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const HINTS = {
   overview:'Drag to turn · Pinch or scroll to zoom · Two fingers or right-drag to move',
@@ -1291,6 +1336,7 @@ function markChip(id){ chipsEl.querySelectorAll('.chip').forEach(c=>c.setAttribu
 function syncLabels(){ labels.forEach(s=>s.visible = state.labels && state.mode!=='walk'); }
 
 $('#t-labels').addEventListener('click',e=>{ state.labels=!state.labels; e.currentTarget.setAttribute('aria-pressed',state.labels); syncLabels(); });
+$('#t-night').addEventListener('click',e=>{ setNight(!state.night); e.currentTarget.setAttribute('aria-pressed',state.night); });
 $('#t-half').addEventListener('click',e=>{ state.half=!state.half; e.currentTarget.setAttribute('aria-pressed',state.half); clip.constant = state.half ? 1.15 : 100; renderer.shadowMap.needsUpdate = true; });
 ['overview','top','walk'].forEach(m=>$('#m-'+m).addEventListener('click',()=>setMode(m)));
 
