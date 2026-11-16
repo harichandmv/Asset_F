@@ -131,7 +131,7 @@ const WALLS = [
   [360,-240,360,400],
   [520,-240,520,0],
   [0,0,690,0,[[25,175,'slide'],[270,345,'door',{hinge:'e',side:-1}],[375,450,'door',{hinge:'s',side:-1}],[560,660,'win']]],
-  [0,0,0,540,[[35,215,'win']]],   // master window moved next to the balcony corner (30 cm pier kept at the corner)
+  [0,0,0,540,[[35,155,'win']]],   // master window: 120 cm, next to the balcony corner (30 cm pier kept at the corner)
   [690,0,690,400,[[70,230,'slide']]],
   [0,400,710,400,[[250,340,'door',{hinge:'s',side:-1}],[380,470,'door',{hinge:'e',side:-1,ang:66}]]],
   [510,400,510,700,[[420,680,'slide']]],
@@ -644,18 +644,18 @@ function run(r,front,n){   // kitchen base cabinets
 bed(349,200,-Math.PI/2,156,202,{hb:'#CDBFA8',duvet:'#E4DCCD',fold:'#F3EFE7',throwC:'#6E7550',accent:'#C99A3B'});
 
 wardrobe([12,232,334,392],'z-',4,240,MAT.oak);
-drapes('z',7.5,15,230,1);
-// Study table on the window wall, between the window and the wardrobe: wall-hung oak desk 105 x 50 at 75 cm (no legs, so the
-// robot vacuum can still drive under it from its dock), one drawer, open shelf above, chair facing the wall.
-{ const r=[7.5,57.5,225,330];
-  rbox(7.5,57.5,225,330,72,75,MAT.oak,1);                         // desk top
-  box(7.5,54,250,305,64,72,MAT.oak);                               // drawer
-  FB(r,'x+',251,304,0,0.3,64.5,65,MAT.gap); FB(r,'x+',268,288,0,1.5,67,69,MAT.brass);
-  box(7.5,32,228,327,150,153,MAT.oak);                             // open shelf
-  [[232,236,MAT.teal,22],[236,241,MAT.terracotta,25],[241,245,MAT.mustard,20],[245,250,MAT.sage,24]].forEach(([z0,z1,m,h])=>box(10,28,z0,z1,153,153+h,m));
-  cyl(20,315,153,163,5,4,MAT.pot,16); [[0,168,0],[2,165,3],[-2,164,-3]].forEach(([dx,y,dz],i)=>sph(20+dx,y,315+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
-  box(22,46,262,294,75,76.2,MAT.steelDark);                        // laptop
-  chair(84,277,'x-');
+drapes('z',7.5,20,165,1);
+// Study table on the window wall, between the window and the wardrobe: wall-hung oak desk 100 x 50 at 75 cm, one drawer,
+// open shelf above, chair facing the wall. About 64 cm left clear between the desk and the wardrobe to stand and open the doors.
+{ const r=[7.5,57.5,170,270];
+  rbox(7.5,57.5,170,270,72,75,MAT.oak,1);                         // desk top
+  box(7.5,54,193,247,64,72,MAT.oak);                               // drawer
+  FB(r,'x+',194,246,0,0.3,64.5,65,MAT.gap); FB(r,'x+',210,230,0,1.5,67,69,MAT.brass);
+  box(7.5,32,173,267,150,153,MAT.oak);                             // open shelf
+  [[177,181,MAT.teal,22],[181,186,MAT.terracotta,25],[186,190,MAT.mustard,20],[190,195,MAT.sage,24]].forEach(([z0,z1,m,h])=>box(10,28,z0,z1,153,153+h,m));
+  cyl(20,255,153,163,5,4,MAT.pot,16); [[0,168,0],[2,165,3],[-2,164,-3]].forEach(([dx,y,dz],i)=>sph(20+dx,y,255+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
+  box(22,46,204,236,75,76.2,MAT.steelDark);                        // laptop
+  chair(84,220,'x-');
 }
 drapes('x',7.5,12,196,1);
 
@@ -1119,13 +1119,13 @@ const bellPush=(ax,face,dir,a,h)=>{ WB(ax,face,dir,a-3,a+3,0,1,h-4,h+4,EW); WB(a
 
 // ---- Master bedroom
 elFan(216,180);
-wallLight('x',7.5,1,277,200);                                   // wall bracket moved off the new window position, centred above the study desk
+wallLight('x',7.5,1,220,200);                                   // wall bracket moved off the window, centred above the study desk
 wallLight('x',352.5,-1,200,200);                                // wall bracket above the headboard
 board('x',7.5,1,315,120,4); sock('x',7.5,1,315,35,'6');           // window-wall board (drawing has it near the window; moved just past it)
-sock('x',7.5,1,240,85,'6'); sock('x',7.5,1,250,85,'USB');        // study desk socket + USB (not in the drawing)
+sock('x',7.5,1,180,85,'6'); sock('x',7.5,1,190,85,'USB');        // study desk socket + USB (not in the drawing)
 board('x',352.5,-1,74,75,3); sock('x',352.5,-1,86,75,'6'); sock('x',352.5,-1,96,75,'USB'); sock('x',352.5,-1,106,75,'TEL');   // bedside
 board('z',392.5,-1,243,120,5);                                  // by the bedroom door (+1 switch for the exhaust provision)
-exh150('x',7.5,1,125,262);                                      // master: outer window wall, centred above the moved window
+exh150('x',7.5,1,95,262);                                       // master: outer window wall, centred above the window
 acIn('z',7.5,1,205,295); sock('z',7.5,1,302,250,'AC');           // split AC on the toilet wall
 board('z',7.5,1,258,120,3);                                     // toilet switches (light, exhaust, geyser) outside the toilet door
 elLight(85,-60);                                                // master balcony
