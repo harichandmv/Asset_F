@@ -738,15 +738,15 @@ chair(150,494,'z+'); chair(230,494,'z+'); chair(150,636,'z-'); chair(230,636,'z-
   FB(r,'z-',369,451,0,0.3,63.5,64,MAT.gap); FB(r,'z-',400,420,0,1.5,67,69,MAT.brass);
   box(372,448,690.5,692.5,90,140,MAT.cane);                       // pin-board
   box(368,452,668,692.5,152,155,MAT.oak);                         // open shelf
-  [[372,377,MAT.teal,24],[377,383,MAT.terracotta,21],[383,387,MAT.mustard,26],[387,392,MAT.sage,22],[392,396,MAT.walnut,25]]
+  [[402,407,MAT.teal,24],[407,413,MAT.terracotta,21],[413,417,MAT.mustard,26],[417,422,MAT.sage,22],[422,426,MAT.walnut,25]]
     .forEach(([x0,x1,m,h])=>box(x0,x1,672,690,155,155+h,m));
-  cyl(438,680,155,165,5,4,MAT.pot,16); [[0,170,0],[3,167,2],[-3,166,-2]].forEach(([dx,y,dz],i)=>sph(438+dx,y,680+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
+  cyl(380,680,155,165,5,4,MAT.pot,16); [[0,170,0],[3,167,2],[-3,166,-2]].forEach(([dx,y,dz],i)=>sph(380+dx,y,680+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
   box(392,424,656,678,75,76.2,MAT.steelDark);                     // laptop
   // wall lamp centred above the study, over the shelf (about 190 cm), arm reaching 34 cm out so it lights the desk past the shelf edge
-  box(405,415,689.5,692.5,186,200,MAT.brass);                     // wall plate
-  box(409.3,410.7,658,689.5,192.3,193.7,MAT.brass);               // arm
-  cyl(410,658,182,193,3.5,9,MAT.black,24);                        // shade, open side down
-  sph(410,184,658,2.6,MAT.bulb); NIGHT_PTS.push([410,180,658,0.5]);
+  box(436,446,689.5,692.5,186,200,MAT.brass);                     // wall plate (on the wall just past the entry column)
+  box(440.3,441.7,658,689.5,192.3,193.7,MAT.brass);               // arm
+  cyl(441,658,182,193,3.5,9,MAT.black,24);                        // shade, open side down
+  sph(441,184,658,2.6,MAT.bulb); NIGHT_PTS.push([441,180,658,0.5]);
   chair(410,622,'z+');
 }
 // Enclosed wash niche in the dining corner of the outer wall and the Master wall, facing the living room.
@@ -830,8 +830,23 @@ grp(96,407.5,Math.PI,()=>grp(-362.5,-692.5,0,()=>{
   { const pl=new THREE.PointLight(0xffd9a8,.4,2.2,2); pl.position.set(0.52,1.9,4.40); scene.add(pl); }
 }));
 drapes('z',502.5,405,684,-1);
+// RCC columns (the X boxes on the builder's Type F plan; only the duct next to the dining wash and the duct behind the kitchen sink are shafts).
+// Positions read off the sale plan, so treat them as +/- 10 cm. Shown a shade darker than the walls. No switches or sockets on columns.
+const COLM = M('#E2DDD4',{roughness:.95, side:THREE.DoubleSide});
 // RCC pillar in the dining–kitchen wall at the balcony end (approx. 50 x 23 cm, from the site sketch)
-box(460,510,688.5,711.5,-3,WH,MAT.wall);
+box(460,510,688.5,711.5,-3,WH,COLM);
+[[615,699,688.5,711.5],      // kitchen / dining-balcony corner, at the kitchen window wall
+ [348.5,371.5,280,400],      // Master bed / Bed 3 wall, at the dining end
+ [348.5,371.5,-240,-130],    // between the two toilets
+ [508.5,531.5,-240,-130],    // Bed 3 toilet, outer wall
+ [678.5,701.5,-62,0],        // outside the Bed 3 corner, towards its balcony
+ [-90,0,-11.5,11.5],         // outside the Master window wall, balcony end
+ [-90,0,377,400],            // outside the Master window wall, dining end (next to the wash-side duct)
+ [-110,0,848.5,871.5],       // Bed 2 / foyer wall, at the dining end
+ [-100,30,1148.5,1171.5],    // living room corner, foyer side
+ [-561.5,-538.5,735,840],    // Bed 2 toilet, outer wall
+ [-550,-480,530,600]         // outside the Bed 2 toilet, top corner
+].forEach(([x0,x1,z0,z1])=>box(x0,x1,z0,z1,-3,WH,COLM));
 box(460,510,687.3,688.5,0,9,MAT.skirt); box(458.8,460,687.3,700,0,9,MAT.skirt);
 
 
@@ -955,9 +970,9 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
 
 /* ---------- Kitchen (open to the living room) ---------- */
 // No wall and no counter between the kitchen and the living room from the dining wall (y 700) to the fridge (y 945).
-// RCC column at the kitchen entry, where the beam meets the dining wall; the kitchen switch board sits on it.
-box(348.5,371.5,692.5,715.5,0,WH,MAT.wall);
-box(347.3,348.5,707.5,715.5,0,9,MAT.skirt); box(348.5,371.5,715.5,716.7,0,9,MAT.skirt);
+// RCC column at the kitchen entry, where the beam meets the dining wall: about 75 x 23 cm along the dining wall (from the Type F plan). No points on it.
+box(348.5,423.5,692.5,715.5,0,WH,COLM);
+box(347.3,348.5,707.5,715.5,0,9,MAT.skirt); box(348.5,423.5,715.5,716.7,0,9,MAT.skirt);
 // Open counter between the kitchen and the living room: 90 cm high, wooden top, no stools, 100 cm long (y 815-915); total opening 2.0 m (1 m walkway + 1 m counter),
 // ending at the fridge wall. About 1 m clear walkway into the kitchen between the entry column and the counter.
 { const X0=352.5, X1=412.5, Z0=815, Z1=915;
@@ -1128,7 +1143,7 @@ elLight(514,285); elLight(514,85);                              // Bed 3: 2 ceil
 wallLight('x',367.5,1,200,200);                                 // above the headboard
 wallLight('x',682.5,-1,262,200);                                // right wall, past the balcony door
 sock('z',7.5,1,530,85,'6');                                    // 6 A for a possible table, on the toilet-side wall between the toilet door and the window (not in the drawing)
-board('x',367.5,1,300,75,3); sock('x',367.5,1,312,75,'6'); sock('x',367.5,1,322,75,'USB');   // bedside
+board('x',367.5,1,110,75,3); sock('x',367.5,1,98,75,'6'); sock('x',367.5,1,88,75,'USB');   // bedside, on the window side of the bed (the door side of this wall is a column)
 board('z',392.5,-1,476,120,5);                                  // by the bedroom door (+1 switch for the exhaust provision)
 exh150('z',7.5,1,538,262);                                      // Bed 3: next to the window, near the ceiling (socket above the window)
 acIn('z',7.5,1,415,505); sock('z',7.5,1,510,250,'AC');           // split AC on the toilet wall
@@ -1153,7 +1168,7 @@ box(-177,-174,509,532.5,186,190,MAT.steelDark); box(-106,-103,509,532.5,186,190,
 
 // ---- Toilets: ceiling light, exhaust in the ventilator, geyser socket, mirror light, socket by the basin
 elLight(280,-140); exhaust('z',-232.5,1,280,191); sock('x',207.5,1,-190,200,'GY'); mirrorLight('x',207.5,1,-90,200,40); sock('x',207.5,1,-130,120,'6');
-elLight(440,-140); exhaust('z',-232.5,1,440,191); sock('x',512.5,-1,-190,200,'GY'); mirrorLight('x',512.5,-1,-90,200,40); sock('x',512.5,-1,-130,120,'6');
+elLight(440,-140); exhaust('z',-232.5,1,440,191); sock('x',512.5,-1,-120,200,'GY'); mirrorLight('x',512.5,-1,-90,200,40); sock('x',512.5,-1,-55,120,'6');   // moved clear of the column at the top of this wall
 elLight(-480,740); exhaust('z',607.5,1,-430,191); sock('x',-397.5,-1,670,200,'GY'); mirrorLight('z',832.5,-1,-512,200,36); sock('z',832.5,-1,-478,120,'6');
 
 // ---- Dining
@@ -1174,7 +1189,7 @@ sock('x',502.5,-1,606,250,'AC');
 { const g=new THREE.Mesh(new THREE.CylinderGeometry(4.5,4.5,1.5,20),EW); g.rotation.z=Math.PI/2; g.position.set(501.7,240,516); add(g);
   WB('x',502.5,-1,515,517,1.5,1.9,236,244,MAT.steelDark); }                  // capped sleeve (pipes + drain to the balcony)
 [[510,600,234,234.6],[510,600,263.4,264],[510,510.6,234,264],[599.4,600,234,264]].forEach(([a0,a1,h0,h1])=>WB('x',502.5,-1,a0,a1,0,0.6,h0,h1,MAT.gap));
-sock('z',692.5,-1,382,82,'6'); sock('z',692.5,-1,393,82,'USB');   // study desk: 6 A + USB (not in the drawing)
+sock('z',692.5,-1,429,82,'6'); sock('z',692.5,-1,439,82,'USB');   // study desk: 6 A + USB (not in the drawing)
 // Robot vacuum dock in the dining, between the study desk and the balcony door, back against the RCC pillar face.
 // 6 A socket low on the wall just left of the pillar (not in the drawing). The robot leaves towards the dining table.
 box(456,488,676,688.5,0,42,EW); box(468,476,675.6,676,36,39,MAT.led);             // dock + status light
@@ -1182,7 +1197,7 @@ box(454,490,660,688.5,0,1.2,EW);                                                
 cyl(472,658,1.2,10.5,17.5,17.5,MAT.steelDark,32); cyl(472,662,10.5,13,4.2,4.2,MAT.black,20);   // robot parked
 sock('z',692.5,-1,448,25,'6');                                  // robot dock 6 A, low on the wall just left of the RCC pillar (no points on columns)
 elFan(375,565);                                                // study: regular 1200 mm ceiling fan, in line with the dining fan (blade tips ~60 cm clear of the wall)
-board('z',692.5,-1,408,82,3);                                   // study: fan switch + regulator, wall lamp switch (not in the drawing)
+board('z',692.5,-1,452,82,3);                                   // study: fan switch + regulator, wall lamp switch (not in the drawing)
 board('z',407.5,1,488,120,4);                                   // by the Bed 3 door (balcony light + balcony fan + dining 3rd light)
 smallFan(590,550);                                              // main balcony: small-blade (600 mm) fan on a slab hook, centred on the balcony
 elLight(590,465); elLight(590,635);                             // main balcony: two ceiling lights, one on each side of the fan
@@ -1202,7 +1217,7 @@ cyl(679,892,36,42,1.6,1.6,MAT.chrome,10); box(674,682.5,890.5,893.5,38,40,MAT.ch
 cyl(677,905,0,30,2.5,2.5,EG,12); cyl(677,905,30,34,3.2,3.2,EG,12);   // dishwasher drain stand-pipe to the sink waste
 sock('z',707.5,1,515,200,'6');                                  // chimney socket, just above the hood beside the flue
 exhaust('x',682.5,-1,972,228);                                  // exhaust fan
-board('z',707.5,1,390,120,5);                                   // kitchen board on the kitchen/dining wall just past the entry column (no switches on columns): 2 lights, fan, regulator, counter hanging lamp
+board('z',707.5,1,438,120,5);                                   // kitchen board on the kitchen/dining wall just past the 75 cm entry column (no switches on columns): 2 lights, fan, regulator, counter hanging lamp
 board('x',517.5,-1,1020,120,2); sock('x',517.5,-1,1020,138,'16');  // dry balcony light + fan switches and 16 A, on the work-area wall facing the fridge and washing machine
 elLight(410,1068);                                              // work area
 board('x',367.5,1,1090,120,1); sock('x',367.5,1,1105,120,'16');  // washing machine 16 A + switch, above the machine
