@@ -132,7 +132,7 @@ const ROOMS = [
 // Walls: [x1,y1,x2,y2, openings, kind]. Opening = [from, to, type, {hinge:'s'|'e', side:±1, ang, main}]
 // type: door | open | wide | slide | win | vent.  side = which side of the wall the door swings into.  kind 'p' = balcony railing, 'j' = parapet with jalli screen above
 const WALLS = [
-  [200,-240,520,-240,[[240,320,'vent'],[400,480,'vent']]],
+  [200,-240,520,-240,[[212,287,'vent'],[433,508,'vent']]],   // toilet ventilators at the outer ends, clear of the wide column behind the shared wall (as on the Type F plan)
   [200,-240,200,0],
   [360,-240,360,400],
   [520,-240,520,0],
@@ -836,7 +836,8 @@ const COLM = M('#E2DDD4',{roughness:.95, side:THREE.DoubleSide});
 // RCC pillar in the dining–kitchen wall at the balcony end (approx. 50 x 23 cm, from the site sketch)
 box(460,510,688.5,711.5,-3,WH,COLM);
 [[615,699,688.5,711.5],      // kitchen / dining-balcony corner, at the kitchen window wall
- [348.5,371.5,280,400],      // Master bed / Bed 3 wall, at the dining end
+ [348.5,371.5,280,400],      // Master bed / Bed 3 wall, at the dining end (confirmed)
+ [288,421,-312,-247.5],      // wide column outside the two toilets (confirmed; about 135 x 65 cm)
  [348.5,371.5,-240,-130],    // between the two toilets
  [508.5,531.5,-240,-130],    // Bed 3 toilet, outer wall
  [678.5,701.5,-62,0],        // outside the Bed 3 corner, towards its balcony
@@ -1167,8 +1168,8 @@ acOut(-180,-100,504,532.5,190,'z-');                             // AC outdoor u
 box(-177,-174,509,532.5,186,190,MAT.steelDark); box(-106,-103,509,532.5,186,190,MAT.steelDark);
 
 // ---- Toilets: ceiling light, exhaust in the ventilator, geyser socket, mirror light, socket by the basin
-elLight(280,-140); exhaust('z',-232.5,1,280,191); sock('x',207.5,1,-190,200,'GY'); mirrorLight('x',207.5,1,-90,200,40); sock('x',207.5,1,-130,120,'6');
-elLight(440,-140); exhaust('z',-232.5,1,440,191); sock('x',512.5,-1,-120,200,'GY'); mirrorLight('x',512.5,-1,-90,200,40); sock('x',512.5,-1,-55,120,'6');   // moved clear of the column at the top of this wall
+elLight(280,-140); exhaust('z',-232.5,1,249.5,191); sock('x',207.5,1,-190,200,'GY'); mirrorLight('x',207.5,1,-90,200,40); sock('x',207.5,1,-130,120,'6');
+elLight(440,-140); exhaust('z',-232.5,1,470.5,191); sock('x',512.5,-1,-120,200,'GY'); mirrorLight('x',512.5,-1,-90,200,40); sock('x',512.5,-1,-55,120,'6');   // moved clear of the column at the top of this wall
 elLight(-480,740); exhaust('z',607.5,1,-430,191); sock('x',-397.5,-1,670,200,'GY'); mirrorLight('z',832.5,-1,-512,200,36); sock('z',832.5,-1,-478,120,'6');
 
 // ---- Dining
