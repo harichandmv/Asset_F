@@ -957,8 +957,21 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
 // RCC column at the kitchen entry, where the beam meets the dining wall; the kitchen switch board sits on it.
 box(348.5,371.5,692.5,715.5,0,WH,MAT.wall);
 box(347.3,348.5,707.5,715.5,0,9,MAT.skirt); box(348.5,371.5,715.5,716.7,0,9,MAT.skirt);
-// two hanging lamps on the beam's underside, either side of the AC, kept high (~2.05 m) since there is no counter below
-pendant(360,765,205,12); pendant(360,935,205,12);
+// Open counter back between the kitchen and the living room: 90 cm high, wooden top, no stools, 130 cm long (y 815-945),
+// ending at the fridge wall. About 1 m clear walkway into the kitchen between the entry column and the counter.
+{ const X0=352.5, X1=412.5, Z0=815, Z1=945;
+  run([X0,X1,Z0,Z1],'x+',3);                                                  // kitchen-side drawers and shutters
+  box(351.5,X0,Z0,Z1,0,86,MAT.walnutDark);                                    // living-side backing
+  for(let z=Z0+2; z<Z1-3; z+=6) box(350,351.5,z,z+3.5,1,86,MAT.walnut);      // fluted walnut on the living side
+  box(350,X1,Z0-1.5,Z0,0,86,MAT.walnut);                                      // finished end panel at the walkway
+  rbox(349.5,X1+1.5,Z0-1.5,Z1,86,90,MAT.teak,1);                              // wooden top
+  // two hanging lamps from the beam's underside, 60 cm above the counter top
+  pendant(362,850,150,12); pendant(362,910,150,12);
+  cyl(388,880,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
+  [[384,876,MAT.mustard],[392,882,MAT.terracotta],[386,885,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
+  cyl(394,932,90,104,4.5,5.5,MAT.potWhite,20);
+  [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(394+dx,y,932+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
+}
 run([455,682,708,768],'z+',4); box(455,682,707.5,770,86,90,MAT.quartz);
 run([622,682,768,990],'x-',4); box(620,682,770,990,86,90,MAT.quartz);
 box(455,682,707.5,709,90,150,MAT.splash);
@@ -1189,7 +1202,7 @@ cyl(677,905,0,30,2.5,2.5,EG,12); cyl(677,905,30,34,3.2,3.2,EG,12);   // dishwash
 sock('z',707.5,1,515,200,'6');                                  // chimney socket, just above the hood beside the flue
 exhaust('x',682.5,-1,972,228);                                  // exhaust fan
 board('z',715.5,1,360,120,5);                                   // kitchen board on the entry column: 2 lights, fan, regulator, beam hanging lamps
-board('z',992.5,-1,536,110,2); sock('z',992.5,-1,536,128,'16');  // south wall, beside the dry balcony sliding door: dry balcony light + fan switches
+board('x',517.5,-1,1040,120,2); sock('x',517.5,-1,1040,138,'16');  // dry balcony light + fan switches and 16 A, on the work-area wall facing the fridge and washing machine
 elLight(410,1068);                                              // work area
 board('x',367.5,1,1090,120,1); sock('x',367.5,1,1105,120,'16');  // washing machine 16 A + switch, above the machine
 sock('x',367.5,1,1047,110,'6');                                 // fridge 6 A, behind the fridge, ~15 cm from the washing machine
