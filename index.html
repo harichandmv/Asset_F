@@ -144,7 +144,7 @@ const WALLS = [
   [360,700,710,700],
   [690,700,690,1000,[[840,950,'win']]],
   [525,1000,700,1000],   // kitchen / dry balcony wall (no door)
-  [360,933,360,1160],   // kitchen–living wall from the counter end; backs the fridge + washing machine run. Kitchen opening = 2.1 m (y 715.5-925.5)
+  [360,922.5,360,1160],   // kitchen–living wall from the counter end; backs the fridge + washing machine run. Kitchen opening = 2.0 m (y 715.5-915)
   [360,1130,525,1130],
   [525,1000,525,1130,[[1035,1112,'door',{hinge:'e',side:-1}]]],   // dry balcony door from the work area (normal hinged door), opening into the balcony
   [0,1160,360,1160],
@@ -958,20 +958,20 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
 // RCC column at the kitchen entry, where the beam meets the dining wall; the kitchen switch board sits on it.
 box(348.5,371.5,692.5,715.5,0,WH,MAT.wall);
 box(347.3,348.5,707.5,715.5,0,9,MAT.skirt); box(348.5,371.5,715.5,716.7,0,9,MAT.skirt);
-// Open counter between the kitchen and the living room: 90 cm high, wooden top, no stools, 110 cm long (y 815-925.5); total opening 2.1 m,
+// Open counter between the kitchen and the living room: 90 cm high, wooden top, no stools, 100 cm long (y 815-915); total opening 2.0 m (1 m walkway + 1 m counter),
 // ending at the fridge wall. About 1 m clear walkway into the kitchen between the entry column and the counter.
-{ const X0=352.5, X1=412.5, Z0=815, Z1=925.5;
+{ const X0=352.5, X1=412.5, Z0=815, Z1=915;
   run([X0,X1,Z0,Z1],'x+',3);                                                  // kitchen-side drawers and shutters
   box(351.5,X0,Z0,Z1,0,86,MAT.walnutDark);                                    // living-side backing
   for(let z=Z0+2; z<Z1-3; z+=6) box(350,351.5,z,z+3.5,1,86,MAT.walnut);      // fluted walnut on the living side
   box(350,X1,Z0-1.5,Z0,0,86,MAT.walnut);                                      // finished end panel at the walkway
   rbox(349.5,X1+1.5,Z0-1.5,Z1,86,90,MAT.teak,1);                              // wooden top
-  // two hanging lamps from the beam's underside, 60 cm above the counter top
-  pendant(362,845,150,12); pendant(362,895,150,12);
-  cyl(388,880,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
-  [[384,876,MAT.mustard],[392,882,MAT.terracotta],[386,885,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
-  cyl(394,912,90,104,4.5,5.5,MAT.potWhite,20);
-  [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(394+dx,y,912+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
+  // one hanging lamp from the beam's underside, centred over the counter, 60 cm above the top
+  pendant(362,865,150,12);
+  cyl(388,862,90,97,13,8,MAT.ceramic,28);                                     // fruit bowl
+  [[384,858,MAT.mustard],[392,864,MAT.terracotta],[386,867,MAT.leaf]].forEach(([x,z,m])=>sph(x,96,z,3.6,m));
+  cyl(394,902,90,104,4.5,5.5,MAT.potWhite,20);
+  [[0,110,0],[3,107,2],[-3,108,-2],[1,113,1]].forEach(([dx,y,dz],i)=>sph(394+dx,y,902+dz,4,i%2?MAT.leaf:MAT.leaf2,1,1.4,1));
 }
 run([455,682,708,768],'z+',4); box(455,682,707.5,770,86,90,MAT.quartz);
 run([622,682,768,990],'x-',4); box(620,682,770,990,86,90,MAT.quartz);
