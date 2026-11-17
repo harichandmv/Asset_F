@@ -139,14 +139,15 @@ const WALLS = [
   [0,0,690,0,[[25,175,'slide'],[270,345,'door',{hinge:'e',side:-1}],[375,450,'door',{hinge:'s',side:-1}],[560,660,'win']]],
   [0,0,0,540,[[35,155,'win']]],   // master window: 120 cm, next to the balcony corner (30 cm pier kept at the corner)
   [690,0,690,400,[[70,230,'slide']]],
-  [0,400,710,400,[[250,340,'door',{hinge:'s',side:-1}],[380,470,'door',{hinge:'e',side:-1,ang:66}]]],
+  [0,400,710,400,[   // bedroom doors hinged next to the Master/Bed 3 wall, so each opens flat against that perpendicular wall
+   [250,340,'door',{hinge:'e',side:-1,ang:84}],[380,470,'door',{hinge:'s',side:-1,ang:84}]]],
   [510,400,510,700,[[420,680,'slide']]],
   [360,700,710,700],
   [690,700,690,1000,[[840,950,'win']]],
   [525,1000,700,1000],   // kitchen / dry balcony wall (no door)
   [360,922.5,360,1160],   // kitchen–living wall from the counter end; backs the fridge + washing machine run. Kitchen opening = 2.0 m (y 715.5-915)
   [360,1130,525,1130],
-  [525,1000,525,1130,[[1035,1112,'door',{hinge:'e',side:-1}]]],   // dry balcony door from the work area (normal hinged door), opening into the balcony
+  [525,1000,525,1130,[[1035,1112,'door',{hinge:'s',side:-1,ang:100}]]],   // dry balcony door: hinged at the kitchen end, opens inwards into the work area towards the beam line, keeping the balcony free for the slab
   [0,1160,360,1160],
   [0,1000,0,1160],
   [-140,1000,0,1000],
@@ -1219,10 +1220,18 @@ cyl(677,905,0,30,2.5,2.5,EG,12); cyl(677,905,30,34,3.2,3.2,EG,12);   // dishwash
 sock('z',707.5,1,515,200,'6');                                  // chimney socket, just above the hood beside the flue
 exhaust('x',682.5,-1,972,228);                                  // exhaust fan
 board('z',707.5,1,438,120,5);                                   // kitchen board on the kitchen/dining wall just past the 75 cm entry column (no switches on columns): 2 lights, fan, regulator, counter hanging lamp
-board('x',517.5,-1,1020,120,2); sock('x',517.5,-1,1020,138,'16');  // dry balcony light + fan switches and 16 A, on the work-area wall facing the fridge and washing machine
+board('z',1122.5,-1,500,120,2); sock('z',1122.5,-1,500,138,'16');  // dry balcony light + fan switches and 16 A, moved to the work-area end wall on the latch side (the door now opens over the old spot)
 elLight(410,1068);                                              // work area
 board('x',367.5,1,1090,120,1); sock('x',367.5,1,1105,120,'16');  // washing machine 16 A + switch, above the machine
 sock('x',367.5,1,1047,110,'6');                                 // fridge 6 A, behind the fridge, ~15 cm from the washing machine
+// Dry balcony slab: 40 cm deep granite slab along the outer (south) wall, top at 85 cm, on steel wall brackets. Wet grinder on the door end,
+// clear of the cloth hanger; its own switched 6 A socket with a splash cover beside it at 105 cm.
+rbox(532.5,692.5,1072.5,1112.5,82,85,M('#3B3A38',{roughness:.3}),1);
+[545,612,680].forEach(x=>{ box(x-1.5,x+1.5,1080,1112.5,70,82,MAT.steelDark); box(x-1.5,x+1.5,1108,1112.5,58,82,MAT.steelDark); });
+cyl(565,1092,85,88,15,16,MAT.ceramic,28); cyl(565,1092,88,112,13,13,MAT.steel,28); cyl(565,1092,112,118,13.5,12,PL,28);   // wet grinder: base, drum, lid
+box(551,579,1078,1083,92,100,PL);                                                   // grinder control strip
+board('z',1112.5,-1,597,105,1); sock('z',1112.5,-1,608,105,'6');
+box(589,616,1109.5,1111.8,98,112,M('#C9CEC8',{roughness:.4,transparent:true,opacity:.55}));   // splash cover
 smallFan(612,1060);                                             // dry balcony: 600 mm hugger fan on a slab hook, at the centre
 elLight(668,1060);                                              // dry balcony light, between the fan and the jalli opening
 
