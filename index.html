@@ -1006,16 +1006,6 @@ box(620.5,622,821,881,10,85,MAT.steel); box(619.5,620.5,826,876,77,79.5,MAT.stee
 // 6 water purifier on the end wall of the sink counter, tap at glass height
 box(637,672,968,992.5,115,165,PL); box(640,669,967.4,968,140,160,MAT.steelDark);
 box(653,656,961,968,128,131,MAT.chrome); cyl(654.5,962.5,123,128,0.6,0.6,MAT.chrome,8);
-// 7 tall unit at the left end of the hob counter (x 395-455), built-in combination microwave at eye level.
-//   55 cm of counter stays between it and the hob.
-{ const r=[395,455,707.5,767.5];
-  box(r[0],r[1],r[2],761.5,0,10,MAT.gap); box(r[0],r[1],r[2],r[3],10,215,MAT.whiteLacq);
-  [69.6,117.6,167.6].forEach(h=>FB(r,'z+',r[0]+1,r[1]-1,0,0.3,h,h+0.8,MAT.gap));
-  [[64,66],[112,114],[170,172]].forEach(([h0,h1])=>FB(r,'z+',411,439,0.3,1.8,h0,h1,MAT.brass));
-  FB(r,'z+',r[0]+2,r[1]-2,0,1,120,165,MAT.black);                               // microwave front
-  FB(r,'z+',399,438,1,1.3,125,160,MAT.screen);                                  // glass door
-  FB(r,'z+',441,450,1,1.3,128,158,MAT.steelDark);                               // controls
-}
 /* ---------- Dry balcony fittings (inside x 532.5-692.5, y 1007.5-1112.5) ---------- */
 // 12 wet grinder slab on the old-opening wall (x = 525, dry balcony face), south end: black granite at 75 cm on two masonry legs
 box(532.5,575,1062,1112.5,71,75,M('#2A2A2A',{roughness:.35}));
@@ -1197,7 +1187,6 @@ sock('x',682.5,-1,800,35,'16');                                 // dishwasher 16
 cyl(679,892,36,42,1.6,1.6,MAT.chrome,10); box(674,682.5,890.5,893.5,38,40,MAT.chrome);   // dishwasher water inlet (angle valve) inside the sink cabinet
 cyl(677,905,0,30,2.5,2.5,EG,12); cyl(677,905,30,34,3.2,3.2,EG,12);   // dishwasher drain stand-pipe to the sink waste
 sock('z',707.5,1,515,200,'6');                                  // chimney socket, just above the hood beside the flue
-sock('z',707.5,1,425,180,'16');                                 // built-in microwave 16 A, inside the tall unit
 exhaust('x',682.5,-1,972,228);                                  // exhaust fan
 board('z',715.5,1,360,120,5);                                   // kitchen board on the entry column: 2 lights, fan, regulator, beam hanging lamps
 board('z',992.5,-1,536,110,2); sock('z',992.5,-1,536,128,'16');  // south wall, beside the dry balcony sliding door: dry balcony light + fan switches
