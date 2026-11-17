@@ -749,12 +749,13 @@ chair(150,494,'z+'); chair(230,494,'z+'); chair(150,636,'z-'); chair(230,636,'z-
   sph(410,184,658,2.6,MAT.bulb); NIGHT_PTS.push([410,180,658,0.5]);
   chair(410,622,'z+');
 }
-// Enclosed wash niche at the builder's basin spot: dining outer wall (x = 0), in the corner with the Master wall.
-// The Master wall is its left side; one low side wall (1.2 m) on the right. Built in a local frame and turned into place.
+// Enclosed wash niche in the dining corner of the outer wall and the Master wall, facing the living room.
+// Back = Master wall (y 407.5); the outer wall is its right side; one low side wall (1.2 m) on the left, towards the table.
+// Built in a local frame and turned into place.
 // Green finger-tile back wall, floating fluted
 // walnut vanity, white quartz top, ceramic vessel basin, wall-mounted brass tap, arched mirror with halo light.
-grp(7.5,407.5,-Math.PI/2,()=>grp(-362.5,-692.5,0,()=>{
-  const L0=352.5, L1=362.5, R0=451, R1=460.5;     // left side = Master wall face; right low wall
+grp(96,407.5,Math.PI,()=>grp(-362.5,-692.5,0,()=>{
+  const L0=352.5, L1=362.5, R0=451, R1=460.5;     // left = low side wall (towards the table); right side = outer wall face
   const ZB=692.5, ZF=637.5, IX0=L1, IX1=R0, CX=(IX0+IX1)/2, SW=120, TOP=225;
   // finger-tile texture (own random source so the rest of the model stays the same)
   let s2=7; const r2=()=>(s2=(s2*16807)%2147483647)/2147483647;
@@ -777,14 +778,14 @@ grp(7.5,407.5,-Math.PI/2,()=>grp(-362.5,-692.5,0,()=>{
   const inkM  = M('#2A2724',{roughness:.35});
 
   // two low side walls (1.2 m) with quartz caps
-  box(R0,R1,ZF,ZB,0,SW,MAT.wall);
-  box(R0-0.5,R1+3,ZF-1,ZB,SW,SW+2.5,MAT.quartz);
+  box(L0,L1,ZF,ZB,0,SW,MAT.wall);
+  box(L0-3,L1+0.5,ZF-1,ZB,SW,SW+2.5,MAT.quartz);
   box(L1,R0,ZB-1.5,ZB,0,9,MAT.skirt);                              // skirting inside the niche
   // slim brass trim on the front edges of the side walls
-  box(R0,R0+1.5,ZF-0.6,ZF+1.2,0,SW,MAT.brass);
+  box(L1-1.5,L1,ZF-0.6,ZF+1.2,0,SW,MAT.brass);
   // fluted walnut cladding on the outer face of the side wall (the side seen from the table)
-  box(R1,R1+1,ZF,ZB,0,SW,MAT.walnutDark);
-  for(let z=ZF+1; z<ZB-3; z+=5) box(R1+1,R1+2.6,z,z+3.2,0,SW,MAT.walnut);
+  box(L0-1,L0,ZF,ZB,0,SW,MAT.walnutDark);
+  for(let z=ZF+1; z<ZB-3; z+=5) box(L0-2.6,L0-1,z,z+3.2,0,SW,MAT.walnut);
   // tiled back wall, from the counter up to 2.25 m, with a brass edge on top
   box(IX0,IX1,ZB-2,ZB,88,TOP,tileM);
   box(IX0,IX1,ZB-2.6,ZB,TOP,TOP+1.2,MAT.brass);
@@ -826,7 +827,7 @@ grp(7.5,407.5,-Math.PI/2,()=>grp(-362.5,-692.5,0,()=>{
   [[0,112,0],[3,109,2],[-3,108,-1],[1,115,-2]].forEach(([dx,y,dz],i)=>sph(IX1-12+dx,y,650+dz,3.5,i%2?MAT.leaf:MAT.leaf2,1,1.6,1));
 
   // soft warm light inside the niche
-  { const pl=new THREE.PointLight(0xffd9a8,.4,2.2,2); pl.position.set(0.50,1.9,4.52); scene.add(pl); }
+  { const pl=new THREE.PointLight(0xffd9a8,.4,2.2,2); pl.position.set(0.52,1.9,4.40); scene.add(pl); }
 }));
 drapes('z',502.5,405,684,-1);
 // RCC pillar in the dining–kitchen wall at the balcony end (approx. 50 x 23 cm, from the site sketch)
@@ -1162,7 +1163,7 @@ elLight(-480,740); exhaust('z',607.5,1,-430,191); sock('x',-397.5,-1,670,200,'GY
 // ---- Dining
 elFan(190,565); elLight(190,455); elLight(190,675);
 elLight(440,470);                                               // dining: 3rd light at the balcony end, in front of the Bed 3 door (not in the drawing)
-mirrorLight('x',9.6,1,452,213,44);                              // mirror light over the wash basin
+mirrorLight('z',409.6,1,52,213,44);                             // mirror light over the wash basin (niche faces the living room)
 bell('x',9.6,1,420,248);                                        // calling bell
 board('x',7.5,1,515,120,2);                                     // wash basin board
 board('x',7.5,1,665,120,5);                                     // dining board
