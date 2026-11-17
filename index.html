@@ -1182,7 +1182,13 @@ board('x',7.5,1,665,120,5);                                     // dining board
 // Beam just below the ceiling on the old kitchen–living wall line (x = 360, y 700-1000), 23 cm wide, 60 cm deep.
 box(348.5,371.5,700,1000,WH-60,WH,MAT.wall);
 // Living / dining split AC on the living-room face of the beam, blowing towards the living and dining; AC socket beside it
-acIn('x',348.5,-1,765,855); sock('x',348.5,-1,863,250,'AC');
+acIn('x',348.5,-1,805,895); sock('x',348.5,-1,903,250,'AC');     // option B (open kitchen): AC centred on the beam, its own 16 A AC point + switch
+// Option A (builder's default): AC above the dining balcony sliding door. Kept as a ready provision: 16 A AC point with switch,
+// capped copper-pipe / drain sleeve through the balcony wall, and a faint outline where the indoor unit would hang.
+sock('x',502.5,-1,606,250,'AC');
+{ const g=new THREE.Mesh(new THREE.CylinderGeometry(4.5,4.5,1.5,20),EW); g.rotation.z=Math.PI/2; g.position.set(501.7,240,516); add(g);
+  WB('x',502.5,-1,515,517,1.5,1.9,236,244,MAT.steelDark); }                  // capped sleeve (pipes + drain to the balcony)
+[[510,600,234,234.6],[510,600,263.4,264],[510,510.6,234,264],[599.4,600,234,264]].forEach(([a0,a1,h0,h1])=>WB('x',502.5,-1,a0,a1,0,0.6,h0,h1,MAT.gap));
 sock('z',692.5,-1,372,82,'6'); sock('z',692.5,-1,383,82,'USB');   // study desk: 6 A + USB (not in the drawing)
 // Robot vacuum dock in the dining, between the study desk and the balcony door, back against the RCC pillar face.
 // 6 A socket low on the pillar beside it (not in the drawing). The robot leaves towards the dining table.
