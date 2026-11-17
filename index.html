@@ -1176,11 +1176,11 @@ sock('x',502.5,-1,606,250,'AC');
 [[510,600,234,234.6],[510,600,263.4,264],[510,510.6,234,264],[599.4,600,234,264]].forEach(([a0,a1,h0,h1])=>WB('x',502.5,-1,a0,a1,0,0.6,h0,h1,MAT.gap));
 sock('z',692.5,-1,372,82,'6'); sock('z',692.5,-1,383,82,'USB');   // study desk: 6 A + USB (not in the drawing)
 // Robot vacuum dock in the dining, between the study desk and the balcony door, back against the RCC pillar face.
-// 6 A socket low on the pillar beside it (not in the drawing). The robot leaves towards the dining table.
+// 6 A socket low on the wall just left of the pillar (not in the drawing). The robot leaves towards the dining table.
 box(456,488,676,688.5,0,42,EW); box(468,476,675.6,676,36,39,MAT.led);             // dock + status light
 box(454,490,660,688.5,0,1.2,EW);                                                // dock ramp
 cyl(472,658,1.2,10.5,17.5,17.5,MAT.steelDark,32); cyl(472,662,10.5,13,4.2,4.2,MAT.black,20);   // robot parked
-sock('z',688.5,-1,500,25,'6');
+sock('z',692.5,-1,448,25,'6');                                  // robot dock 6 A, low on the wall just left of the RCC pillar (no points on columns)
 elFan(375,565);                                                // study: regular 1200 mm ceiling fan, in line with the dining fan (blade tips ~60 cm clear of the wall)
 board('z',692.5,-1,398,82,3);                                   // study: fan switch + regulator, wall lamp switch (not in the drawing)
 board('z',407.5,1,488,120,4);                                   // by the Bed 3 door (balcony light + balcony fan + dining 3rd light)
@@ -1196,7 +1196,7 @@ elFan(507,882); elLight(402,882); elLight(606,882);
 board('z',709,1,516,110,2); sock('z',709,1,528,110,'16'); sock('z',709,1,540,110,'16');   // hob wall (builder's points; they sit behind the hob)
 board('x',681,-1,776,110,2); sock('x',681,-1,790,110,'6'); sock('x',681,-1,802,110,'16');  // window wall, upper end (on the backsplash face)
 board('x',681,-1,958,110,1); sock('x',681,-1,968,110,'6'); sock('x',681,-1,980,110,'6');   // window wall, lower end: 2 x 6 A (the 16 A moved to the hob side)
-sock('z',711.5,1,485,110,'16');                                 // 16 A moved here: on the pillar face, between the hob and the tall unit
+sock('z',709,1,598,110,'16');                                   // 16 A on the hob wall, past the hob over the prep counter (moved off the RCC pillar: no points on columns)
 sock('x',682.5,-1,800,35,'16');                                 // dishwasher 16 A, inside the base cabinet left of the dishwasher
 cyl(679,892,36,42,1.6,1.6,MAT.chrome,10); box(674,682.5,890.5,893.5,38,40,MAT.chrome);   // dishwasher water inlet (angle valve) inside the sink cabinet
 cyl(677,905,0,30,2.5,2.5,EG,12); cyl(677,905,30,34,3.2,3.2,EG,12);   // dishwasher drain stand-pipe to the sink waste
