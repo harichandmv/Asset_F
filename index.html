@@ -1212,7 +1212,7 @@ box(527,530,660,692.5,217,222,MAT.steelDark); box(594,597,660,692.5,217,222,MAT.
 elFan(507,882); elLight(402,882); elLight(606,882);
 board('z',709,1,516,110,2); sock('z',709,1,528,110,'16'); sock('z',709,1,540,110,'16');   // hob wall (builder's points; they sit behind the hob)
 board('x',681,-1,776,110,2); sock('x',681,-1,790,110,'6'); sock('x',681,-1,802,110,'16');  // window wall, upper end (on the backsplash face)
-board('x',681,-1,958,110,1); sock('x',681,-1,968,110,'6'); sock('x',681,-1,980,110,'6');   // window wall, lower end: 2 x 6 A (the 16 A moved to the hob side)
+board('x',681,-1,958,110,1); sock('x',681,-1,968,110,'6');                                // window wall, lower end: one 6 A below the water purifier
 sock('z',709,1,598,110,'16');                                   // 16 A on the hob wall, past the hob over the prep counter (moved off the RCC pillar: no points on columns)
 sock('x',682.5,-1,800,35,'16');                                 // dishwasher 16 A, inside the base cabinet left of the dishwasher
 cyl(679,892,36,42,1.6,1.6,MAT.chrome,10); box(674,682.5,890.5,893.5,38,40,MAT.chrome);   // dishwasher water inlet (angle valve) inside the sink cabinet
@@ -1226,13 +1226,18 @@ board('x',367.5,1,1090,120,1); sock('x',367.5,1,1105,120,'16');  // washing mach
 sock('x',367.5,1,1047,110,'6');                                 // fridge 6 A, behind the fridge, ~15 cm from the washing machine
 // Dry balcony slab: 40 cm deep granite slab along the kitchen wall (opposite the outer beam/column wall), top at 85 cm, on steel wall brackets.
 // The door opens flat against this wall, so the slab starts past the open door leaf (slab about 90 cm long). Wet grinder on the door end,
-// clear of the cloth hanger; its own switched 6 A socket with a splash cover beside it at 105 cm.
+// clear of the cloth hanger; its own switched 6 A socket in a weatherproof (IP55) box beside it at 105 cm.
 rbox(602,692.5,1007.5,1047.5,82,85,M('#3B3A38',{roughness:.3}),1);
 [608,650,686].forEach(x=>{ box(x-1.5,x+1.5,1007.5,1040,70,82,MAT.steelDark); box(x-1.5,x+1.5,1007.5,1012,58,82,MAT.steelDark); });
 cyl(621,1028,85,88,15,16,MAT.ceramic,28); cyl(621,1028,88,112,13,13,MAT.steel,28); cyl(621,1028,112,118,13.5,12,PL,28);   // wet grinder: base, drum, lid
 box(607,635,1042,1047,92,100,PL);                                                   // grinder control strip
 board('z',1007.5,1,648,105,1); sock('z',1007.5,1,659,105,'6');
-box(640,667,1008.2,1010.5,98,112,M('#C9CEC8',{roughness:.4,transparent:true,opacity:.55}));   // splash cover
+// IP55 weatherproof enclosure around the switch + socket: grey body with a hinged smoked lid (lid shut, cable exits from below)
+{ const WPG=M('#8E9196',{roughness:.6});
+  box(639,668,1007.5,1013.5,96,97.5,WPG); box(639,668,1007.5,1013.5,112.5,114,WPG);       // bottom / top of the body
+  box(639,640.5,1007.5,1013.5,97.5,112.5,WPG); box(666.5,668,1007.5,1013.5,97.5,112.5,WPG); // sides
+  box(639,668,1013.5,1014.5,96,114,M('#5E6670',{roughness:.3,transparent:true,opacity:.6}));  // smoked hinged lid
+  box(650,657,1014.5,1015.3,94.5,96,WPG); }                                                // lid catch
 // Water tap provision in the dry balcony: CP bib tap at 60 cm on the inner face of the jalli parapet (near the plumbing shaft, so a short line),
 // below the hanger and clear of the slab, with a floor drain (nahani trap) under it for buckets and washing.
 { const xcyl=(x0,x1,y,z,r,mat)=>{ const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,x1-x0,20),mat); m.rotation.z=Math.PI/2; m.position.set((x0+x1)/2,y,z); m.castShadow=true; return add(m); };
