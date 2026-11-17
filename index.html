@@ -1020,11 +1020,12 @@ box(620.5,622,821,881,10,85,MAT.steel); box(619.5,620.5,826,876,77,79.5,MAT.stee
 box(637,672,968,992.5,115,165,PL); box(640,669,967.4,968,140,160,MAT.steelDark);
 box(653,656,961,968,128,131,MAT.chrome); cyl(654.5,962.5,123,128,0.6,0.6,MAT.chrome,8);
 /* ---------- Dry balcony fittings (inside x 532.5-692.5, y 1007.5-1112.5) ---------- */
-// 12 wet grinder slab on the old-opening wall (x = 525, dry balcony face), south end: black granite at 75 cm on two masonry legs
-box(532.5,575,1062,1112.5,71,75,M('#2A2A2A',{roughness:.35}));
-box(532.5,575,1062,1068,0,71,MAT.wall); box(532.5,575,1106.5,1112.5,0,71,MAT.wall);
-box(532.5,572,1068,1106.5,20,21.5,M('#2A2A2A',{roughness:.35}));               // shelf below for the drum and buckets
-box(540,566,1073,1101,75,95,M('#FBFAF6',{roughness:.4})); cyl(553,1087,95,118,12,12,MAT.steel,28); cyl(553,1087,118,121,12.5,12.5,MAT.black,28);   // wet grinder
+// 12 wet grinder slab in the work area, on the wall opposite the washing machine (x = 525, work-area face): black granite,
+//    40 cm deep at 75 cm on two masonry legs, with a shelf below
+box(477.5,517.5,1064,1122.5,71,75,M('#2A2A2A',{roughness:.35}));
+box(477.5,517.5,1064,1070,0,71,MAT.wall); box(477.5,517.5,1116.5,1122.5,0,71,MAT.wall);
+box(480,517.5,1070,1116.5,20,21.5,M('#2A2A2A',{roughness:.35}));               // shelf below for the drum and buckets
+box(484,510,1080,1108,75,95,M('#FBFAF6',{roughness:.4})); cyl(497,1094,95,118,12,12,MAT.steel,28); cyl(497,1094,118,121,12.5,12.5,MAT.black,28);   // wet grinder
 
 /* ---------- Foyer ---------- */
 
@@ -1208,7 +1209,7 @@ board('x',367.5,1,1090,120,1); sock('x',367.5,1,1105,120,'16');  // washing mach
 sock('x',367.5,1,1047,110,'6');                                 // fridge 6 A, behind the fridge, ~15 cm from the washing machine
 elLight(585,1028);                                              // dry balcony light, between the sliding door and the fan
 smallFan(586,1080);                                             // dry balcony: 600 mm hugger fan on a slab hook
-sock('x',532.5,1,1100,110,'6');                                 // wet grinder 6 A above the slab
+sock('x',517.5,-1,1100,130,'6');                                // wet grinder 6 A above the slab, work-area wall opposite the washing machine
 
 // ---- Living and foyer
 elFan(180,980);
