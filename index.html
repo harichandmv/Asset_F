@@ -778,15 +778,8 @@ grp(96,407.5,Math.PI,()=>grp(-362.5,-692.5,0,()=>{
   const bowlM = M('#FBFBFA',{roughness:.22,side:THREE.DoubleSide});
   const inkM  = M('#2A2724',{roughness:.35});
 
-  // two low side walls (1.2 m) with quartz caps
-  box(L0,L1,ZF,ZB,0,SW,MAT.wall);
-  box(L0-3,L1+0.5,ZF-1,ZB,SW,SW+2.5,MAT.quartz);
+  // no side partition: the basin stands open on the table side
   box(L1,R0,ZB-1.5,ZB,0,9,MAT.skirt);                              // skirting inside the niche
-  // slim brass trim on the front edges of the side walls
-  box(L1-1.5,L1,ZF-0.6,ZF+1.2,0,SW,MAT.brass);
-  // fluted walnut cladding on the outer face of the side wall (the side seen from the table)
-  box(L0-1,L0,ZF,ZB,0,SW,MAT.walnutDark);
-  for(let z=ZF+1; z<ZB-3; z+=5) box(L0-2.6,L0-1,z,z+3.2,0,SW,MAT.walnut);
   // tiled back wall, from the counter up to 2.25 m, with a brass edge on top
   box(IX0,IX1,ZB-2,ZB,88,TOP,tileM);
   box(IX0,IX1,ZB-2.6,ZB,TOP,TOP+1.2,MAT.brass);
