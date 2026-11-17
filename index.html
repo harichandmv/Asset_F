@@ -1174,7 +1174,7 @@ sock('x',502.5,-1,606,250,'AC');
 { const g=new THREE.Mesh(new THREE.CylinderGeometry(4.5,4.5,1.5,20),EW); g.rotation.z=Math.PI/2; g.position.set(501.7,240,516); add(g);
   WB('x',502.5,-1,515,517,1.5,1.9,236,244,MAT.steelDark); }                  // capped sleeve (pipes + drain to the balcony)
 [[510,600,234,234.6],[510,600,263.4,264],[510,510.6,234,264],[599.4,600,234,264]].forEach(([a0,a1,h0,h1])=>WB('x',502.5,-1,a0,a1,0,0.6,h0,h1,MAT.gap));
-sock('z',692.5,-1,372,82,'6'); sock('z',692.5,-1,383,82,'USB');   // study desk: 6 A + USB (not in the drawing)
+sock('z',692.5,-1,382,82,'6'); sock('z',692.5,-1,393,82,'USB');   // study desk: 6 A + USB (not in the drawing)
 // Robot vacuum dock in the dining, between the study desk and the balcony door, back against the RCC pillar face.
 // 6 A socket low on the wall just left of the pillar (not in the drawing). The robot leaves towards the dining table.
 box(456,488,676,688.5,0,42,EW); box(468,476,675.6,676,36,39,MAT.led);             // dock + status light
@@ -1182,7 +1182,7 @@ box(454,490,660,688.5,0,1.2,EW);                                                
 cyl(472,658,1.2,10.5,17.5,17.5,MAT.steelDark,32); cyl(472,662,10.5,13,4.2,4.2,MAT.black,20);   // robot parked
 sock('z',692.5,-1,448,25,'6');                                  // robot dock 6 A, low on the wall just left of the RCC pillar (no points on columns)
 elFan(375,565);                                                // study: regular 1200 mm ceiling fan, in line with the dining fan (blade tips ~60 cm clear of the wall)
-board('z',692.5,-1,398,82,3);                                   // study: fan switch + regulator, wall lamp switch (not in the drawing)
+board('z',692.5,-1,408,82,3);                                   // study: fan switch + regulator, wall lamp switch (not in the drawing)
 board('z',407.5,1,488,120,4);                                   // by the Bed 3 door (balcony light + balcony fan + dining 3rd light)
 smallFan(590,550);                                              // main balcony: small-blade (600 mm) fan on a slab hook, centred on the balcony
 elLight(590,465); elLight(590,635);                             // main balcony: two ceiling lights, one on each side of the fan
