@@ -1190,8 +1190,10 @@ sock('z',688.5,-1,500,25,'6');
 elFan(375,565);                                                // study: regular 1200 mm ceiling fan, in line with the dining fan (blade tips ~60 cm clear of the wall)
 board('z',692.5,-1,398,82,3);                                   // study: fan switch + regulator, wall lamp switch (not in the drawing)
 board('z',407.5,1,488,120,4);                                   // by the Bed 3 door (balcony light + balcony fan + dining 3rd light)
-elLight(600,550);                                               // dining balcony
-smallFan(590,470);                                              // dining balcony: 600 mm hugger fan, clear of the cloth hanger rods
+smallFan(590,550);                                              // main balcony: small-blade (600 mm) fan on a slab hook, centred on the balcony
+elLight(590,465); elLight(590,635);                             // main balcony: two ceiling lights, one on each side of the fan
+// weatherproof 6 A socket (IP55 flip cover) on the Bed 3 wall, balcony side (not in the drawing)
+sock('z',407.5,1,560,45,'6'); box(554.5,565.5,409.2,411.5,39.5,51.5,M('#C9CEC8',{roughness:.4,transparent:true,opacity:.55}));
 acOut(522,602,662,692.5,222,'z-');                              // AC outdoor unit high on the balcony's south wall, on wall brackets
 box(527,530,660,692.5,217,222,MAT.steelDark); box(594,597,660,692.5,217,222,MAT.steelDark);
 
