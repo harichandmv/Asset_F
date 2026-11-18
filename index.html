@@ -1040,12 +1040,12 @@ rbox(-132,-72,895,965,0,1.2,MAT.rug2,1);
 
 /* ---------- Balconies ---------- */
 // dry balcony hanger: rods run along y beside the jalli (3 ft rods), clear of the door
-var DRY_HANGER = [1050,1110,642];   // rods along y at the jalli end (x 642-692), outside the fan's sweep, clear of the slab and the door; drips fall on the floor drain
+var DRY_HANGER = [535,690,1093];   // 3 long rods along the outer wall (y 1093-1111), outside the fan's sweep, the light, the slab and the door swing
 // Every balcony gets a ceiling pulley cloth hanger (6 rods x 4 ft, tied off at ~240 cm).
-function clothHanger(ax,a0,a1,c0,cleat){       // ax 'x': rods run along x from a0 to a1; rods at cross positions c0, c0+10 ... c0+50
-  const RM=M('#D9D3C6',{roughness:.9}), L=a1-a0, mid=(a0+a1)/2;
-  [a0+3,a1-3].forEach(a=> ax==='x' ? box(a-3,a+3,c0-5,c0+55,WH-4,WH,MAT.steelDark) : box(c0-5,c0+55,a-3,a+3,WH-4,WH,MAT.steelDark));
-  for(let i=0;i<6;i++){ const c=c0+i*10;
+function clothHanger(ax,a0,a1,c0,cleat,n=6,step=10){   // ax 'x': rods run along x from a0 to a1; n rods at cross positions c0, c0+step ...
+  const RM=M('#D9D3C6',{roughness:.9}), L=a1-a0, mid=(a0+a1)/2, cE=c0+(n-1)*step;
+  [a0+3,a1-3].forEach(a=> ax==='x' ? box(a-3,a+3,c0-5,cE+1.5,WH-4,WH,MAT.steelDark) : box(c0-5,cE+5,a-3,a+3,WH-4,WH,MAT.steelDark));
+  for(let i=0;i<n;i++){ const c=c0+i*step;
     const rod=new THREE.Mesh(new THREE.CylinderGeometry(0.9,0.9,L,12),MAT.steel);
     if(ax==='x'){ rod.rotation.z=Math.PI/2; rod.position.set(mid,240,c); } else { rod.rotation.x=Math.PI/2; rod.position.set(c,240,mid); }
     add(rod);
@@ -1059,7 +1059,7 @@ function smallFan(x,z){                          // 600 mm hugger fan on a slab 
   for(let i=0;i<3;i++){ const a=i*2*Math.PI/3, b=new THREE.Mesh(new THREE.BoxGeometry(22,0.6,7),PL);
     b.position.set(x+18*Math.cos(a),WH-19,z+18*Math.sin(a)); b.rotation.y=-a; b.castShadow=true; add(b); }
 }
-clothHanger('z',DRY_HANGER[0],DRY_HANGER[1],DRY_HANGER[2],[630,1111.5,'z']);
+clothHanger('x',DRY_HANGER[0],DRY_HANGER[1],DRY_HANGER[2],[533.5,1100,'x'],3,9);
 function ceilLight(x,z){ cyl(x,z,WH-2.5,WH,9,9,PL,24); cyl(x,z,WH-2.7,WH-2.5,7.5,7.5,MAT.led,24); }
 // Dining balcony (inside x 517.5-705, y 407.5-692.5): rods along the length, next to the railing; fan over the seating
 clothHanger('z',489,611,645,[690,408.5,'z']);
@@ -1243,7 +1243,7 @@ board('z',1007.5,1,648,105,1); sock('z',1007.5,1,659,105,'6');
   for(let i=0;i<4;i++) box(669.5,680.5,1073+i*3.2,1074+i*3.2,0.6,0.7,MAT.steel);
 }
 smallFan(612.5,1060);                                             // dry balcony: 600 mm hugger fan on a slab hook, at the centre
-elLight(665,1030);                                              // dry balcony light, between the fan and the jalli opening, over the slab
+elLight(652.5,1060);                                            // dry balcony light, midway between the fan and the jalli opening
 
 // ---- Living and foyer
 elFan(180,980);
