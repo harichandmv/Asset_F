@@ -921,33 +921,33 @@ cyl(245,1128,56,80,6,4,MAT.ceramic); box(118,134,1120,1138,56,70,MAT.terracotta)
 
 // Pooja + shelf unit on the living room's foyer-side wall (x = 0), 145 long, 30 deep.
 // Built in a local frame (wall face at X, front facing -x, length along +z from 0), then turned 180 degrees onto the x = 0 wall.
-// Pooja niche (62 wide) in the centre, local z 41.5-103.5, with an open bookshelf column (41.5 wide, 4 levels) on each side.
+// Pooja niche (45 wide, 75 tall) in the centre, local z 50-95, with an open bookshelf column (50 wide, 4 levels) on each side.
 const PJ = {gx:359.5, gz:1148};
-grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz0=41.5, pz1=103.5;
+grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz0=50, pz1=95;
   box(X-30,X,z0,z1,10,75,MAT.oak); box(X-28,X,z0+2,z1-2,0,10,MAT.gap);          // floating low cabinet
   const r=[X-30,X,z0,z1];
   [pz0,pz1].forEach(z=>FB(r,'x-',z-0.4,z+0.4,0,0.3,12,73,MAT.gap));              // three doors: one under each shelf, one under the pooja
-  [20.75,72.5,124.25].forEach(z=>FB(r,'x-',z-6,z+6,0,2,68,70,MAT.brass));
+  [25,72.5,120].forEach(z=>FB(r,'x-',z-6,z+6,0,2,68,70,MAT.brass));
   box(X-31,X,z0-1,z1+1,75,78,MAT.walnut);                                        // cabinet top
 
-  // --- pooja niche (62 wide), centred ---
-  const P=97, TOP=190, zc=(pz0+pz1)/2;
+  // --- pooja niche (45 wide), centred ---
+  const P=97, TOP=172, zc=(pz0+pz1)/2;
   box(X-30,X,pz0,pz0+3,78,TOP+18,MAT.teak); box(X-30,X,pz1-3,pz1,78,TOP+18,MAT.teak);   // side panels
   box(X-30,X,pz0+3,pz1-3,78,81,MAT.teak);                                        // sill for diya / agarbatti
   box(X-30,X,pz0+3,pz1-3,P-3,P,MAT.teak); box(X-31,X-30,pz0+3,pz1-3,P-2.5,P-0.5,MAT.brass);
   box(X-1.5,X,pz0+3,pz1-3,P,TOP,MAT.shade);                                      // warm back glow
   jalli(false,X-6,pz0+3,pz1-3,P,TOP,'#C9A45C');                                  // brass-tone jaali
-  box(X-18,X-10,zc-12,zc+12,P,P+9,MAT.teak);                                     // deity step
+  box(X-18,X-10,zc-9,zc+9,P,P+9,MAT.teak);                                     // deity step
   box(X-30,X,pz0+3,pz1-3,TOP,TOP+18,MAT.teak);                                   // canopy
   box(X-31.5,X-30,pz0,pz1,TOP+3,TOP+5,MAT.brass); box(X-31.5,X-30,pz0,pz1,TOP+14,TOP+16,MAT.brass);
   cyl(X-22,zc,TOP-10,TOP,0.3,0.3,MAT.brass,6); cyl(X-22,zc,TOP-20,TOP-10,1.6,5,MAT.brass,20);   // bell
-  [pz0+10,pz1-10].forEach(z=>{                                                   // two small nilavilakku
+  [pz0+8,pz1-8].forEach(z=>{                                                     // two small nilavilakku
     cyl(X-20,z,P,P+2,4,4,MAT.brass); cyl(X-20,z,P+2,P+18,0.8,1.3,MAT.brass,12);
     cyl(X-20,z,P+18,P+20,3.8,1.8,MAT.brass); cyl(X-20,z,P+20,P+26,0.5,1,MAT.brass,8); sph(X-20,P+22,z,1.1,MAT.bulb);
   });
-  cyl(X-18,pz0+18,81,83,3.5,3.5,MAT.brass); cyl(X-18,pz1-18,81,89,1.1,1.1,MAT.brass,8);   // diya + agarbatti stand
+  cyl(X-18,pz0+12,81,83,3.5,3.5,MAT.brass); cyl(X-18,pz1-12,81,89,1.1,1.1,MAT.brass,8);   // diya + agarbatti stand
 
-  // --- open bookshelves on both sides (41.5 wide each, 4 levels) ---
+  // --- open bookshelves on both sides (50 wide each, 4 levels) ---
   [[z0,pz0],[pz1,z1]].forEach(([a0,a1])=>{
     box(X-26,X,a0===z0?a0:a1-2.5,a0===z0?a0+2.5:a1,78,222,MAT.walnut);          // outer end panel
     box(X-26,X,a0===z0?a1-2.5:a0,a0===z0?a1:a0+2.5,TOP+18,222,MAT.walnut);       // inner panel above the pooja canopy
@@ -955,6 +955,7 @@ grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz0=41.5, pz1=103.5;
     box(X-26,X,a0,a1,219.5,222,MAT.walnut);                                      // top
   });
   box(X-26,X,pz0,pz1,219.5,222,MAT.walnut);                                      // top bridges over the pooja
+  box(X-26,X,pz0,pz1,203,205.5,MAT.walnut);                                      // small open shelf above the pooja canopy
   const books=(z,h0,cols)=>cols.forEach(([w,t,m],k)=>{ const zz=z+cols.slice(0,k).reduce((a,c)=>a+c[0],0); box(X-22,X-2,zz,zz+w,h0,h0+t,m); });
   books(z0+5,114.5,[[4,24,MAT.teal],[5,22,MAT.terracotta],[3,26,MAT.walnut],[5,23,MAT.mustard]]);
   books(pz1+8,148.5,[[5,24,MAT.sage],[4,26,MAT.walnut],[6,21,MAT.teal],[4,23,MAT.terracotta]]);
