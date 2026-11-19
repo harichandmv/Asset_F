@@ -921,47 +921,50 @@ cyl(245,1128,56,80,6,4,MAT.ceramic); box(118,134,1120,1138,56,70,MAT.terracotta)
 
 // Pooja + shelf unit on the living room's foyer-side wall (x = 0), 145 long, 30 deep.
 // Built in a local frame (wall face at X, front facing -x, length along +z from 0), then turned 180 degrees onto the x = 0 wall.
-// Local z 0-62 = pooja niche (at the TV-wall corner), 62-145 = partitioned open shelves (towards the foyer).
+// Pooja niche (62 wide) in the centre, local z 41.5-103.5, with an open bookshelf column (41.5 wide, 4 levels) on each side.
 const PJ = {gx:359.5, gz:1148};
-grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz1=62;
+grp(PJ.gx,PJ.gz,Math.PI,()=>{ const z0=0, z1=145, X=352, pz0=41.5, pz1=103.5;
   box(X-30,X,z0,z1,10,75,MAT.oak); box(X-28,X,z0+2,z1-2,0,10,MAT.gap);          // floating low cabinet
   const r=[X-30,X,z0,z1];
-  [48,97].forEach(z=>FB(r,'x-',z-0.4,z+0.4,0,0.3,12,73,MAT.gap));
-  [24,72,121].forEach(z=>FB(r,'x-',z-6,z+6,0,2,68,70,MAT.brass));
+  [pz0,pz1].forEach(z=>FB(r,'x-',z-0.4,z+0.4,0,0.3,12,73,MAT.gap));              // three doors: one under each shelf, one under the pooja
+  [20.75,72.5,124.25].forEach(z=>FB(r,'x-',z-6,z+6,0,2,68,70,MAT.brass));
   box(X-31,X,z0-1,z1+1,75,78,MAT.walnut);                                        // cabinet top
 
-  // --- pooja niche (62 wide) ---
-  const P=97, TOP=190, zc=(z0+pz1)/2;
-  box(X-30,X,z0,z0+3,78,TOP+18,MAT.teak); box(X-30,X,pz1-3,pz1,78,TOP+18,MAT.teak);   // side panels
-  box(X-30,X,z0+3,pz1-3,78,81,MAT.teak);                                         // sill for diya / agarbatti
-  box(X-30,X,z0+3,pz1-3,P-3,P,MAT.teak); box(X-31,X-30,z0+3,pz1-3,P-2.5,P-0.5,MAT.brass);
-  box(X-1.5,X,z0+3,pz1-3,P,TOP,MAT.shade);                                       // warm back glow
-  jalli(false,X-6,z0+3,pz1-3,P,TOP,'#C9A45C');                                   // brass-tone jaali
+  // --- pooja niche (62 wide), centred ---
+  const P=97, TOP=190, zc=(pz0+pz1)/2;
+  box(X-30,X,pz0,pz0+3,78,TOP+18,MAT.teak); box(X-30,X,pz1-3,pz1,78,TOP+18,MAT.teak);   // side panels
+  box(X-30,X,pz0+3,pz1-3,78,81,MAT.teak);                                        // sill for diya / agarbatti
+  box(X-30,X,pz0+3,pz1-3,P-3,P,MAT.teak); box(X-31,X-30,pz0+3,pz1-3,P-2.5,P-0.5,MAT.brass);
+  box(X-1.5,X,pz0+3,pz1-3,P,TOP,MAT.shade);                                      // warm back glow
+  jalli(false,X-6,pz0+3,pz1-3,P,TOP,'#C9A45C');                                  // brass-tone jaali
   box(X-18,X-10,zc-12,zc+12,P,P+9,MAT.teak);                                     // deity step
-  box(X-30,X,z0+3,pz1-3,TOP,TOP+18,MAT.teak);                                    // canopy
-  box(X-31.5,X-30,z0,pz1,TOP+3,TOP+5,MAT.brass); box(X-31.5,X-30,z0,pz1,TOP+14,TOP+16,MAT.brass);
+  box(X-30,X,pz0+3,pz1-3,TOP,TOP+18,MAT.teak);                                   // canopy
+  box(X-31.5,X-30,pz0,pz1,TOP+3,TOP+5,MAT.brass); box(X-31.5,X-30,pz0,pz1,TOP+14,TOP+16,MAT.brass);
   cyl(X-22,zc,TOP-10,TOP,0.3,0.3,MAT.brass,6); cyl(X-22,zc,TOP-20,TOP-10,1.6,5,MAT.brass,20);   // bell
-  [z0+10,pz1-10].forEach(z=>{                                                    // two small nilavilakku
+  [pz0+10,pz1-10].forEach(z=>{                                                   // two small nilavilakku
     cyl(X-20,z,P,P+2,4,4,MAT.brass); cyl(X-20,z,P+2,P+18,0.8,1.3,MAT.brass,12);
     cyl(X-20,z,P+18,P+20,3.8,1.8,MAT.brass); cyl(X-20,z,P+20,P+26,0.5,1,MAT.brass,8); sph(X-20,P+22,z,1.1,MAT.bulb);
   });
-  cyl(X-18,z0+18,81,83,3.5,3.5,MAT.brass); cyl(X-18,pz1-18,81,89,1.1,1.1,MAT.brass,8);   // diya + agarbatti stand
+  cyl(X-18,pz0+18,81,83,3.5,3.5,MAT.brass); cyl(X-18,pz1-18,81,89,1.1,1.1,MAT.brass,8);   // diya + agarbatti stand
 
-  // --- partitioned open shelves (83 wide): 2 columns x 4 levels ---
-  const sz0=pz1, sz1=z1, mid=(sz0+sz1)/2;
-  box(X-26,X,sz1-2.5,sz1,78,222,MAT.walnut);                                     // end panel (foyer side)
-  box(X-26,X,mid-1.25,mid+1.25,78,222,MAT.walnut);                               // centre divider
-  [112,146,180].forEach(h=>box(X-26,X,sz0,sz1,h,h+2.5,MAT.walnut));              // shelves
-  box(X-26,X,sz0,sz1,219.5,222,MAT.walnut);                                      // top
+  // --- open bookshelves on both sides (41.5 wide each, 4 levels) ---
+  [[z0,pz0],[pz1,z1]].forEach(([a0,a1])=>{
+    box(X-26,X,a0===z0?a0:a1-2.5,a0===z0?a0+2.5:a1,78,222,MAT.walnut);          // outer end panel
+    box(X-26,X,a0===z0?a1-2.5:a0,a0===z0?a1:a0+2.5,TOP+18,222,MAT.walnut);       // inner panel above the pooja canopy
+    [112,146,180].forEach(h=>box(X-26,X,a0,a1,h,h+2.5,MAT.walnut));              // shelves
+    box(X-26,X,a0,a1,219.5,222,MAT.walnut);                                      // top
+  });
+  box(X-26,X,pz0,pz1,219.5,222,MAT.walnut);                                      // top bridges over the pooja
   const books=(z,h0,cols)=>cols.forEach(([w,t,m],k)=>{ const zz=z+cols.slice(0,k).reduce((a,c)=>a+c[0],0); box(X-22,X-2,zz,zz+w,h0,h0+t,m); });
-  books(sz0+4,114.5,[[4,24,MAT.teal],[5,22,MAT.terracotta],[3,26,MAT.walnut],[5,23,MAT.mustard]]);
-  books(mid+4,148.5,[[5,24,MAT.sage],[4,26,MAT.walnut],[6,21,MAT.teal],[4,23,MAT.terracotta]]);
-  books(sz0+6,182.5,[[5,22,MAT.mustard],[4,25,MAT.teal],[5,20,MAT.linen]]);
-  books(mid+20,78,[[4,24,MAT.linen],[5,26,MAT.walnut],[4,22,MAT.sage]]);
-  cyl(X-12,mid+22,114.5,136,6,4,MAT.ceramic); cyl(X-12,sz0+20,148.5,162,7,7,MAT.pot);
-  cyl(X-12,mid+22,182.5,197,5,6,MAT.brass); box(X-20,X-4,sz0+6,sz0+34,78,80,MAT.walnutDark);
+  books(z0+5,114.5,[[4,24,MAT.teal],[5,22,MAT.terracotta],[3,26,MAT.walnut],[5,23,MAT.mustard]]);
+  books(pz1+8,148.5,[[5,24,MAT.sage],[4,26,MAT.walnut],[6,21,MAT.teal],[4,23,MAT.terracotta]]);
+  books(z0+8,182.5,[[5,22,MAT.mustard],[4,25,MAT.teal],[5,20,MAT.linen]]);
+  books(pz1+5,182.5,[[4,24,MAT.linen],[5,26,MAT.walnut],[4,22,MAT.sage]]);
+  books(z0+6,148.5,[[4,23,MAT.terracotta],[5,25,MAT.linen]]);
+  cyl(X-12,pz1+28,114.5,136,6,4,MAT.ceramic); cyl(X-12,z0+29,148.5,162,6,6,MAT.pot);
+  cyl(X-12,pz1+30,182.5,197,4.5,5,MAT.brass); box(X-20,X-4,z0+5,z0+36,78,80,MAT.walnutDark);
 });
-{ const pl = new THREE.PointLight(0xffc27a,.35,2.2,2); pl.position.set((PJ.gx-(352-35))/100,1.4,(PJ.gz-31)/100); scene.add(pl); }
+{ const pl = new THREE.PointLight(0xffc27a,.35,2.2,2); pl.position.set((PJ.gx-(352-35))/100,1.4,(PJ.gz-72.5)/100); scene.add(pl); }
 
 /* ---------- Kitchen (open to the living room) ---------- */
 // No wall and no counter between the kitchen and the living room from the dining wall (y 700) to the fridge (y 945).
@@ -1252,7 +1255,7 @@ elLight(100,840); elLight(260,840); elLight(100,1080); elLight(260,1080);   // 4
 // switching: the 2 lights near the TV wall (y 1080) on one switch, the other 2 (y 840) on a second switch
 wallLight('x',352.5,-1,1012,200);
 board('x',7.5,1,843,120,6);                                     // living board, moved to the Bed 2 / living common wall: TV-side lights, other 2 lights, fan, regulator, wall light, spare
-// at the old board spot (foyer-side wall, now inside the pooja unit's lowest open shelf): 1 switch + 6 A socket for the puja lamp
+// at the old board spot (foyer-side wall, inside the lowest open shelf beside the centred pooja niche): 1 switch + 6 A socket for the puja lamp
 board('x',7.5,1,1028,95,1); sock('x',7.5,1,1040,95,'6');
 board('z',1148,-1,150,120,2); sock('z',1148,-1,166,68,'6'); sock('z',1148,-1,178,68,'6'); sock('z',1148,-1,190,68,'6'); sock('z',1148,-1,202,68,'16'); sock('z',1148,-1,214,68,'USB'); sock('z',1148,-1,226,68,'TV');   // TV wall, on the panel just above the TV unit: 4 power sockets (3 x 6 A + 16 A), USB, TV
 sock('z',1152.5,-1,342,30,'6');                                 // TV wall, in the corner by the corner lamp socket (not in the drawing)
